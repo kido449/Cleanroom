@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Editorial Gold & Bronze Glassmorphism System | Cleanroom Superdesign</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Iconify Icons -->
+  <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+  <!-- GSAP for power4.out entrance reveals -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <!-- Google Fonts: Playfair Display (Italic & Normal) + Inter (300..700) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400..800;1,400..800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-base: #0a0a0a;
+      --base-gold: #a78b71;
+      --light-gold: #c9b8a0;
+      --hover-gold: #e8d5b7;
+      --card-bg: rgba(255, 255, 255, 0.03);
+      --card-border: rgba(255, 255, 255, 0.1);
+      --card-blur: blur(10px);
+      --central-glow: 0 0 100px rgba(167, 139, 113, 0.2);
+      --transition-curve: cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* Monochromatic dark base with radial dot grid overlay (32px spacing, white at 8% opacity) */
+    body {
+      background-color: var(--bg-base);
+      color: #ffffff;
+      font-family: 'Inter', sans-serif;
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+    }
+
+    .bg-dots {
+      background-image: radial-gradient(rgba(255, 255, 255, 0.08) 1.5px, transparent 1.5px);
+      background-size: 32px 32px;
+    }
+
+    /* Typography assignments */
+    .font-playfair {
+      font-family: 'Playfair Display', serif;
+    }
+    .font-inter {
+      font-family: 'Inter', sans-serif;
+    }
+
+    /* Glassmorphism specification: background rgba(255,255,255, 0.03), backdrop-filter blur(10px), border 1px solid rgba(255,255,255, 0.1) */
+    .glass-card {
+      background: var(--card-bg);
+      backdrop-filter: var(--card-blur);
+      -webkit-backdrop-filter: var(--card-blur);
+      border: 1px solid var(--card-border);
+      border-radius: 32px; /* 24px - 48px high-radius spec */
+      transition: all 0.35s var(--transition-curve);
+    }
+
+    .glass-card-24 { border-radius: 24px; }
+    .glass-card-32 { border-radius: 32px; }
+    .glass-card-40 { border-radius: 40px; }
+    .glass-card-48 { border-radius: 48px; }
+
+    .glass-card:hover {
+      border-color: var(--hover-gold);
+      box-shadow: 0 10px 40px -10px rgba(167, 139, 113, 0.18);
+      transform: translateY(-2px);
+    }
+
+    /* Central Glow Effect using box-shadow: 0 0 100px rgba(167, 139, 113, 0.2) */
+    .central-glow {
+      box-shadow: var(--central-glow);
+    }
+
+    .central-orb {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 480px;
+      height: 480px;
+      border-radius: 50%;
+      background: rgba(167, 139, 113, 0.08);
+      box-shadow: 0 0 100px rgba(167, 139, 113, 0.2);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Custom scrollbar */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #0a0a0a; }
+    ::-webkit-scrollbar-thumb { background: #a78b71; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: #e8d5b7; }
+
+    /* Copy toast notification */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: rgba(10, 10, 10, 0.95);
+      border: 1px solid #c9b8a0;
+      color: #e8d5b7;
+      padding: 12px 20px;
+      border-radius: 24px;
+      font-size: 13px;
+      font-weight: 500;
+      z-index: 100;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.3s var(--transition-curve);
+      pointer-events: none;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+    }
+    .toast.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
+</head>
+<body class="min-h-screen w-full bg-dots relative selection:bg-[#a78b71] selection:text-black">
+
+  <!-- Central Glow Ambient Sphere -->
+  <div class="central-orb"></div>
+
+  <!-- Top Navigation Bar -->
+  <header class="relative z-20 w-full max-w-7xl mx-auto pt-6 px-6 sm:px-10">
+    <nav class="glass-card glass-card-24 px-6 py-4 flex flex-col md:flex-row items-center justify-between gap-4">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-[#a78b71] to-[#e8d5b7] flex items-center justify-center text-black font-extrabold shadow-lg">
+          <iconify-icon icon="lucide:gem" class="text-xl"></iconify-icon>
+        </div>
+        <div>
+          <span class="font-playfair italic font-bold text-xl tracking-tight block leading-none text-[#c9b8a0]">
+            Editorial <span class="not-italic font-inter font-light text-xs uppercase tracking-widest text-[#a78b71] ml-1">System</span>
+          </span>
+          <span class="text-[10px] font-inter uppercase tracking-widest text-gray-400 block mt-0.5">Gold & Bronze Glassmorphism Architecture</span>
+        </div>
+      </div>
+
+      <!-- Controls & Links -->
+      <div class="flex items-center gap-3 flex-wrap justify-center">
+        <button onclick="triggerPower4Reveal()" class="px-4 py-2 rounded-full text-xs font-inter font-semibold tracking-wider uppercase border border-[#a78b71]/40 text-[#c9b8a0] hover:bg-[#a78b71] hover:text-black hover:border-[#e8d5b7] transition-all flex items-center gap-1.5" title="Replay entrance reveal using GSAP power4.out">
+          <iconify-icon icon="lucide:sparkles" class="text-sm"></iconify-icon>
+          <span>Reveal (power4.out)</span>
+        </button>
+
+        <a href="glowing_edge_card.html" class="px-3.5 py-2 rounded-full text-xs font-inter font-medium text-gray-300 hover:text-[#e8d5b7] transition-colors flex items-center gap-1">
+          <iconify-icon icon="lucide:layers" class="text-sm"></iconify-icon>
+          <span>Glowing Card</span>
+        </a>
+        <a href="aurora_character.html" class="px-3.5 py-2 rounded-full text-xs font-inter font-medium text-gray-300 hover:text-[#e8d5b7] transition-colors">
+          Aurora
+        </a>
+        <a href="spotlight_mask.html" class="px-3.5 py-2 rounded-full text-xs font-inter font-medium text-gray-300 hover:text-[#e8d5b7] transition-colors">
+          Spotlight
+        </a>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Main Showcase Content -->
+  <main class="relative z-10 max-w-7xl mx-auto px-6 sm:px-10 py-12 space-y-20">
+    
+    <!-- Hero Section -->
+    <section class="reveal-target text-center max-w-4xl mx-auto space-y-6 pt-6">
+      <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/[0.03] border border-[#a78b71]/30 text-[#c9b8a0] text-xs font-inter font-medium tracking-widest uppercase">
+        <span class="w-2 h-2 rounded-full bg-[#e8d5b7] animate-ping"></span>
+        <span>MONOCHROMATIC DARK BASE (#0A0A0A) + RADIAL DOT OVERLAY</span>
+      </div>
+      
+      <h1 class="font-playfair italic text-5xl sm:text-7xl lg:text-8xl font-normal text-[#c9b8a0] leading-[1.1] tracking-tight drop-shadow-md">
+        Editorial Elegance & <br /><span class="text-transparent bg-clip-text bg-gradient-to-r from-[#a78b71] via-[#c9b8a0] to-[#e8d5b7] not-italic font-medium">UI Precision</span>
+      </h1>
+
+      <p class="font-inter font-light text-lg sm:text-xl text-gray-300 max-w-2xl mx-auto leading-relaxed">
+        A master design system uniting <strong class="font-normal text-[#e8d5b7]">Playfair Display (Italic)</strong> headings with <strong class="font-normal text-[#c9b8a0]">Inter (300–700 weight)</strong> precision body text, housed within blurred high-radius glassmorphism cards and anchored by a central gold glow.
+      </p>
+
+      <div class="pt-4 flex flex-wrap items-center justify-center gap-4">
+        <a href="#palette" class="px-7 py-3.5 rounded-full font-inter text-sm font-semibold tracking-wider uppercase bg-gradient-to-r from-[#a78b71] to-[#c9b8a0] text-black hover:from-[#c9b8a0] hover:to-[#e8d5b7] shadow-[0_0_35px_rgba(167,139,113,0.3)] transition-all transform hover:scale-105">
+          Explore Tokens
+        </a>
+        <a href="#components" class="px-7 py-3.5 rounded-full font-inter text-sm font-medium tracking-wider uppercase glass-card glass-card-24 text-[#c9b8a0] hover:text-white transition-all">
+          View Components
+        </a>
+      </div>
+    </section>
+
+    <!-- Section 1: Color Palette Tokens -->
+    <section id="palette" class="space-y-8">
+      <div class="reveal-target flex flex-col md:flex-row md:items-end justify-between border-b border-white/10 pb-6 gap-4">
+        <div>
+          <span class="font-inter text-xs font-semibold tracking-[0.25em] uppercase text-[#a78b71] block mb-2">01 // COLOR SPECIFICATION</span>
+          <h2 class="font-playfair italic text-4xl sm:text-5xl font-normal text-[#c9b8a0]">
+            Accent Gold & Bronze Palette
+          </h2>
+        </div>
+        <p class="font-inter font-light text-sm text-gray-400 max-w-md">
+          Curated warm metallic tones calibrated for maximum contrast and sophistication against the `#0a0a0a` foundation. Click any card to copy its HEX value.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        
+        <!-- Base Gold #a78b71 -->
+        <div onclick="copyHex('#a78b71')" class="reveal-target glass-card glass-card-32 p-6 cursor-pointer group flex flex-col justify-between h-64 relative overflow-hidden">
+          <div class="absolute top-0 right-0 w-36 h-36 bg-[#a78b71]/20 rounded-full blur-3xl group-hover:bg-[#a78b71]/35 transition-all"></div>
+          <div class="flex justify-between items-start z-10">
+            <span class="font-inter text-xs font-semibold tracking-widest uppercase text-gray-400">BASE GOLD</span>
+            <span class="px-2.5 py-1 rounded-full text-[11px] font-mono font-medium bg-[#a78b71]/20 border border-[#a78b71]/40 text-[#c9b8a0] group-hover:bg-[#a78b71] group-hover:text-black transition-colors">
+              #a78b71
+            </span>
+          </div>
+          <div class="space-y-2 z-10">
+            <div class="w-12 h-12 rounded-2xl bg-[#a78b71] shadow-[0_4px_20px_rgba(167,139,113,0.4)] flex items-center justify-center text-black">
+              <iconify-icon icon="lucide:copy" class="text-lg opacity-0 group-hover:opacity-100 transition-opacity"></iconify-icon>
+            </div>
+            <h3 class="font-playfair italic text-2xl font-normal text-[#a78b71]">Base Gold</h3>
+            <p class="font-inter font-light text-xs text-gray-400">Primary structural accent, borders, and UI highlights.</p>
+          </div>
+        </div>
+
+        <!-- Light Gold #c9b8a0 -->
+        <div onclick="copyHex('#c9b8a0')" class="reveal-target glass-card glass-card-32 p-6 cursor-pointer group flex flex-col justify-between h-64 relative overflow-hidden">
+          <div class="absolute top-0 right-0 w-36 h-36 bg-[#c9b8a0]/20 rounded-full blur-3xl group-hover:bg-[#c9b8a0]/35 transition-all"></div>
+          <div class="flex justify-between items-start z-10">
+            <span class="font-inter text-xs font-semibold tracking-widest uppercase text-gray-400">LIGHT GOLD</span>
+            <span class="px-2.5 py-1 rounded-full text-[11px] font-mono font-medium bg-[#c9b8a0]/20 border border-[#c9b8a0]/40 text-[#c9b8a0] group-hover:bg-[#c9b8a0] group-hover:text-black transition-colors">
+              #c9b8a0
+            </span>
+          </div>
+          <div class="space-y-2 z-10">
+            <div class="w-12 h-12 rounded-2xl bg-[#c9b8a0] shadow-[0_4px_20px_rgba(201,184,160,0.4)] flex items-center justify-center text-black">
+              <iconify-icon icon="lucide:copy" class="text-lg opacity-0 group-hover:opacity-100 transition-opacity"></iconify-icon>
+            </div>
+            <h3 class="font-playfair italic text-2xl font-normal text-[#c9b8a0]">Light Gold</h3>
+            <p class="font-inter font-light text-xs text-gray-400">Editorial heading text, high-visibility captions, and badges.</p>
+          </div>
+        </div>
+
+        <!-- Hover Gold #e8d5b7 -->
+        <div onclick="copyHex('#e8d5b7')" class="reveal-target glass-card glass-card-32 p-6 cursor-pointer group flex flex-col justify-between h-64 relative overflow-hidden border-[#a78b71]/30">
+          <div class="absolute top-0 right-0 w-36 h-36 bg-[#e8d5b7]/20 rounded-full blur-3xl group-hover:bg-[#e8d5b7]/40 transition-all"></div>
+          <div class="flex justify-between items-start z-10">
+            <span class="font-inter text-xs font-semibold tracking-widest uppercase text-gray-400">HOVER GOLD</span>
+            <span class="px-2.5 py-1 rounded-full text-[11px] font-mono font-medium bg-[#e8d5b7]/20 border border-[#e8d5b7]/40 text-[#e8d5b7] group-hover:bg-[#e8d5b7] group-hover:text-black transition-colors">
+              #e8d5b7
+            </span>
+          </div>
+          <div class="space-y-2 z-10">
+            <div class="w-12 h-12 rounded-2xl bg-[#e8d5b7] shadow-[0_4px_20px_rgba(232,213,183,0.5)] flex items-center justify-center text-black">
+              <iconify-icon icon="lucide:copy" class="text-lg opacity-0 group-hover:opacity-100 transition-opacity"></iconify-icon>
+            </div>
+            <h3 class="font-playfair italic text-2xl font-normal text-[#e8d5b7]">Hover Gold</h3>
+            <p class="font-inter font-light text-xs text-gray-400">Interactive hover states, active glows, and CTA glow boost.</p>
+          </div>
+        </div>
+
+        <!-- Dark Base #0a0a0a -->
+        <div onclick="copyHex('#0a0a0a')" class="reveal-target glass-card glass-card-32 p-6 cursor-pointer group flex flex-col justify-between h-64 relative overflow-hidden bg-black/60">
+          <div class="flex justify-between items-start z-10">
+            <span class="font-inter text-xs font-semibold tracking-widest uppercase text-gray-400">MONO BASE</span>
+            <span class="px-2.5 py-1 rounded-full text-[11px] font-mono font-medium bg-white/10 border border-white/20 text-gray-300 group-hover:bg-white group-hover:text-black transition-colors">
+              #0a0a0a
+            </span>
+          </div>
+          <div class="space-y-2 z-10">
+            <div class="w-12 h-12 rounded-2xl bg-[#0a0a0a] border border-white/20 flex items-center justify-center text-[#c9b8a0]">
+              <iconify-icon icon="lucide:copy" class="text-lg opacity-0 group-hover:opacity-100 transition-opacity"></iconify-icon>
+            </div>
+            <h3 class="font-playfair italic text-2xl font-normal text-white">Dark Base</h3>
+            <p class="font-inter font-light text-xs text-gray-400">Monochromatic page foundation paired with `32px` radial white dot pattern.</p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Section 2: Typography Pairings (Playfair Display Italic + Inter) -->
+    <section class="space-y-8">
+      <div class="reveal-target flex flex-col md:flex-row md:items-end justify-between border-b border-white/10 pb-6 gap-4">
+        <div>
+          <span class="font-inter text-xs font-semibold tracking-[0.25em] uppercase text-[#a78b71] block mb-2">02 // TYPOGRAPHY PAIRING</span>
+          <h2 class="font-playfair italic text-4xl sm:text-5xl font-normal text-[#c9b8a0]">
+            Editorial & UI Precision
+          </h2>
+        </div>
+        <p class="font-inter font-light text-sm text-gray-400 max-w-md">
+          Strict separation of concerns: `Playfair Display Italic` injects timeless luxury into headlines, while `Inter` (300–700 weight) ensures crisp legibility across all data and UI surfaces.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        
+        <!-- Playfair Display Card -->
+        <div class="reveal-target glass-card glass-card-40 p-8 sm:p-10 space-y-8 relative overflow-hidden">
+          <div class="flex justify-between items-center border-b border-white/10 pb-4">
+            <div>
+              <span class="font-inter text-[11px] font-bold tracking-widest text-[#a78b71] uppercase">EDITORIAL HEADINGS</span>
+              <h3 class="font-playfair italic text-3xl text-[#c9b8a0] mt-1">Playfair Display (Italic)</h3>
+            </div>
+            <span class="px-3 py-1 rounded-full text-xs font-mono bg-white/5 border border-white/10 text-gray-400">Serif • Italic</span>
+          </div>
+
+          <div class="space-y-6">
+            <div>
+              <span class="font-mono text-[10px] text-gray-500 uppercase block">Display H1 (64px)</span>
+              <p class="font-playfair italic text-4xl sm:text-5xl text-[#e8d5b7] leading-tight">
+                Architectural Gold & Bronze
+              </p>
+            </div>
+            <div>
+              <span class="font-mono text-[10px] text-gray-500 uppercase block">Section H2 (40px)</span>
+              <p class="font-playfair italic text-3xl sm:text-4xl text-[#c9b8a0] leading-tight">
+                Refined Glassmorphism Surfaces
+              </p>
+            </div>
+            <div>
+              <span class="font-mono text-[10px] text-gray-500 uppercase block">Card Heading H3 (28px)</span>
+              <p class="font-playfair italic text-2xl text-[#a78b71]">
+                Precision Entrance Reveals & Radial Overlays
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Inter Weights Card -->
+        <div class="reveal-target glass-card glass-card-40 p-8 sm:p-10 space-y-8 relative overflow-hidden">
+          <div class="flex justify-between items-center border-b border-white/10 pb-4">
+            <div>
+              <span class="font-inter text-[11px] font-bold tracking-widest text-[#a78b71] uppercase">UI BODY & METADATA</span>
+              <h3 class="font-inter font-semibold text-2xl text-[#c9b8a0] mt-1">Inter (300–700 Weight)</h3>
+            </div>
+            <span class="px-3 py-1 rounded-full text-xs font-mono bg-white/5 border border-white/10 text-gray-400">Sans-Serif • Variable</span>
+          </div>
+
+          <div class="space-y-5">
+            <div class="flex items-center justify-between gap-4">
+              <span class="font-mono text-[11px] text-[#a78b71] w-24 shrink-0">Weight 300 (Light)</span>
+              <p class="font-inter font-light text-sm sm:text-base text-gray-300">
+                Body paragraphs, extensive descriptions, and editorial captions.
+              </p>
+            </div>
+            <div class="flex items-center justify-between gap-4">
+              <span class="font-mono text-[11px] text-[#a78b71] w-24 shrink-0">Weight 400 (Regular)</span>
+              <p class="font-inter font-normal text-sm sm:text-base text-gray-200">
+                Standard UI labels, input fields, and functional data tables.
+              </p>
+            </div>
+            <div class="flex items-center justify-between gap-4">
+              <span class="font-mono text-[11px] text-[#a78b71] w-24 shrink-0">Weight 500 (Medium)</span>
+              <p class="font-inter font-medium text-sm sm:text-base text-[#c9b8a0]">
+                Interactive buttons, primary navigation, and status badges.
+              </p>
+            </div>
+            <div class="flex items-center justify-between gap-4">
+              <span class="font-mono text-[11px] text-[#a78b71] w-24 shrink-0">Weight 600 (SemiBold)</span>
+              <p class="font-inter font-semibold text-sm sm:text-base text-[#e8d5b7]">
+                Key metrics, highlighted pricing tiers, and section subheaders.
+              </p>
+            </div>
+            <div class="flex items-center justify-between gap-4">
+              <span class="font-mono text-[11px] text-[#a78b71] w-24 shrink-0">Weight 700 (Bold)</span>
+              <p class="font-inter font-bold text-sm sm:text-base text-white uppercase tracking-wider">
+                CTA Button Text & System Identifiers
+              </p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Section 3: Glassmorphism Architecture & Central Glow Sandbox -->
+    <section id="components" class="space-y-8">
+      <div class="reveal-target flex flex-col md:flex-row md:items-end justify-between border-b border-white/10 pb-6 gap-4">
+        <div>
+          <span class="font-inter text-xs font-semibold tracking-[0.25em] uppercase text-[#a78b71] block mb-2">03 // GLASSMORPHISM & CORNER RADIUS (24px–48px)</span>
+          <h2 class="font-playfair italic text-4xl sm:text-5xl font-normal text-[#c9b8a0]">
+            High-Radius Glass & Central Glow
+          </h2>
+        </div>
+        <p class="font-inter font-light text-sm text-gray-400 max-w-md">
+          Spec enforcement: All cards use `rgba(255,255,255, 0.03)` background, `blur(10px)` backdrop filter, and `1px solid rgba(255,255,255, 0.1)` border. Adjust controls below to inspect corner radiuses and test the central glow.
+        </p>
+      </div>
+
+      <!-- Sandbox Controls Card -->
+      <div class="reveal-target glass-card glass-card-32 p-6 sm:p-8 flex flex-col md:flex-row items-center justify-between gap-6 border-[#a78b71]/30">
+        <div class="flex items-center gap-4">
+          <div class="w-12 h-12 rounded-2xl bg-[#a78b71]/20 border border-[#a78b71]/40 flex items-center justify-center text-[#c9b8a0] text-xl">
+            <iconify-icon icon="lucide:sliders"></iconify-icon>
+          </div>
+          <div>
+            <h4 class="font-playfair italic text-2xl text-[#c9b8a0]">Corner Radius & Glow Sandbox</h4>
+            <p class="font-inter font-light text-xs text-gray-400">Click a radius to test high-radius specification live across sample cards.</p>
+          </div>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-3">
+          <span class="font-inter text-xs font-medium text-gray-400 mr-1">RADIUS:</span>
+          <button onclick="setCardRadius(24, this)" class="radius-btn px-4 py-2 rounded-2xl text-xs font-inter font-semibold bg-white/5 border border-white/10 text-gray-300 hover:border-[#a78b71] transition-all">24px</button>
+          <button onclick="setCardRadius(32, this)" class="radius-btn px-4 py-2 rounded-2xl text-xs font-inter font-semibold bg-[#a78b71] text-black font-bold border border-[#a78b71] shadow-lg transition-all">32px (Default)</button>
+          <button onclick="setCardRadius(40, this)" class="radius-btn px-4 py-2 rounded-2xl text-xs font-inter font-semibold bg-white/5 border border-white/10 text-gray-300 hover:border-[#a78b71] transition-all">40px</button>
+          <button onclick="setCardRadius(48, this)" class="radius-btn px-4 py-2 rounded-2xl text-xs font-inter font-semibold bg-white/5 border border-white/10 text-gray-300 hover:border-[#a78b71] transition-all">48px</button>
+        </div>
+
+        <div class="flex items-center gap-3 border-t md:border-t-0 md:border-l border-white/10 pt-4 md:pt-0 md:pl-6 w-full md:w-auto justify-between md:justify-start">
+          <span class="font-inter text-xs font-medium text-gray-400">CENTRAL GLOW:</span>
+          <button onclick="toggleCentralGlow(this)" class="px-4 py-2 rounded-2xl text-xs font-inter font-semibold bg-[#c9b8a0]/20 border border-[#c9b8a0]/40 text-[#e8d5b7] hover:bg-[#c9b8a0] hover:text-black transition-all flex items-center gap-1.5">
+            <iconify-icon icon="lucide:sun" class="text-sm"></iconify-icon>
+            <span id="glow-toggle-label">Active (100px)</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Sample Components Showcase Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6" id="sandbox-grid">
+        
+        <!-- Card 1: Central Glow Feature Box -->
+        <div class="reveal-target sandbox-card glass-card glass-card-32 p-8 central-glow relative overflow-hidden flex flex-col justify-between h-80 group border-[#a78b71]/30">
+          <div class="absolute top-0 right-0 w-48 h-48 bg-[#a78b71]/15 rounded-full blur-3xl group-hover:bg-[#a78b71]/30 transition-all"></div>
+          <div class="flex justify-between items-start z-10">
+            <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#a78b71] to-[#c9b8a0] flex items-center justify-center text-black font-bold shadow-md">
+              <iconify-icon icon="lucide:sparkles" class="text-xl"></iconify-icon>
+            </div>
+            <span class="px-3 py-1 rounded-full text-[10px] font-mono font-semibold tracking-wider uppercase bg-[#a78b71]/20 text-[#e8d5b7] border border-[#a78b71]/40">
+              SPEC GLOW
+            </span>
+          </div>
+
+          <div class="space-y-3 z-10">
+            <h3 class="font-playfair italic text-3xl text-[#c9b8a0] group-hover:text-[#e8d5b7] transition-colors">
+              Central Glow Spec
+            </h3>
+            <p class="font-inter font-light text-sm text-gray-300 leading-relaxed">
+              Demonstrates `box-shadow: 0 0 100px rgba(167, 139, 113, 0.2)` applied directly over blurred glass (`rgba 255,255,255, 0.03`).
+            </p>
+          </div>
+
+          <div class="pt-4 border-t border-white/10 flex justify-between items-center z-10 text-xs font-inter font-medium text-[#a78b71]">
+            <span>Blur: 10px</span>
+            <span class="group-hover:translate-x-1 transition-transform flex items-center gap-1">
+              Explore <iconify-icon icon="lucide:arrow-right"></iconify-icon>
+            </span>
+          </div>
+        </div>
+
+        <!-- Card 2: Editorial Pricing Card -->
+        <div class="reveal-target sandbox-card glass-card glass-card-32 p-8 relative overflow-hidden flex flex-col justify-between h-80 group">
+          <div class="flex justify-between items-start z-10">
+            <div>
+              <span class="font-inter text-[10px] font-semibold tracking-widest uppercase text-gray-400">EDITORIAL TIER</span>
+              <h3 class="font-playfair italic text-3xl text-white mt-0.5">Sovereign Gold</h3>
+            </div>
+            <span class="font-playfair italic text-3xl text-[#e8d5b7]">$2,400</span>
+          </div>
+
+          <ul class="space-y-2.5 z-10 text-xs font-inter font-light text-gray-300">
+            <li class="flex items-center gap-2">
+              <iconify-icon icon="lucide:check-circle-2" class="text-[#a78b71] text-base"></iconify-icon>
+              <span>Full Playfair & Inter Typography Rights</span>
+            </li>
+            <li class="flex items-center gap-2">
+              <iconify-icon icon="lucide:check-circle-2" class="text-[#a78b71] text-base"></iconify-icon>
+              <span>48px High-Radius Glassmorphism Tokens</span>
+            </li>
+            <li class="flex items-center gap-2">
+              <iconify-icon icon="lucide:check-circle-2" class="text-[#a78b71] text-base"></iconify-icon>
+              <span>GSAP power4.out Staggered Entrance Engine</span>
+            </li>
+          </ul>
+
+          <button class="w-full py-3 rounded-2xl font-inter text-xs font-semibold uppercase tracking-wider bg-white/10 hover:bg-gradient-to-r hover:from-[#a78b71] hover:to-[#e8d5b7] hover:text-black transition-all border border-white/10 shadow-lg">
+            Deploy Architecture
+          </button>
+        </div>
+
+        <!-- Card 3: GSAP & Transition Curve Metrics Card -->
+        <div class="reveal-target sandbox-card glass-card glass-card-32 p-8 relative overflow-hidden flex flex-col justify-between h-80 group">
+          <div class="flex justify-between items-start z-10">
+            <div class="w-12 h-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-[#c9b8a0]">
+              <iconify-icon icon="lucide:activity" class="text-xl"></iconify-icon>
+            </div>
+            <span class="px-3 py-1 rounded-full text-[10px] font-mono font-semibold tracking-wider uppercase bg-white/5 text-gray-400 border border-white/10">
+              ANIMATION SPEC
+            </span>
+          </div>
+
+          <div class="space-y-3 z-10">
+            <h3 class="font-playfair italic text-3xl text-[#c9b8a0]">
+              power4.out Reveals
+            </h3>
+            <p class="font-inter font-light text-sm text-gray-300 leading-relaxed">
+              All entrance animations execute via `power4.out` ease. Hover and state transitions strictly follow `cubic-bezier(0.4, 0, 0.2, 1)`.
+            </p>
+          </div>
+
+          <button onclick="triggerPower4Reveal()" class="w-full py-3 rounded-2xl font-inter text-xs font-semibold uppercase tracking-wider bg-[#a78b71]/20 hover:bg-[#a78b71] hover:text-black text-[#c9b8a0] transition-all border border-[#a78b71]/40 flex items-center justify-center gap-2">
+            <iconify-icon icon="lucide:play"></iconify-icon>
+            <span>Test power4.out Reveal</span>
+          </button>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer Navigation Node Bar -->
+  <footer class="relative z-20 w-full max-w-7xl mx-auto mt-20 pb-12 px-6 sm:px-10 border-t border-white/10 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-inter">
+    <div class="flex items-center gap-2 text-gray-400">
+      <iconify-icon icon="lucide:layers" class="text-base text-[#a78b71]"></iconify-icon>
+      <span>Cleanroom Superdesign Architecture // Node 07: Editorial Gold & Bronze System</span>
+    </div>
+
+    <div class="flex items-center gap-3 flex-wrap justify-center">
+      <span class="font-mono text-[11px] text-gray-500 uppercase tracking-wider">All Superdesign Nodes:</span>
+      <a href="aurora_character.html" class="hover:text-[#c9b8a0] transition-colors font-semibold">01. Aurora</a>
+      <span class="text-gray-600">•</span>
+      <a href="generate_button.html" class="hover:text-[#c9b8a0] transition-colors font-semibold">02. CTA Swap</a>
+      <span class="text-gray-600">•</span>
+      <a href="spotlight_mask.html" class="hover:text-[#c9b8a0] transition-colors font-semibold">03. Spotlight</a>
+      <span class="text-gray-600">•</span>
+      <a href="loading_animation.html" class="hover:text-[#c9b8a0] transition-colors font-semibold">04. Loader</a>
+      <span class="text-gray-600">•</span>
+      <a href="hyperspeed_showcase.html" class="hover:text-[#c9b8a0] transition-colors font-semibold">05. 3D Warp</a>
+      <span class="text-gray-600">•</span>
+      <a href="glowing_edge_card.html" class="hover:text-[#c9b8a0] transition-colors font-semibold">06. Glowing Card</a>
+      <span class="text-gray-600">•</span>
+      <span class="text-[#e8d5b7] font-bold border-b-2 border-[#a78b71] pb-0.5">07. Gold System</span>
+    </div>
+  </footer>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="toast">
+    <span id="toast-text">HEX Copied to Clipboard</span>
+  </div>
+
+  <script>
+    // GSAP power4.out Entrance Reveal Controller
+    function triggerPower4Reveal() {
+      if (typeof gsap !== 'undefined') {
+        gsap.fromTo(".reveal-target", 
+          { y: 65, opacity: 0 }, 
+          { 
+            y: 0, 
+            opacity: 1, 
+            duration: 1.4, 
+            ease: "power4.out", 
+            stagger: 0.12,
+            clearProps: "transform"
+          }
+        );
+      }
+    }
+
+    // Trigger on initial DOM load
+    window.addEventListener('DOMContentLoaded', () => {
+      setTimeout(() => {
+        triggerPower4Reveal();
+      }, 150);
+    });
+
+    // Sandbox Corner Radius Switcher
+    function setCardRadius(radius, btn) {
+      const cards = document.querySelectorAll('.sandbox-card');
+      cards.forEach(card => {
+        card.classList.remove('glass-card-24', 'glass-card-32', 'glass-card-40', 'glass-card-48');
+        card.classList.add(`glass-card-${radius}`);
+      });
+
+      // Update button active state
+      document.querySelectorAll('.radius-btn').forEach(b => {
+        b.className = "radius-btn px-4 py-2 rounded-2xl text-xs font-inter font-semibold bg-white/5 border border-white/10 text-gray-300 hover:border-[#a78b71] transition-all";
+      });
+      btn.className = "radius-btn px-4 py-2 rounded-2xl text-xs font-inter font-semibold bg-[#a78b71] text-black font-bold border border-[#a78b71] shadow-lg transition-all";
+    }
+
+    // Central Glow Switcher
+    let isGlowActive = true;
+    function toggleCentralGlow(btn) {
+      const orb = document.querySelector('.central-orb');
+      const glowCard = document.querySelector('.central-glow');
+      const label = document.getElementById('glow-toggle-label');
+
+      if (isGlowActive) {
+        orb.style.opacity = '0';
+        if (glowCard) glowCard.style.boxShadow = 'none';
+        label.textContent = 'Inactive (0px)';
+        btn.className = "px-4 py-2 rounded-2xl text-xs font-inter font-semibold bg-white/5 border border-white/10 text-gray-400 hover:border-white/20 transition-all flex items-center gap-1.5";
+        isGlowActive = false;
+      } else {
+        orb.style.opacity = '1';
+        if (glowCard) glowCard.style.boxShadow = 'var(--central-glow)';
+        label.textContent = 'Active (100px)';
+        btn.className = "px-4 py-2 rounded-2xl text-xs font-inter font-semibold bg-[#c9b8a0]/20 border border-[#c9b8a0]/40 text-[#e8d5b7] hover:bg-[#c9b8a0] hover:text-black transition-all flex items-center gap-1.5";
+        isGlowActive = true;
+      }
+    }
+
+    // Copy HEX utility with toast
+    function copyHex(hex) {
+      navigator.clipboard.writeText(hex);
+      const toast = document.getElementById('toast');
+      document.getElementById('toast-text').textContent = `${hex} Copied to Clipboard`;
+      toast.classList.add('show');
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 2500);
+    }
+  </script>
+</body>
+</html>
