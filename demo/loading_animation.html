@@ -302,6 +302,12 @@
 
     <!-- Controls Bar -->
     <div class="flex items-center gap-3">
+      <!-- Launch Three.js 3D Hyperspeed Showcase Button -->
+      <a href="hyperspeed_showcase.html" class="hud-card px-3.5 py-1.5 rounded-xl flex items-center gap-1.5 text-xs font-bold text-[#ef233c] hover:bg-[#ef233c] hover:text-white transition-all shadow-md">
+        <iconify-icon icon="lucide:zap" class="text-sm"></iconify-icon>
+        <span>3D WebGL Warp</span>
+      </a>
+
       <!-- Speed Selector -->
       <div class="hud-card px-3 py-1.5 flex items-center gap-1 text-xs font-semibold">
         <span class="text-gray-400 mr-1 hidden sm:inline">WARP SPEED:</span>
@@ -431,6 +437,31 @@
     ];
 
     let currentPhaseIdx = 0;
+    let typingTimeout = null;
+
+    function typeHeadline(text) {
+      const titleEl = document.getElementById('status-title');
+      if (typingTimeout) clearTimeout(typingTimeout);
+      titleEl.innerHTML = '';
+      
+      const textSpan = document.createElement('span');
+      const cursor = document.createElement('span');
+      cursor.className = 'inline-block w-1 md:w-1.5 h-7 md:h-10 bg-[#ef233c] ml-1.5 animate-pulse align-middle rounded-sm shadow-[0_0_8px_#ef233c]';
+      
+      titleEl.appendChild(textSpan);
+      titleEl.appendChild(cursor);
+      
+      let i = 0;
+      function typeChar() {
+        if (i < text.length) {
+          textSpan.textContent += text.charAt(i);
+          i++;
+          typingTimeout = setTimeout(typeChar, 50);
+        }
+      }
+      typeChar();
+    }
+
     function cycleStatus() {
       currentPhaseIdx = (currentPhaseIdx + 1) % phases.length;
       const phase = phases[currentPhaseIdx];
@@ -439,21 +470,26 @@
       const subEl = document.getElementById('status-subtitle');
       const badgeEl = document.getElementById('status-badge-text');
 
-      // Subtle opacity fade transition
-      titleEl.style.opacity = 0;
+      // Subtle opacity fade transition for sub elements
       subEl.style.opacity = 0;
       
       setTimeout(() => {
         badgeEl.textContent = phase.badge;
-        titleEl.textContent = phase.title;
         subEl.textContent = phase.subtitle;
-        titleEl.style.opacity = 1;
         subEl.style.opacity = 1;
+        
+        // Trigger 50ms typing animation on headline
+        typeHeadline(phase.title);
       }, 200);
     }
 
-    // Auto cycle phase every 4.5 seconds for live dynamic demonstration
-    setInterval(cycleStatus, 4500);
+    // Initialize headline typing right on page load
+    window.addEventListener('DOMContentLoaded', () => {
+      typeHeadline(phases[0].title);
+    });
+
+    // Auto cycle phase every 5.5 seconds for live dynamic demonstration
+    setInterval(cycleStatus, 5500);
 
     // Randomize latency counter slightly every 2 seconds for lifelike feel
     setInterval(() => {

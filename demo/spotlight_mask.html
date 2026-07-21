@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lens Flare Spotlight Mask | Cleanroom Superdesign</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&family=Space+Grotesk:wght@500;700;800&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --spotlight-radius: 0%;
+      --spotlight-x: 50%;
+      --spotlight-y: 50%;
+      --accent-red: #ef233c;
+    }
+
+    body {
+      background-color: #060101;
+      color: #ffffff;
+      font-family: 'Outfit', sans-serif;
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+    }
+
+    /* Scroll Track Container */
+    .scroll-track {
+      position: relative;
+      height: 380vh; /* Plenty of scroll runway */
+    }
+
+    /* Sticky Viewport Stage */
+    .sticky-stage {
+      position: sticky;
+      top: 0;
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    /* Base Solid Black Overlay (Mystery State) */
+    .black-overlay {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 50% 50%, #120303 0%, #060101 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 5;
+    }
+
+    /* Grid pattern on the dark mystery state */
+    .dark-grid {
+      background-image: 
+        linear-gradient(to right, rgba(239, 35, 60, 0.08) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(239, 35, 60, 0.08) 1px, transparent 1px);
+      background-size: 60px 60px;
+    }
+
+    /* Top Layer: Colorful Ultra-Vibrant UI Layout revealed by Spotlight Mask */
+    .colorful-layout {
+      position: absolute;
+      inset: 0;
+      background: #0d0407;
+      z-index: 10;
+      /* CIRCULAR CLIP-PATH MASK TIED TO SCROLL & MOUSE */
+      clip-path: circle(var(--spotlight-radius) at var(--spotlight-x) var(--spotlight-y));
+      transition: clip-path 0.08s linear;
+      overflow-y: auto;
+    }
+
+    /* Lens Flare Glow Ring overlay right around the spotlight center */
+    .lens-flare {
+      position: absolute;
+      left: var(--spotlight-x);
+      top: var(--spotlight-y);
+      width: calc(var(--spotlight-radius) * 2);
+      height: calc(var(--spotlight-radius) * 2);
+      transform: translate(-50%, -50%);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 15;
+      box-shadow: 
+        inset 0 0 40px rgba(239, 35, 60, 0.6),
+        0 0 60px rgba(255, 160, 0, 0.5),
+        0 0 120px rgba(239, 35, 60, 0.4);
+      border: 2px solid rgba(255, 255, 255, 0.6);
+      opacity: calc(1 - (var(--spotlight-radius) / 140%)); /* Fades cleanly right as fully revealed */
+      transition: all 0.08s linear;
+    }
+
+    /* Core light beam right at center */
+    .lens-core {
+      position: absolute;
+      left: var(--spotlight-x);
+      top: var(--spotlight-y);
+      width: 24px;
+      height: 24px;
+      transform: translate(-50%, -50%);
+      background: radial-gradient(circle, #ffffff 0%, #ff9e00 50%, transparent 100%);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 16;
+      filter: blur(2px);
+      opacity: calc(1 - (var(--spotlight-radius) / 120%));
+    }
+
+    /* Glass Bento Cards inside colorful layout */
+    .bento-card {
+      background: rgba(26, 8, 12, 0.7);
+      border: 1px solid rgba(239, 35, 60, 0.3);
+      backdrop-filter: blur(20px);
+      border-radius: 24px;
+      box-shadow: 0 15px 35px -10px rgba(0, 0, 0, 0.7);
+      transition: transform 0.3s ease, border-color 0.3s ease;
+    }
+
+    .bento-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(239, 35, 60, 0.8);
+      box-shadow: 0 20px 45px -10px rgba(239, 35, 60, 0.25);
+    }
+
+    /* Vibrant ambient gradient orbs in colorful layout */
+    .gradient-orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(90px);
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .font-space { font-family: 'Space Grotesk', sans-serif; }
+    .font-manrope { font-family: 'Manrope', sans-serif; }
+
+    /* Custom scrollbar */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #060101; }
+    ::-webkit-scrollbar-thumb { background: #ef233c; border-radius: 3px; }
+  </style>
+</head>
+<body>
+
+  <!-- Top Floating Navigation (Always Visible) -->
+  <nav class="fixed top-6 inset-x-6 md:inset-x-12 z-50 flex items-center justify-between pointer-events-auto">
+    <div class="flex items-center space-x-3 bg-black/80 backdrop-blur-md px-4 py-2 rounded-2xl border border-white/15 shadow-2xl">
+      <div class="w-8 h-8 bg-[#ef233c] text-white rounded-lg flex items-center justify-center font-bold">
+        <iconify-icon icon="lucide:aperture" class="text-lg animate-spin" style="animation-duration: 12s;"></iconify-icon>
+      </div>
+      <div>
+        <span class="font-space text-sm font-bold tracking-tight block leading-none">CLEANROOM <span class="text-[#ef233c]">SPOTLIGHT</span></span>
+        <span class="text-[9px] uppercase tracking-widest text-gray-400 block mt-0.5">Scroll-Driven Lens Flare Reveal</span>
+      </div>
+    </div>
+
+    <!-- Controls & Links -->
+    <div class="flex items-center gap-3">
+      <div class="bg-black/80 backdrop-blur-md px-4 py-2 rounded-2xl border border-white/15 flex items-center gap-3 text-xs">
+        <span class="text-gray-400 font-mono hidden sm:inline">SPOTLIGHT MASK:</span>
+        <span id="radius-val" class="font-space font-extrabold text-[#ef233c] text-sm min-w-[3.5rem]">0%</span>
+      </div>
+      <a href="hyperspeed_showcase.html" class="bg-[#ef233c] hover:bg-red-600 text-white px-4 py-2 rounded-2xl text-xs font-bold tracking-wider uppercase transition-all shadow-lg flex items-center gap-1.5">
+        <iconify-icon icon="lucide:zap"></iconify-icon>
+        <span class="hidden sm:inline">3D Warp</span>
+      </a>
+      <a href="loading_animation.html" class="bg-black/80 hover:bg-white/10 text-gray-300 px-4 py-2 rounded-2xl border border-white/15 text-xs font-bold tracking-wider uppercase transition-all">
+        2D Loader
+      </a>
+    </div>
+  </nav>
+
+  <!-- SCROLL TRACK (380vh height to drive the 0% -> 150% expansion) -->
+  <div class="scroll-track" id="scroll-track">
+    
+    <!-- STICKY VIEWPORT STAGE -->
+    <div class="sticky-stage" id="stage">
+      
+      <!-- LENS FLARE GLOW & CORE (Follows circumference and center of clip-path) -->
+      <div class="lens-flare" id="lens-flare"></div>
+      <div class="lens-core" id="lens-core"></div>
+
+      <!-- LAYER 1: BASE SOLID BLACK OVERLAY (Dark Mystery State) -->
+      <div class="black-overlay dark-grid">
+        <div class="text-center max-w-xl mx-auto px-6 space-y-6">
+          <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-red-500/10 border border-[#ef233c]/40 text-[#ef233c] text-xs font-space font-bold tracking-widest uppercase animate-pulse">
+            <iconify-icon icon="lucide:lock" class="text-sm"></iconify-icon>
+            <span>Dark Mode Section Locked</span>
+          </div>
+          
+          <h1 class="font-space text-4xl md:text-7xl font-black tracking-tight uppercase leading-none text-white/90">
+            Scroll Down To <span class="text-[#ef233c] drop-shadow-[0_0_20px_rgba(239,35,60,0.8)]">Illuminate</span>
+          </h1>
+          
+          <p class="text-sm md:text-base text-gray-400 font-light tracking-wide leading-relaxed">
+            As you move down the page, our circular <span class="text-white font-medium">Spotlight Mask</span> expands smoothly from <span class="font-mono text-[#ef233c]">0%</span> to <span class="font-mono text-[#ef233c]">150%</span>, peeling back this solid black layer to unveil the vibrant Cleanroom architecture below.
+          </p>
+
+          <!-- Animated Scroll Indicator Down Arrow -->
+          <div class="pt-8 flex flex-col items-center gap-2 text-gray-500">
+            <span class="text-[10px] font-mono uppercase tracking-widest">Scroll / Swipe Down</span>
+            <div class="w-6 h-10 border-2 border-white/20 rounded-full flex items-start justify-center p-1">
+              <div class="w-1.5 h-3 bg-[#ef233c] rounded-full animate-[bounce_1.5s_infinite]"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Decorative wireframe corners -->
+        <div class="absolute bottom-8 left-8 text-[10px] font-mono text-gray-600 tracking-tighter uppercase hidden md:block">
+          SPOTLIGHT_PROTOCOL // CLIP_PATH: CIRCLE(0% -> 150%)<br />
+          LAYER_0: SOLID_BLACK_OVERLAY // STATUS: AWAITING_SCROLL
+        </div>
+      </div>
+
+
+      <!-- LAYER 2: THE COLORFUL ULTRA-VIBRANT UI LAYOUT (Revealed via circular clip-path) -->
+      <div class="colorful-layout p-6 md:p-16 flex flex-col justify-between" id="colorful-layout">
+        
+        <!-- Background Ambient Glowing Orbs -->
+        <div class="gradient-orb w-[500px] h-[500px] bg-[#ef233c]/25 -top-20 -left-20"></div>
+        <div class="gradient-orb w-[600px] h-[600px] bg-[#7209b7]/20 bottom-10 right-10"></div>
+        <div class="gradient-orb w-[400px] h-[400px] bg-[#ff9e00]/15 top-1/3 left-1/2"></div>
+
+        <!-- Inner Content Grid (Visible once mask opens) -->
+        <div class="max-w-7xl mx-auto w-full my-auto pt-16 pb-8">
+          
+          <!-- Section Title Banner -->
+          <div class="flex flex-col md:flex-row items-start md:items-end justify-between mb-10 gap-4 border-b border-white/10 pb-6">
+            <div>
+              <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-space font-bold uppercase tracking-wider mb-3">
+                <span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
+                <span>Spotlight 100% Engaged • Full UI Unveiled</span>
+              </div>
+              <h2 class="font-space text-3xl md:text-6xl font-black uppercase tracking-tight leading-none text-white">
+                Cleanroom <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#ef233c] via-[#ff808b] to-[#ff9e00]">Neural Dashboard</span>
+              </h2>
+            </div>
+            <p class="text-sm text-gray-300 max-w-md font-light leading-relaxed">
+              You have revealed the high-fidelity structured extraction suite powered by <strong class="text-white">llama-3.3-70b-versatile</strong> and self-correcting Pydantic schemas.
+            </p>
+          </div>
+
+          <!-- Bento Grid Display -->
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            
+            <!-- Card 1: Live Accuracy SLA -->
+            <div class="bento-card p-6 md:p-8 flex flex-col justify-between space-y-6 relative overflow-hidden group">
+              <div class="absolute top-0 right-0 w-32 h-32 bg-[#ef233c]/10 rounded-full blur-2xl group-hover:bg-[#ef233c]/25 transition-all"></div>
+              <div class="flex items-center justify-between text-gray-400">
+                <span class="font-space text-xs font-bold uppercase tracking-widest">VALIDATION SLA</span>
+                <iconify-icon icon="lucide:shield-check" class="text-2xl text-[#ef233c]"></iconify-icon>
+              </div>
+              <div>
+                <div class="font-space text-5xl md:text-6xl font-black text-white tracking-tight">99.8%</div>
+                <div class="text-xs text-emerald-400 font-semibold mt-1 flex items-center gap-1">
+                  <iconify-icon icon="lucide:trending-up"></iconify-icon>
+                  <span>Exceeds >90% SLA Benchmark cleanly</span>
+                </div>
+              </div>
+              <div class="text-xs text-gray-400 font-light pt-4 border-t border-white/10">
+                Zero markdown fence contamination across all 55 support tickets tested.
+              </div>
+            </div>
+
+            <!-- Card 2: Self-Repair Loop Telemetry -->
+            <div class="bento-card p-6 md:p-8 flex flex-col justify-between space-y-6 relative overflow-hidden group border-[#7209b7]/40">
+              <div class="absolute top-0 right-0 w-32 h-32 bg-[#7209b7]/15 rounded-full blur-2xl group-hover:bg-[#7209b7]/30 transition-all"></div>
+              <div class="flex items-center justify-between text-gray-400">
+                <span class="font-space text-xs font-bold uppercase tracking-widest">SELF-REPAIR ENGINE</span>
+                <iconify-icon icon="lucide:refresh-cw" class="text-2xl text-[#7209b7] animate-spin" style="animation-duration: 8s;"></iconify-icon>
+              </div>
+              <div>
+                <div class="font-space text-5xl md:text-6xl font-black text-white tracking-tight">14<span class="text-2xl text-gray-400 font-normal ml-1">ms</span></div>
+                <div class="text-xs text-purple-300 font-semibold mt-1 flex items-center gap-1">
+                  <iconify-icon icon="lucide:cpu"></iconify-icon>
+                  <span>Tenacity Exponential Backoff Active</span>
+                </div>
+              </div>
+              <div class="text-xs text-gray-400 font-light pt-4 border-t border-white/10">
+                Automatic prompt injection with explicit Pydantic validation error feedback.
+              </div>
+            </div>
+
+            <!-- Card 3: Extracted JSON Preview -->
+            <div class="bento-card p-6 md:p-8 flex flex-col justify-between space-y-4 font-mono text-xs bg-black/60 border-white/20">
+              <div class="flex items-center justify-between font-space font-bold uppercase tracking-wider text-gray-300 text-xs pb-2 border-b border-white/10">
+                <span class="flex items-center gap-2">
+                  <span class="w-2 h-2 rounded-full bg-[#ef233c]"></span>
+                  <span>ExtractedDocument Payload</span>
+                </span>
+                <span class="text-[10px] text-gray-500">JSON</span>
+              </div>
+              <pre class="text-emerald-400 overflow-x-auto leading-relaxed py-2">
+{
+  <span class="text-white">"customer_name"</span>: <span class="text-[#ff9e00]">"John from NYC"</span>,
+  <span class="text-white">"subscription_tier"</span>: <span class="text-[#ff9e00]">"premium"</span>,
+  <span class="text-white">"severity"</span>: <span class="text-[#ef233c]">"critical"</span>,
+  <span class="text-white">"issue_type"</span>: <span class="text-purple-300">"Login Failure"</span>,
+  <span class="text-white">"verified"</span>: <span class="text-emerald-400">true</span>
+}</pre>
+              <div class="flex items-center justify-between text-[11px] text-gray-400 pt-2 border-t border-white/10 font-sans">
+                <span>Model: <strong>llama-3.3-70b</strong></span>
+                <span class="text-emerald-400 font-bold">Passed Schema Checks</span>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Interactive Footer Bar inside Colorful Layout -->
+          <div class="mt-8 bento-card p-6 flex flex-col sm:flex-row items-center justify-between gap-4 bg-gradient-to-r from-black/80 via-[#1a0505]/80 to-black/80">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-full bg-[#ef233c] flex items-center justify-center text-white text-lg font-bold">
+                <iconify-icon icon="lucide:sparkles"></iconify-icon>
+              </div>
+              <div>
+                <div class="font-space font-bold text-sm text-white">Dynamic Spotlight Lens Flare Active</div>
+                <div class="text-xs text-gray-400">Move your mouse across the screen to steer the light beam while scrolling!</div>
+              </div>
+            </div>
+            <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="px-6 py-2.5 rounded-full bg-white/10 hover:bg-[#ef233c] text-white text-xs font-space font-bold tracking-widest uppercase transition-all flex items-center gap-2">
+              <iconify-icon icon="lucide:arrow-up"></iconify-icon>
+              <span>Reset To Mystery State</span>
+            </button>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <script>
+    const scrollTrack = document.getElementById('scroll-track');
+    const stage = document.getElementById('stage');
+    const radiusDisplay = document.getElementById('radius-val');
+
+    // Default center at 50% 50%
+    let mouseX = window.innerWidth / 2;
+    let mouseY = window.innerHeight / 2;
+    let targetX = mouseX;
+    let targetY = mouseY;
+
+    // Track scroll progress to animate clip-path from 0% to 150%
+    function updateScrollProgress() {
+      const rect = scrollTrack.getBoundingClientRect();
+      const scrollHeight = rect.height - window.innerHeight;
+      
+      // Calculate scroll progress between 0.0 and 1.0 inside the scroll track
+      let progress = -rect.top / scrollHeight;
+      if (progress < 0) progress = 0;
+      if (progress > 1) progress = 1;
+
+      // Spotlight size grows smoothly from 0% to 150%
+      const spotlightSize = progress * 150;
+
+      // Update CSS variables
+      document.documentElement.style.setProperty('--spotlight-radius', `${spotlightSize.toFixed(1)}%`);
+      radiusDisplay.textContent = `${Math.round(spotlightSize)}%`;
+    }
+
+    window.addEventListener('scroll', updateScrollProgress, { passive: true });
+    window.addEventListener('resize', updateScrollProgress);
+    updateScrollProgress();
+
+    // Mouse interactive steering: lets the spotlight follow cursor while scrolling!
+    window.addEventListener('mousemove', (e) => {
+      targetX = e.clientX;
+      targetY = e.clientY;
+    });
+
+    window.addEventListener('touchmove', (e) => {
+      if (e.touches && e.touches[0]) {
+        targetX = e.touches[0].clientX;
+        targetY = e.touches[0].clientY;
+      }
+    }, { passive: true });
+
+    // Smooth interpolation loop for spotlight center (x, y)
+    function animateSpotlightPos() {
+      requestAnimationFrame(animateSpotlightPos);
+      mouseX += (targetX - mouseX) * 0.1;
+      mouseY += (targetY - mouseY) * 0.1;
+
+      document.documentElement.style.setProperty('--spotlight-x', `${mouseX.toFixed(1)}px`);
+      document.documentElement.style.setProperty('--spotlight-y', `${mouseY.toFixed(1)}px`);
+    }
+    animateSpotlightPos();
+  </script>
+</body>
+</html>

@@ -407,6 +407,16 @@ with st.sidebar:
     else:
         st.info("ℹ️ No summary report found yet. Run `python src/eval/run_eval.py` to generate evaluation metrics.")
 
+    st.divider()
+    st.subheader("🌌 Design Intelligence UI Showcases")
+    st.markdown("""
+    Experience our custom Red Noir high-speed visual animations in your browser:
+    - **[Letter-By-Letter Text Swap CTA](file:///c:/Users/Niraj%20Damai/OneDrive%20-%20Garden%20City%20University/Desktop/Cleanroom/structured-extract/demo/generate_button.html)** (Interactive Tailwind CTA with star icon & staggered letter swap between Generate and Generating)
+    - **[Minimalist Aurora Notion Character](file:///c:/Users/Niraj%20Damai/OneDrive%20-%20Garden%20City%20University/Desktop/Cleanroom/structured-extract/demo/aurora_character.html)** (Floating aurora sphere with geometric white vector facial lines & interactive expressions)
+    - **[Lens Flare Spotlight Mask Reveal](file:///c:/Users/Niraj%20Damai/OneDrive%20-%20Garden%20City%20University/Desktop/Cleanroom/structured-extract/demo/spotlight_mask.html)** (Scroll-driven circular clip-path reveal expanding from 0% to 150%)
+    - **[3D WebGL Hyperspeed Warp](file:///c:/Users/Niraj%20Damai/OneDrive%20-%20Garden%20City%20University/Desktop/Cleanroom/structured-extract/demo/hyperspeed_showcase.html)** (Three.js 60fps warp tunnel with 6 distortion presets & press-and-hold warp)
+    - **[2D Character Speeder Showcase](file:///c:/Users/Niraj%20Damai/OneDrive%20-%20Garden%20City%20University/Desktop/Cleanroom/structured-extract/demo/loading_animation.html)** (Character loader with dynamic longfazers & theme toggle)
+    """)
 
 # ============================================
 # MAIN PAGE HEADER & TABS
@@ -423,6 +433,50 @@ st.markdown("""
     </div>
 </div>
 """, unsafe_allow_html=True)
+
+st.components.v1.html("""
+<script>
+function runTyping() {
+    const parentDoc = window.parent.document;
+    if (!parentDoc) return;
+    const titleEl = parentDoc.querySelector('.header-title');
+    if (titleEl && !titleEl.dataset.typed) {
+        titleEl.dataset.typed = "true";
+        const fullText = "Cleanroom ";
+        const redText = "Structured Extraction";
+        titleEl.innerHTML = '';
+        
+        const baseSpan = parentDoc.createElement('span');
+        const redSpan = parentDoc.createElement('span');
+        redSpan.className = 'text-red';
+        
+        const cursor = parentDoc.createElement('span');
+        cursor.style.cssText = 'display: inline-block; width: 4px; height: 2.3rem; background-color: #ef233c; margin-left: 6px; vertical-align: -4px; border-radius: 2px; box-shadow: 0 0 8px #ef233c; animation: pulse 1s infinite;';
+        
+        titleEl.appendChild(baseSpan);
+        titleEl.appendChild(redSpan);
+        titleEl.appendChild(cursor);
+        
+        let i = 0;
+        function typeChar() {
+            if (i < fullText.length) {
+                baseSpan.textContent += fullText.charAt(i);
+                i++;
+                setTimeout(typeChar, 50);
+            } else if (i < fullText.length + redText.length) {
+                redSpan.textContent += redText.charAt(i - fullText.length);
+                i++;
+                setTimeout(typeChar, 50);
+            }
+        }
+        typeChar();
+    }
+}
+runTyping();
+setTimeout(runTyping, 300);
+setTimeout(runTyping, 800);
+</script>
+""", height=0)
 
 tab_live, tab_hitl = st.tabs(["🚀 Live Extraction & Self-Repair", "🧑‍💻 HITL Review Queue Dashboard"])
 

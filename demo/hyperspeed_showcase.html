@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hyperspeed 3D Warp Background | Cleanroom Superdesign</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&family=Space+Grotesk:wght@500;700;800&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --accent: #ef233c;
+      --bg-color: #060101;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: #ffffff;
+      font-family: 'Outfit', sans-serif;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      user-select: none;
+    }
+
+    /* Three.js Canvas container */
+    #hyperspeed-canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 1;
+    }
+
+    /* Glass HUD elements */
+    .hud-card {
+      background: rgba(15, 15, 18, 0.75);
+      border: 1px solid rgba(239, 35, 60, 0.25);
+      backdrop-filter: blur(16px);
+      border-radius: 20px;
+      box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.6);
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .hud-card:hover {
+      border-color: rgba(239, 35, 60, 0.6);
+      box-shadow: 0 0 25px rgba(239, 35, 60, 0.2);
+    }
+
+    .preset-btn {
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .preset-btn.active {
+      background: #ef233c;
+      color: #ffffff;
+      border-color: #ef233c;
+      transform: scale(1.05);
+      box-shadow: 0 0 15px rgba(239, 35, 60, 0.6);
+    }
+
+    /* Character Loader inside warp tunnel */
+    .loader {
+      position: relative;
+      width: 80px;
+      height: 60px;
+      animation: speeder 0.4s linear infinite;
+      z-index: 10;
+      filter: drop-shadow(0 0 20px rgba(239, 35, 60, 0.8));
+    }
+
+    .loader > span {
+      height: 5px;
+      width: 35px;
+      background: #ef233c;
+      position: absolute;
+      top: -19px;
+      left: 60px;
+      border-radius: 2px 10px 1px 0;
+    }
+
+    .base span {
+      position: absolute;
+      width: 0;
+      height: 0;
+      border-top: 6px solid transparent;
+      border-right: 100px solid #ef233c;
+      border-bottom: 6px solid transparent;
+    }
+
+    .base span:before {
+      content: "";
+      height: 22px;
+      width: 22px;
+      border-radius: 50%;
+      background: #ef233c;
+      position: absolute;
+      right: -110px;
+      top: -16px;
+    }
+
+    .base span:after {
+      content: "";
+      position: absolute;
+      width: 0;
+      height: 0;
+      border-top: 0 solid transparent;
+      border-right: 55px solid #ef233c;
+      border-bottom: 16px solid transparent;
+      top: -16px;
+      right: -98px;
+    }
+
+    .face {
+      position: absolute;
+      height: 12px;
+      width: 20px;
+      background: #ffffff;
+      border-radius: 20px 20px 0 0;
+      transform: rotate(-40deg);
+      right: -125px;
+      top: -15px;
+    }
+
+    @keyframes speeder {
+      0% { transform: translate(2px, 1px) rotate(0deg); }
+      25% { transform: translate(-2px, -2px) rotate(-1deg); }
+      50% { transform: translate(-1px, 3px) rotate(1deg); }
+      75% { transform: translate(3px, 1px) rotate(-1deg); }
+      100% { transform: translate(2px, 1px) rotate(0deg); }
+    }
+
+    .font-space { font-family: 'Space Grotesk', sans-serif; }
+    .font-manrope { font-family: 'Manrope', sans-serif; }
+  </style>
+</head>
+<body class="relative w-full h-screen overflow-hidden">
+  
+  <!-- Three.js WebGL Hyperspeed Background Canvas -->
+  <canvas id="hyperspeed-canvas"></canvas>
+
+  <!-- Overlay UI Layer -->
+  <div class="relative z-10 w-full h-full flex flex-col items-center justify-between p-6 md:p-12 pointer-events-none">
+    
+    <!-- Top Header Bar -->
+    <header class="w-full flex items-center justify-between pointer-events-auto">
+      <div class="flex items-center space-x-3 group cursor-pointer">
+        <div class="w-10 h-10 bg-[#ef233c] text-white rounded-xl flex items-center justify-center shadow-[0_0_20px_rgba(239,35,60,0.6)] group-hover:scale-105 transition-transform">
+          <iconify-icon icon="lucide:zap" class="text-xl"></iconify-icon>
+        </div>
+        <div>
+          <span class="font-space text-xl font-bold tracking-tighter block leading-none">VELOCITY <span class="text-[#ef233c] text-xs px-1.5 py-0.5 rounded bg-red-500/10 border border-red-500/30 uppercase tracking-widest ml-1">HYPERSPEED</span></span>
+          <span class="text-[10px] uppercase tracking-widest text-gray-400 block mt-1">60fps Three.js WebGL Warp Engine</span>
+        </div>
+      </div>
+
+      <!-- Right Action Reply / Info -->
+      <div class="flex items-center gap-3">
+        <button onclick="toggleWarpBurst()" class="hud-card px-5 py-2 rounded-full text-xs font-bold tracking-widest uppercase flex items-center gap-2 text-[#ef233c] hover:bg-[#ef233c] hover:text-white transition-all shadow-lg">
+          <iconify-icon icon="lucide:fast-forward" class="text-base"></iconify-icon>
+          <span>Warp Burst</span>
+        </button>
+        <button onclick="window.location.href='loading_animation.html'" class="hud-card px-5 py-2 rounded-full text-xs font-bold tracking-widest uppercase hover:bg-white/10 transition-all text-gray-300">
+          Back to 2D Loader
+        </button>
+      </div>
+    </header>
+
+    <!-- Center Showcase Container (Headline + Character inside Warp Tunnel + Press & Hold Hint) -->
+    <main class="flex flex-col items-center justify-center text-center my-auto space-y-6">
+      
+      <!-- Character Speeder Loader Hovering Inside the Warp Tunnel -->
+      <div class="my-4 pointer-events-auto cursor-pointer" id="warp-character" title="Click & Hold to Warp Speed!">
+        <div class="loader mx-auto">
+          <span></span>
+          <div class="base">
+            <span></span>
+            <div class="face"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main Typing Headline (50ms delay between characters) -->
+      <div>
+        <h1 id="headline-text" class="font-space text-4xl md:text-6xl font-extrabold tracking-tight uppercase leading-tight text-white drop-shadow-[0_4px_25px_rgba(239,35,60,0.6)]">
+        </h1>
+        <p id="sub-text" class="text-xs md:text-sm text-gray-400 tracking-[0.25em] uppercase font-medium mt-2">
+          Preset: <span id="preset-label" class="text-[#ef233c] font-bold">Turbulent Space</span> • Stability 99.8%
+        </p>
+      </div>
+
+      <!-- Interactive Press & Hold Card -->
+      <div id="hold-hint" class="hud-card px-8 py-4 rounded-full flex items-center gap-3 pointer-events-auto cursor-pointer animate-bounce mt-4" onmousedown="startWarp()" onmouseup="stopWarp()" ontouchstart="startWarp()" ontouchend="stopWarp()">
+        <div class="w-8 h-8 rounded-full bg-[#ef233c]/20 border border-[#ef233c] flex items-center justify-center animate-pulse">
+          <iconify-icon icon="lucide:play" class="text-sm text-[#ef233c] ml-0.5"></iconify-icon>
+        </div>
+        <span class="text-xs font-space font-bold tracking-widest uppercase text-white">
+          Press & Hold Anywhere to Engage Warp Speed
+        </span>
+      </div>
+    </main>
+
+    <!-- Bottom Preset Selector & Corner Telemetry -->
+    <footer class="w-full flex flex-col md:flex-row items-center justify-between gap-6 pointer-events-auto">
+      
+      <!-- Left Corner Decorative Details -->
+      <div class="text-[10px] text-gray-500 font-mono tracking-tighter hidden md:block border-l-2 border-[#ef233c] pl-3 py-1">
+        CORE_SYSTEM_01 // THREE_JS_WEBGL_ACTIVE<br />
+        SECTOR: 7G-ALPHA-V // DISTORTION_MATRIX: <span id="matrix-type" class="text-gray-300">TURBULENT</span><br />
+        FOV: <span id="fov-display" class="text-[#ef233c] font-bold">90°</span> // SPEED: <span id="speed-display">1.0x</span>
+      </div>
+
+      <!-- Preset Selector Buttons -->
+      <div class="hud-card p-2 rounded-full flex flex-wrap justify-center gap-1.5 shadow-2xl">
+        <button onclick="setPreset('one', this)" class="preset-btn active px-4 py-1.5 rounded-full text-[11px] font-bold tracking-widest uppercase bg-black/40 text-gray-400 border border-white/10">Turbulent</button>
+        <button onclick="setPreset('two', this)" class="preset-btn px-4 py-1.5 rounded-full text-[11px] font-bold tracking-widest uppercase bg-black/40 text-gray-400 border border-white/10">Mountain</button>
+        <button onclick="setPreset('three', this)" class="preset-btn px-4 py-1.5 rounded-full text-[11px] font-bold tracking-widest uppercase bg-black/40 text-gray-400 border border-white/10">XY Grid</button>
+        <button onclick="setPreset('four', this)" class="preset-btn px-4 py-1.5 rounded-full text-[11px] font-bold tracking-widest uppercase bg-black/40 text-gray-400 border border-white/10">Long Race</button>
+        <button onclick="setPreset('five', this)" class="preset-btn px-4 py-1.5 rounded-full text-[11px] font-bold tracking-widest uppercase bg-black/40 text-gray-400 border border-white/10">Deep Space</button>
+        <button onclick="setPreset('redNoir', this)" class="preset-btn px-4 py-1.5 rounded-full text-[11px] font-bold tracking-widest uppercase bg-black/40 text-gray-400 border border-white/10 text-[#ef233c] font-extrabold">Red Noir 🔥</button>
+      </div>
+
+      <!-- Right Refresh/Info -->
+      <div class="flex items-center gap-2">
+        <button onclick="resetWarp()" class="w-10 h-10 rounded-full hud-card flex items-center justify-center hover:bg-white/10 transition-colors text-gray-300" title="Reset Camera">
+          <iconify-icon icon="lucide:refresh-cw"></iconify-icon>
+        </button>
+        <button onclick="alert('Hyperspeed WebGL Effect built with Three.js. Features dynamic vertex distortion shaders, 60fps render loop, and press-and-hold warp mechanics.')" class="w-10 h-10 rounded-full hud-card flex items-center justify-center hover:bg-white/10 transition-colors text-[#ef233c]" title="Info">
+          <iconify-icon icon="lucide:info"></iconify-icon>
+        </button>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    /* --- 1. HEADLINE 50ms CHARACTER TYPING ANIMATION --- */
+    let typingTimeout = null;
+    function typeHeadline(text, callback = null) {
+      const el = document.getElementById('headline-text');
+      if (typingTimeout) clearTimeout(typingTimeout);
+      el.innerHTML = '';
+
+      const textSpan = document.createElement('span');
+      const cursor = document.createElement('span');
+      cursor.className = 'inline-block w-1 md:w-1.5 h-8 md:h-12 bg-[#ef233c] ml-2 animate-pulse align-middle rounded-sm shadow-[0_0_12px_#ef233c]';
+
+      el.appendChild(textSpan);
+      el.appendChild(cursor);
+
+      let i = 0;
+      function typeChar() {
+        if (i < text.length) {
+          textSpan.textContent += text.charAt(i);
+          i++;
+          typingTimeout = setTimeout(typeChar, 50); // Exact 50ms character delay
+        } else if (callback) {
+          callback();
+        }
+      }
+      typeChar();
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      typeHeadline("Hyperspeed Warp Drive");
+    });
+
+    /* --- 2. THREE.JS HYPERSPEED WEBGL IMPLEMENTATION --- */
+    const presets = {
+      one: {
+        label: "Turbulent Space",
+        distortion: 'turbulentDistortion',
+        length: 400,
+        roadWidth: 10,
+        fov: 90,
+        fovSpeedUp: 150,
+        speedUp: 3.5,
+        colors: {
+          background: 0x060101,
+          leftCars: [0xef233c, 0xd856bf, 0xc247ac],
+          rightCars: [0x03b3c3, 0x0e5ea5, 0xffffff]
+        }
+      },
+      two: {
+        label: "Mountain Waves",
+        distortion: 'mountainDistortion',
+        length: 400,
+        roadWidth: 12,
+        fov: 90,
+        fovSpeedUp: 155,
+        speedUp: 3.0,
+        colors: {
+          background: 0x060101,
+          leftCars: [0xff102a, 0xeb383e, 0xff808b],
+          rightCars: [0xdadafa, 0xbebae3, 0xef233c]
+        }
+      },
+      three: {
+        label: "XY Grid Warp",
+        distortion: 'xyDistortion',
+        length: 400,
+        roadWidth: 10,
+        fov: 90,
+        fovSpeedUp: 160,
+        speedUp: 4.0,
+        colors: {
+          background: 0x040406,
+          leftCars: [0xef233c, 0xa90519, 0xff102a],
+          rightCars: [0xf1eece, 0xe6e2b1, 0xdfd98a]
+        }
+      },
+      four: {
+        label: "Long Race Tunnel",
+        distortion: 'LongRaceDistortion',
+        length: 450,
+        roadWidth: 14,
+        fov: 90,
+        fovSpeedUp: 150,
+        speedUp: 3.0,
+        colors: {
+          background: 0x060101,
+          leftCars: [0xff5f73, 0xe74d60, 0xef233c],
+          rightCars: [0xa4e3e6, 0x80d1d4, 0xffffff]
+        }
+      },
+      five: {
+        label: "Deep Space Vortex",
+        distortion: 'deepDistortion',
+        length: 400,
+        roadWidth: 18,
+        fov: 90,
+        fovSpeedUp: 165,
+        speedUp: 3.5,
+        colors: {
+          background: 0x030000,
+          leftCars: [0xff322f, 0xa33010, 0xef233c],
+          rightCars: [0xfdfdf0, 0xf3dea0, 0xe2bb88]
+        }
+      },
+      redNoir: {
+        label: "Red Noir Cleanroom 🔥",
+        distortion: 'turbulentDistortion',
+        length: 450,
+        roadWidth: 12,
+        fov: 90,
+        fovSpeedUp: 165,
+        speedUp: 4.5,
+        colors: {
+          background: 0x060101,
+          leftCars: [0xef233c, 0xff102a, 0xb81428],
+          rightCars: [0xffffff, 0xff808b, 0xef233c]
+        }
+      }
+    };
+
+    let currentPreset = presets.one;
+    const state = {
+      speed: 1,
+      targetSpeed: 1,
+      fov: 90,
+      targetFov: 90,
+      isSpeeding: false
+    };
+
+    const canvas = document.getElementById('hyperspeed-canvas');
+    const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(currentPreset.colors.background);
+
+    const camera = new THREE.PerspectiveCamera(state.fov, window.innerWidth / window.innerHeight, 0.1, 10000);
+    camera.position.z = 10;
+    camera.position.y = 7;
+
+    function resize() {
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+    }
+    window.addEventListener('resize', resize);
+    resize();
+
+    // Create 3D Warp Tunnel Geometry
+    const count = 2400;
+    const geometry = new THREE.BufferGeometry();
+    const positions = new Float32Array(count * 3 * 2);
+    const lineColors = new Float32Array(count * 3 * 2);
+
+    function buildTunnelColors(preset) {
+      scene.background = new THREE.Color(preset.colors.background);
+      for (let i = 0; i < count; i++) {
+        const idx = i * 6;
+        const colorSet = i % 2 === 0 ? preset.colors.leftCars : preset.colors.rightCars;
+        const chosen = new THREE.Color(colorSet[Math.floor(Math.random() * colorSet.length)]);
+        lineColors[idx] = chosen.r; lineColors[idx+1] = chosen.g; lineColors[idx+2] = chosen.b;
+        lineColors[idx+3] = chosen.r; lineColors[idx+4] = chosen.g; lineColors[idx+5] = chosen.b;
+      }
+      geometry.setAttribute('color', new THREE.BufferAttribute(lineColors, 3));
+    }
+
+    function buildTunnelGeometry(preset) {
+      for (let i = 0; i < count; i++) {
+        const z = Math.random() * preset.length;
+        const r = preset.roadWidth + Math.random() * 25;
+        const theta = Math.random() * Math.PI * 2;
+        const x = Math.cos(theta) * r;
+        const y = Math.sin(theta) * r;
+
+        const idx = i * 6;
+        positions[idx] = x;
+        positions[idx + 1] = y;
+        positions[idx + 2] = -z;
+        positions[idx + 3] = x;
+        positions[idx + 4] = y;
+        positions[idx + 5] = -(z + 12 + Math.random() * 55);
+      }
+      geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+      buildTunnelColors(preset);
+    }
+
+    buildTunnelGeometry(currentPreset);
+
+    const material = new THREE.LineBasicMaterial({
+      vertexColors: true,
+      transparent: true,
+      opacity: 0.85,
+      blending: THREE.AdditiveBlending
+    });
+
+    const lines = new THREE.LineSegments(geometry, material);
+    scene.add(lines);
+
+    function applyDistortion(time) {
+      const pos = geometry.attributes.position.array;
+      const speedMult = state.speed * 6;
+      for (let i = 0; i < count; i++) {
+        const idx = i * 6;
+        pos[idx + 2] += speedMult;
+        pos[idx + 5] += speedMult;
+
+        if (pos[idx + 2] > 50) {
+          const newZ = currentPreset.length;
+          const length = 12 + Math.random() * 55;
+          pos[idx + 2] = -newZ;
+          pos[idx + 5] = -(newZ + length);
+        }
+
+        if (currentPreset.distortion === 'turbulentDistortion') {
+          const offset = Math.sin(time * 0.0015 + pos[idx + 2] * 0.015) * 2.5;
+          pos[idx] += offset * 0.012;
+          pos[idx + 3] += offset * 0.012;
+        } else if (currentPreset.distortion === 'mountainDistortion') {
+          const offset = Math.cos(pos[idx + 2] * 0.006) * 6;
+          pos[idx + 1] += offset * 0.012;
+          pos[idx + 4] += offset * 0.012;
+        } else if (currentPreset.distortion === 'xyDistortion') {
+          const ox = Math.sin(time * 0.001 + pos[idx + 2] * 0.02) * 3;
+          const oy = Math.cos(time * 0.001 + pos[idx + 2] * 0.02) * 3;
+          pos[idx] += ox * 0.01; pos[idx+1] += oy * 0.01;
+          pos[idx+3] += ox * 0.01; pos[idx+4] += oy * 0.01;
+        } else if (currentPreset.distortion === 'LongRaceDistortion') {
+          const offset = Math.sin(pos[idx + 2] * 0.003) * 9;
+          pos[idx] += offset * 0.015;
+          pos[idx + 3] += offset * 0.015;
+        } else if (currentPreset.distortion === 'deepDistortion') {
+          const offset = Math.sin(time * 0.002 + pos[idx + 2] * 0.01) * 5;
+          pos[idx + 1] += offset * 0.018;
+          pos[idx + 4] += offset * 0.018;
+        }
+      }
+      geometry.attributes.position.needsUpdate = true;
+    }
+
+    function animate(time) {
+      requestAnimationFrame(animate);
+
+      // Smooth interpolation
+      state.speed += (state.targetSpeed - state.speed) * 0.06;
+      state.fov += (state.targetFov - state.fov) * 0.06;
+
+      camera.fov = state.fov;
+      camera.updateProjectionMatrix();
+
+      // Update telemetry display
+      document.getElementById('fov-display').textContent = Math.round(state.fov) + '°';
+      document.getElementById('speed-display').textContent = state.speed.toFixed(1) + 'x';
+
+      applyDistortion(time);
+      renderer.render(scene, camera);
+    }
+    animate(0);
+
+    /* --- 3. INTERACTION & PRESET SWITCHING --- */
+    function startWarp() {
+      state.isSpeeding = true;
+      state.targetSpeed = currentPreset.speedUp;
+      state.targetFov = currentPreset.fovSpeedUp;
+      document.getElementById('hold-hint').classList.add('border-[#ef233c]', 'scale-105', 'bg-[#ef233c]/30');
+    }
+
+    function stopWarp() {
+      state.isSpeeding = false;
+      state.targetSpeed = 1;
+      state.targetFov = currentPreset.fov;
+      document.getElementById('hold-hint').classList.remove('border-[#ef233c]', 'scale-105', 'bg-[#ef233c]/30');
+    }
+
+    function toggleWarpBurst() {
+      startWarp();
+      typeHeadline("Engaging Warp Burst...");
+      setTimeout(() => {
+        stopWarp();
+        typeHeadline("Hyperspeed Warp Drive");
+      }, 2500);
+    }
+
+    function resetWarp() {
+      stopWarp();
+      typeHeadline("Camera & Warp Reset");
+    }
+
+    function setPreset(key, btnEl) {
+      currentPreset = presets[key];
+      state.targetFov = currentPreset.fov;
+      if (state.isSpeeding) {
+        state.targetSpeed = currentPreset.speedUp;
+        state.targetFov = currentPreset.fovSpeedUp;
+      }
+
+      // Update active button classes
+      document.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('active', 'bg-[#ef233c]', 'text-white'));
+      btnEl.classList.add('active');
+
+      document.getElementById('preset-label').textContent = currentPreset.label;
+      document.getElementById('matrix-type').textContent = currentPreset.distortion.replace('Distortion', '').toUpperCase();
+
+      buildTunnelGeometry(currentPreset);
+      typeHeadline("Loaded: " + currentPreset.label);
+    }
+
+    // Global press and hold on background canvas
+    window.addEventListener('mousedown', (e) => {
+      if (e.target.id === 'hyperspeed-canvas') startWarp();
+    });
+    window.addEventListener('mouseup', stopWarp);
+    window.addEventListener('touchstart', (e) => {
+      if (e.target.id === 'hyperspeed-canvas') startWarp();
+    });
+    window.addEventListener('touchend', stopWarp);
+  </script>
+</body>
+</html>
