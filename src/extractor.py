@@ -94,6 +94,10 @@ class GroqExtractor:
 
     def __init__(self, api_key: Optional[str] = None, model_name: Optional[str] = None):
         from groq import Groq
+        if not api_key and not os.getenv("GROQ_API_KEY"):
+            from dotenv import load_dotenv, find_dotenv
+            load_dotenv(project_root / ".env", override=True)
+            load_dotenv(find_dotenv(), override=True)
         api_key = api_key or os.getenv("GROQ_API_KEY")
         if not api_key:
             raise ValueError("GROQ_API_KEY is required but not found in environment or arguments.")

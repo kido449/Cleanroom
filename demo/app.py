@@ -5,10 +5,14 @@ from pathlib import Path
 from typing import Dict, Any, List
 import streamlit as st
 
-# Ensure project root is in sys.path
+# Ensure project root is in sys.path and load .env explicitly
 project_root = Path(__file__).resolve().parent.parent
 if str(project_root) not in sys.path:
     sys.path.insert(0, str(project_root))
+
+from dotenv import load_dotenv, find_dotenv
+load_dotenv(project_root / ".env", override=True)
+load_dotenv(find_dotenv(), override=True)
 
 # Set page configuration before any other Streamlit call
 st.set_page_config(
@@ -331,6 +335,9 @@ st.markdown("""
 # Lazy import of extraction pipeline to prevent slowdown on page load
 @st.cache_resource
 def get_extractor():
+    from dotenv import load_dotenv, find_dotenv
+    load_dotenv(project_root / ".env", override=True)
+    load_dotenv(find_dotenv(), override=True)
     from src.extractor import GroqExtractor
     return GroqExtractor()
 

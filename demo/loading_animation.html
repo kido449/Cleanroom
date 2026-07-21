@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hyper-Speed Character Loader | Design Intelligence</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&family=Space+Grotesk:wght@500;700;800&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --loader-color: #000000;
+      --bg-color: #FDFDFD;
+      --text-main: #000000;
+      --text-sub: #6b7280;
+      --card-bg: rgba(255, 255, 255, 0.8);
+      --card-border: rgba(0, 0, 0, 0.08);
+      --accent: #ef233c;
+      --speed-factor: 1s;
+    }
+
+    [data-theme="dark"] {
+      --loader-color: #ef233c;
+      --bg-color: #060101;
+      --text-main: #ffffff;
+      --text-sub: #9ca3af;
+      --card-bg: rgba(18, 18, 20, 0.75);
+      --card-border: rgba(239, 35, 60, 0.25);
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      transition: background-color 0.5s cubic-bezier(0.4, 0, 0.2, 1), color 0.5s ease;
+      font-family: 'Outfit', sans-serif;
+    }
+
+    /* --- REPLICATED & ENHANCED CHARACTER LOADER CSS --- */
+    .loader {
+      position: absolute;
+      top: 50%;
+      margin-left: -50px;
+      left: 50%;
+      animation: speeder calc(0.4s * var(--speed-multiplier, 1)) linear infinite;
+      z-index: 10;
+      filter: drop-shadow(0 10px 15px rgba(0,0,0,0.15));
+      transition: filter 0.3s ease;
+    }
+
+    [data-theme="dark"] .loader {
+      filter: drop-shadow(0 0 20px rgba(239, 35, 60, 0.6));
+    }
+
+    .loader > span {
+      height: 5px;
+      width: 35px;
+      background: var(--loader-color);
+      position: absolute;
+      top: -19px;
+      left: 60px;
+      border-radius: 2px 10px 1px 0;
+      transition: background-color 0.4s ease;
+    }
+
+    .base span {
+      position: absolute;
+      width: 0;
+      height: 0;
+      border-top: 6px solid transparent;
+      border-right: 100px solid var(--loader-color);
+      border-bottom: 6px solid transparent;
+      transition: border-right-color 0.4s ease;
+    }
+
+    .base span:before {
+      content: "";
+      height: 22px;
+      width: 22px;
+      border-radius: 50%;
+      background: var(--loader-color);
+      position: absolute;
+      right: -110px;
+      top: -16px;
+      transition: background-color 0.4s ease;
+    }
+
+    .base span:after {
+      content: "";
+      position: absolute;
+      width: 0;
+      height: 0;
+      border-top: 0 solid transparent;
+      border-right: 55px solid var(--loader-color);
+      border-bottom: 16px solid transparent;
+      top: -16px;
+      right: -98px;
+      transition: border-right-color 0.4s ease;
+    }
+
+    .face {
+      position: absolute;
+      height: 12px;
+      width: 20px;
+      background: var(--loader-color);
+      border-radius: 20px 20px 0 0;
+      transform: rotate(-40deg);
+      right: -125px;
+      top: -15px;
+      transition: background-color 0.4s ease;
+    }
+
+    .face:after {
+      content: "";
+      height: 12px;
+      width: 12px;
+      background: var(--loader-color);
+      right: 4px;
+      top: 7px;
+      position: absolute;
+      transform: rotate(40deg);
+      transform-origin: 50% 50%;
+      border-radius: 0 0 0 2px;
+      transition: background-color 0.4s ease;
+    }
+
+    .loader > span > span:nth-child(1),
+    .loader > span > span:nth-child(2),
+    .loader > span > span:nth-child(3),
+    .loader > span > span:nth-child(4) {
+      width: 30px;
+      height: 1.5px;
+      background: var(--loader-color);
+      position: absolute;
+      animation: fazer1 calc(0.2s * var(--speed-multiplier, 1)) linear infinite;
+      transition: background-color 0.4s ease;
+    }
+
+    .loader > span > span:nth-child(2) {
+      top: 3px;
+      animation: fazer2 calc(0.4s * var(--speed-multiplier, 1)) linear infinite;
+    }
+
+    .loader > span > span:nth-child(3) {
+      top: 1px;
+      animation: fazer3 calc(0.4s * var(--speed-multiplier, 1)) linear infinite;
+      animation-delay: -1s;
+    }
+
+    .loader > span > span:nth-child(4) {
+      top: 4px;
+      animation: fazer4 calc(1s * var(--speed-multiplier, 1)) linear infinite;
+      animation-delay: -1s;
+    }
+
+    @keyframes fazer1 {
+      0% { left: 0; opacity: 1; }
+      100% { left: -80px; opacity: 0; }
+    }
+    @keyframes fazer2 {
+      0% { left: 0; opacity: 1; }
+      100% { left: -100px; opacity: 0; }
+    }
+    @keyframes fazer3 {
+      0% { left: 0; opacity: 1; }
+      100% { left: -50px; opacity: 0; }
+    }
+    @keyframes fazer4 {
+      0% { left: 0; opacity: 1; }
+      100% { left: -150px; opacity: 0; }
+    }
+
+    @keyframes speeder {
+      0% { transform: translate(2px, 1px) rotate(0deg); }
+      10% { transform: translate(-1px, -3px) rotate(-1deg); }
+      20% { transform: translate(-2px, 0px) rotate(1deg); }
+      30% { transform: translate(1px, 2px) rotate(0deg); }
+      40% { transform: translate(1px, -1px) rotate(1deg); }
+      50% { transform: translate(-1px, 3px) rotate(-1deg); }
+      60% { transform: translate(-1px, 1px) rotate(0deg); }
+      70% { transform: translate(3px, 1px) rotate(-1deg); }
+      80% { transform: translate(-2px, -1px) rotate(1deg); }
+      90% { transform: translate(2px, 1px) rotate(0deg); }
+      100% { transform: translate(1px, -2px) rotate(-1deg); }
+    }
+
+    /* Long horizontal background fazers */
+    .longfazers {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .longfazers span {
+      position: absolute;
+      height: 2px;
+      width: 25%;
+      background: var(--loader-color);
+      opacity: 0.12;
+      border-radius: 999px;
+      transition: background-color 0.4s ease;
+    }
+
+    [data-theme="dark"] .longfazers span {
+      opacity: 0.25;
+      box-shadow: 0 0 10px #ef233c;
+    }
+
+    .longfazers span:nth-child(1) {
+      top: 15%;
+      animation: lf calc(0.6s * var(--speed-multiplier, 1)) linear infinite;
+      animation-delay: -5s;
+    }
+
+    .longfazers span:nth-child(2) {
+      top: 32%;
+      animation: lf2 calc(0.8s * var(--speed-multiplier, 1)) linear infinite;
+      animation-delay: -1s;
+    }
+
+    .longfazers span:nth-child(3) {
+      top: 50%;
+      animation: lf3 calc(0.6s * var(--speed-multiplier, 1)) linear infinite;
+    }
+
+    .longfazers span:nth-child(4) {
+      top: 68%;
+      animation: lf4 calc(0.5s * var(--speed-multiplier, 1)) linear infinite;
+      animation-delay: -3s;
+    }
+
+    .longfazers span:nth-child(5) {
+      top: 85%;
+      animation: lf calc(0.7s * var(--speed-multiplier, 1)) linear infinite;
+      animation-delay: -2s;
+    }
+
+    @keyframes lf { 0% { left: 200%; } 100% { left: -200%; opacity: 0; } }
+    @keyframes lf2 { 0% { left: 200%; } 100% { left: -200%; opacity: 0; } }
+    @keyframes lf3 { 0% { left: 200%; } 100% { left: -100%; opacity: 0; } }
+    @keyframes lf4 { 0% { left: 200%; } 100% { left: -100%; opacity: 0; } }
+
+    /* Noise Texture */
+    .noise-bg {
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+      opacity: 0.035;
+    }
+
+    /* Glass Card HUD */
+    .hud-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      backdrop-filter: blur(16px);
+      border-radius: 16px;
+      box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+    }
+
+    .font-space { font-family: 'Space Grotesk', sans-serif; }
+    .font-manrope { font-family: 'Manrope', sans-serif; }
+
+    @keyframes progress-infinite {
+      0% { transform: translateX(-100%); }
+      50% { transform: translateX(50%); }
+      100% { transform: translateX(200%); }
+    }
+
+    .animate-progress {
+      animation: progress-infinite calc(2.2s * var(--speed-multiplier, 1)) ease-in-out infinite;
+    }
+  </style>
+</head>
+<body data-theme="light" class="min-h-screen relative overflow-hidden flex flex-col justify-between p-6 md:p-12">
+  
+  <!-- Background Noise Texture -->
+  <div class="absolute inset-0 noise-bg pointer-events-none z-0"></div>
+
+  <!-- Long Horizontal Fazers -->
+  <div class="longfazers">
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+
+  <!-- Top Header Navigation & Theme Switcher -->
+  <header class="relative z-20 w-full flex items-center justify-between">
+    <div class="flex items-center space-x-3 group cursor-pointer">
+      <div id="brand-box" class="w-10 h-10 bg-black text-white rounded-lg flex items-center justify-center transition-all duration-300 shadow-md">
+        <iconify-icon icon="lucide:zap" class="text-xl group-hover:scale-110 transition-transform"></iconify-icon>
+      </div>
+      <div>
+        <span class="font-space text-xl font-bold tracking-tighter block leading-none">VELOCITY <span class="text-[#ef233c] text-xs px-1.5 py-0.5 rounded bg-red-500/10 border border-red-500/20 uppercase tracking-widest ml-1 font-outfit">AI</span></span>
+        <span class="text-[10px] uppercase tracking-widest text-gray-400 block mt-1 font-outfit">Hyper-Speed Neural Engine</span>
+      </div>
+    </div>
+
+    <!-- Controls Bar -->
+    <div class="flex items-center gap-3">
+      <!-- Speed Selector -->
+      <div class="hud-card px-3 py-1.5 flex items-center gap-1 text-xs font-semibold">
+        <span class="text-gray-400 mr-1 hidden sm:inline">WARP SPEED:</span>
+        <button onclick="setSpeed(1.5, this)" class="speed-btn px-2.5 py-1 rounded-md transition-colors text-gray-500 hover:bg-black/5">0.5x</button>
+        <button onclick="setSpeed(1, this)" class="speed-btn px-2.5 py-1 rounded-md transition-colors bg-black text-white dark:bg-[#ef233c] font-bold">1.0x</button>
+        <button onclick="setSpeed(0.5, this)" class="speed-btn px-2.5 py-1 rounded-md transition-colors text-gray-500 hover:bg-black/5">2.0x (Hyper)</button>
+      </div>
+
+      <!-- Theme Switcher Button -->
+      <button onclick="toggleTheme()" id="theme-btn" class="hud-card p-2.5 rounded-xl flex items-center justify-center hover:scale-105 active:scale-95 transition-transform" title="Toggle Theme">
+        <iconify-icon id="theme-icon" icon="lucide:moon" class="text-lg"></iconify-icon>
+      </button>
+    </div>
+  </header>
+
+  <!-- Center Presentation Showcase Stage -->
+  <main class="relative z-10 flex-1 flex flex-col items-center justify-center w-full my-12">
+    
+    <!-- Character Loader Wrapper Stage -->
+    <div class="relative w-full max-w-4xl h-[340px] flex items-center justify-center">
+      
+      <!-- Subtle Center Target Grid (Adds depth behind character) -->
+      <div class="absolute inset-0 flex items-center justify-center pointer-events-none opacity-20">
+        <div class="w-64 h-64 rounded-full border border-dashed border-gray-400/50 animate-[spin_60s_linear_infinite]"></div>
+        <div class="absolute w-96 h-96 rounded-full border border-gray-300/30"></div>
+        <div class="absolute w-full h-[1px] bg-gradient-to-r from-transparent via-gray-400/30 to-transparent"></div>
+      </div>
+
+      <!-- THE CHARACTER LOADER -->
+      <div class="loader">
+        <span>
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+        </span>
+        <div class="base">
+          <span></span>
+          <div class="face"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Synchronized Status HUD -->
+    <div class="z-20 text-center max-w-md mx-auto space-y-4">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full hud-card text-[11px] font-space tracking-widest uppercase font-bold text-gray-600 dark:text-gray-300">
+        <span class="w-2 h-2 rounded-full bg-[#ef233c] animate-ping"></span>
+        <span id="status-badge-text">STATUS: EXTRACTING TELEMETRY</span>
+      </div>
+
+      <h1 id="status-title" class="font-space text-3xl md:text-5xl font-extrabold tracking-tight uppercase leading-tight">
+        Processing Request
+      </h1>
+      
+      <p id="status-subtitle" class="text-sm tracking-widest uppercase text-gray-400 font-medium">
+        Synchronizing with global neural networks...
+      </p>
+
+      <!-- Animated Progress Bar -->
+      <div class="w-72 h-1.5 bg-gray-200/60 dark:bg-zinc-800 rounded-full mx-auto mt-6 overflow-hidden relative shadow-inner">
+        <div class="h-full bg-black dark:bg-[#ef233c] w-2/5 rounded-full animate-progress shadow-[0_0_12px_rgba(239,35,60,0.8)]"></div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Bottom Telemetry Footer -->
+  <footer class="relative z-20 w-full grid grid-cols-1 md:grid-cols-3 gap-6 items-end text-xs">
+    
+    <!-- Left Status Box -->
+    <div class="hud-card p-4 flex flex-col justify-between space-y-2 border-l-4 border-l-[#ef233c]">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center space-x-2 font-space font-bold uppercase tracking-wider">
+          <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+          <span>NEURAL PIPELINE NOMINAL</span>
+        </div>
+        <span class="font-mono text-[10px] text-gray-400">v4.2.0-PROD</span>
+      </div>
+      <div class="text-[11px] text-gray-400 uppercase font-mono flex items-center justify-between">
+        <span>PROTOCOL: LLAMA-3.3-70B</span>
+        <span class="text-emerald-500 font-bold">100% VALIDATED</span>
+      </div>
+    </div>
+
+    <!-- Center Cycle Simulation Button -->
+    <div class="flex justify-center">
+      <button onclick="cycleStatus()" class="hud-card px-5 py-2.5 rounded-full text-xs font-bold uppercase tracking-wider hover:border-[#ef233c] transition-all flex items-center gap-2 group shadow-lg">
+        <iconify-icon icon="lucide:refresh-cw" class="group-hover:rotate-180 transition-transform duration-500 text-[#ef233c]"></iconify-icon>
+        <span>Simulate Next Extraction Phase</span>
+      </button>
+    </div>
+
+    <!-- Right Latency Box -->
+    <div class="hud-card p-4 flex flex-col items-end space-y-1 text-right">
+      <div class="flex items-center gap-2 text-gray-400">
+        <iconify-icon icon="lucide:cpu" class="text-base text-[#ef233c]"></iconify-icon>
+        <span class="font-space font-bold tracking-wider uppercase text-gray-500">SYSTEM LATENCY</span>
+      </div>
+      <div class="font-space text-xl font-extrabold tracking-tight">
+        <span id="latency-val">14</span><span class="text-xs text-gray-400 font-normal ml-0.5">ms</span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Status Phase Rotation Simulation
+    const phases = [
+      {
+        badge: "STATUS: EXTRACTING TELEMETRY",
+        title: "Processing Support Ticket",
+        subtitle: "Parsing raw noisy text & identifying key entities..."
+      },
+      {
+        badge: "STATUS: GROQ INFERENCE LIVE",
+        title: "Invoking Neural Engine",
+        subtitle: "Executing llama-3.3-70b-versatile structured output..."
+      },
+      {
+        badge: "STATUS: PYDANTIC VALIDATION",
+        title: "Self-Repair Verification",
+        subtitle: "Validating schema adherence & auto-correcting edge cases..."
+      },
+      {
+        badge: "STATUS: PAYLOAD COMPLETE",
+        title: "Extraction Ready",
+        subtitle: "Structured ExtractedDocument payload generated cleanly."
+      }
+    ];
+
+    let currentPhaseIdx = 0;
+    function cycleStatus() {
+      currentPhaseIdx = (currentPhaseIdx + 1) % phases.length;
+      const phase = phases[currentPhaseIdx];
+      
+      const titleEl = document.getElementById('status-title');
+      const subEl = document.getElementById('status-subtitle');
+      const badgeEl = document.getElementById('status-badge-text');
+
+      // Subtle opacity fade transition
+      titleEl.style.opacity = 0;
+      subEl.style.opacity = 0;
+      
+      setTimeout(() => {
+        badgeEl.textContent = phase.badge;
+        titleEl.textContent = phase.title;
+        subEl.textContent = phase.subtitle;
+        titleEl.style.opacity = 1;
+        subEl.style.opacity = 1;
+      }, 200);
+    }
+
+    // Auto cycle phase every 4.5 seconds for live dynamic demonstration
+    setInterval(cycleStatus, 4500);
+
+    // Randomize latency counter slightly every 2 seconds for lifelike feel
+    setInterval(() => {
+      const lat = Math.floor(Math.random() * 8) + 12;
+      document.getElementById('latency-val').textContent = lat;
+    }, 2000);
+
+    // Theme Switcher Function
+    function toggleTheme() {
+      const body = document.body;
+      const themeIcon = document.getElementById('theme-icon');
+      const brandBox = document.getElementById('brand-box');
+      
+      if (body.getAttribute('data-theme') === 'light') {
+        body.setAttribute('data-theme', 'dark');
+        themeIcon.setAttribute('icon', 'lucide:sun');
+        brandBox.className = "w-10 h-10 bg-[#ef233c] text-white rounded-lg flex items-center justify-center transition-all duration-300 shadow-[0_0_15px_rgba(239,35,60,0.6)]";
+      } else {
+        body.setAttribute('data-theme', 'light');
+        themeIcon.setAttribute('icon', 'lucide:moon');
+        brandBox.className = "w-10 h-10 bg-black text-white rounded-lg flex items-center justify-center transition-all duration-300 shadow-md";
+      }
+    }
+
+    // Warp Speed Selector
+    function setSpeed(multiplier, btnElement) {
+      document.documentElement.style.setProperty('--speed-multiplier', multiplier);
+      
+      // Update active button styles
+      document.querySelectorAll('.speed-btn').forEach(btn => {
+        btn.className = "speed-btn px-2.5 py-1 rounded-md transition-colors text-gray-500 hover:bg-black/5";
+      });
+      
+      const isDark = document.body.getAttribute('data-theme') === 'dark';
+      btnElement.className = `speed-btn px-2.5 py-1 rounded-md transition-colors ${isDark ? 'bg-[#ef233c]' : 'bg-black'} text-white font-bold shadow`;
+    }
+  </script>
+</body>
+</html>
