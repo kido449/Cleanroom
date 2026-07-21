@@ -63,29 +63,37 @@ st.markdown("""
         border-right: 1px solid rgba(239, 35, 60, 0.15) !important;
     }
 
-    /* Red Noir Header Card */
+    /* Calmer Engineering-Credible Header Card */
+    @keyframes subtleGlowDrift {
+        0% { transform: translate(0, 0) scale(1); }
+        50% { transform: translate(-25px, 15px) scale(1.06); }
+        100% { transform: translate(0, 0) scale(1); }
+    }
+
     .header-card {
         position: relative;
-        background: linear-gradient(135deg, rgba(26, 5, 5, 0.85) 0%, rgba(10, 10, 12, 0.95) 100%);
-        border: 1px solid rgba(239, 35, 60, 0.3);
+        background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+        border: 1px solid rgba(255, 255, 255, 0.12);
         border-radius: 20px;
         padding: 2.2rem 2.5rem;
         margin-bottom: 2.5rem;
-        box-shadow: 0 10px 40px -10px rgba(239, 35, 60, 0.25), inset 0 1px 1px rgba(255, 255, 255, 0.1);
+        box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.7), inset 0 1px 1px rgba(255, 255, 255, 0.05);
         overflow: hidden;
     }
 
     .header-card::after {
         content: '';
         position: absolute;
-        top: -50%;
-        right: -10%;
-        width: 350px;
-        height: 350px;
-        background: radial-gradient(circle, rgba(239, 35, 60, 0.15) 0%, transparent 70%);
+        top: -25%;
+        right: -8%;
+        width: 450px;
+        height: 450px;
+        background: radial-gradient(circle, rgba(239, 35, 60, 0.13) 0%, transparent 70%);
         pointer-events: none;
         border-radius: 50%;
-        filter: blur(40px);
+        filter: blur(55px);
+        z-index: 0;
+        animation: subtleGlowDrift 16s ease-in-out infinite;
     }
 
     .header-pill {
@@ -98,28 +106,30 @@ st.markdown("""
         border: 1px solid rgba(255, 255, 255, 0.1);
         margin-bottom: 1.2rem;
         backdrop-filter: blur(8px);
+        position: relative;
+        z-index: 1;
     }
 
     .pulse-dot {
         width: 8px;
         height: 8px;
         border-radius: 50%;
-        background-color: #ef233c;
-        box-shadow: 0 0 8px #ef233c;
+        background-color: #10b981;
+        box-shadow: 0 0 8px #10b981;
         display: inline-block;
-        animation: pulse 2s infinite;
+        animation: pulse-green 2s infinite;
     }
 
-    @keyframes pulse {
-        0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(239, 35, 60, 0.7); }
-        70% { transform: scale(1); box-shadow: 0 0 0 8px rgba(239, 35, 60, 0); }
-        100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(239, 35, 60, 0); }
+    @keyframes pulse-green {
+        0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+        70% { transform: scale(1); box-shadow: 0 0 0 8px rgba(16, 185, 129, 0); }
+        100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
     }
 
     .pill-text {
         font-size: 0.75rem;
         font-weight: 600;
-        color: #fca5a5;
+        color: #cbd5e1;
         letter-spacing: 0.05em;
         text-transform: uppercase;
         font-family: 'Manrope', sans-serif;
@@ -425,10 +435,10 @@ st.markdown("""
 <div class="header-card">
     <div class="header-pill">
         <span class="pulse-dot"></span>
-        <span class="pill-text">Design Intelligence • Self-Repair Engine Live</span>
+        <span class="pill-text">SELF-CORRECTING EXTRACTION PIPELINE</span>
     </div>
-    <div class="header-title">Cleanroom <span class="text-red">Structured Extraction</span></div>
-    <div class="header-subtitle">
+    <div class="header-title" style="position: relative; z-index: 1;">Cleanroom <span class="text-red">Structured Extraction</span></div>
+    <div class="header-subtitle" style="position: relative; z-index: 1;">
         Transform noisy, unstructured support tickets into strictly validated Pydantic models (<code>ExtractedDocument</code>) with an automated LLM feedback & repair loop powered by Groq (<code>llama-3.3-70b-versatile</code>).
     </div>
 </div>
@@ -474,112 +484,6 @@ function initHeaderEffects() {
             }
         }
         typeChar();
-    }
-
-    // 2. THREE.JS HYPERSPEED WEBGL BACKGROUND INSIDE HEADER CARD
-    const headerCard = parentDoc.querySelector('.header-card');
-    if (headerCard && !headerCard.dataset.hyperspeedMounted && typeof THREE !== 'undefined') {
-        headerCard.dataset.hyperspeedMounted = "true";
-        
-        // Ensure inner elements sit above canvas
-        Array.from(headerCard.children).forEach(child => {
-            child.style.position = 'relative';
-            child.style.zIndex = '10';
-        });
-
-        const canvas = parentDoc.createElement('canvas');
-        canvas.id = 'hyperspeed-header-canvas';
-        canvas.style.cssText = 'position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; pointer-events: auto; opacity: 0.75; mix-blend-mode: screen; border-radius: 20px;';
-        headerCard.appendChild(canvas);
-
-        const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
-        renderer.setPixelRatio(Math.min(parentWin.devicePixelRatio || 1, 2));
-        
-        const scene = new THREE.Scene();
-        const camera = new THREE.PerspectiveCamera(90, headerCard.clientWidth / headerCard.clientHeight, 0.1, 1000);
-        camera.position.z = 10;
-        camera.position.y = 5;
-
-        function resize() {
-            if (!headerCard) return;
-            const w = headerCard.clientWidth;
-            const h = headerCard.clientHeight;
-            renderer.setSize(w, h);
-            camera.aspect = w / h;
-            camera.updateProjectionMatrix();
-        }
-        parentWin.addEventListener('resize', resize);
-        resize();
-
-        const count = 1600;
-        const geometry = new THREE.BufferGeometry();
-        const positions = new Float32Array(count * 3 * 2);
-        const lineColors = new Float32Array(count * 3 * 2);
-        const leftColors = [0xef233c, 0xd856bf, 0xc247ac];
-        const rightColors = [0x03b3c3, 0x0e5ea5, 0xffffff];
-
-        for (let i = 0; i < count; i++) {
-            const z = Math.random() * 300;
-            const r = 8 + Math.random() * 18;
-            const theta = Math.random() * Math.PI * 2;
-            const x = Math.cos(theta) * r;
-            const y = Math.sin(theta) * r;
-
-            const idx = i * 6;
-            positions[idx] = x; positions[idx+1] = y; positions[idx+2] = -z;
-            positions[idx+3] = x; positions[idx+4] = y; positions[idx+5] = -(z + 10 + Math.random() * 40);
-
-            const colorSet = i % 2 === 0 ? leftColors : rightColors;
-            const chosen = new THREE.Color(colorSet[Math.floor(Math.random() * colorSet.length)]);
-            lineColors[idx] = chosen.r; lineColors[idx+1] = chosen.g; lineColors[idx+2] = chosen.b;
-            lineColors[idx+3] = chosen.r; lineColors[idx+4] = chosen.g; lineColors[idx+5] = chosen.b;
-        }
-
-        geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-        geometry.setAttribute('color', new THREE.BufferAttribute(lineColors, 3));
-
-        const material = new THREE.LineBasicMaterial({
-            vertexColors: true,
-            transparent: true,
-            opacity: 0.85,
-            blending: THREE.AdditiveBlending
-        });
-
-        const lines = new THREE.LineSegments(geometry, material);
-        scene.add(lines);
-
-        let speed = 1, targetSpeed = 1, fov = 90, targetFov = 90;
-        function animate(time) {
-            requestAnimationFrame(animate);
-            speed += (targetSpeed - speed) * 0.05;
-            fov += (targetFov - fov) * 0.05;
-            camera.fov = fov;
-            camera.updateProjectionMatrix();
-
-            const pos = geometry.attributes.position.array;
-            for (let i = 0; i < count; i++) {
-                const idx = i * 6;
-                pos[idx + 2] += speed * 4;
-                pos[idx + 5] += speed * 4;
-                if (pos[idx + 2] > 30) {
-                    const newZ = 300;
-                    const length = 10 + Math.random() * 40;
-                    pos[idx + 2] = -newZ;
-                    pos[idx + 5] = -(newZ + length);
-                }
-                const offset = Math.sin(time * 0.0015 + pos[idx + 2] * 0.015) * 2;
-                pos[idx] += offset * 0.01;
-                pos[idx + 3] += offset * 0.01;
-            }
-            geometry.attributes.position.needsUpdate = true;
-            renderer.render(scene, camera);
-        }
-        animate(0);
-
-        headerCard.addEventListener('mousedown', () => { targetSpeed = 3.5; targetFov = 145; });
-        headerCard.addEventListener('mouseup', () => { targetSpeed = 1; targetFov = 90; });
-        headerCard.addEventListener('touchstart', () => { targetSpeed = 3.5; targetFov = 145; });
-        headerCard.addEventListener('touchend', () => { targetSpeed = 1; targetFov = 90; });
     }
 }
 
