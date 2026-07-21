@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Colored, Glowing Edges Card | Cleanroom Superdesign</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&family=Space+Grotesk:wght@500;700;800&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --glow-sens: 30;
+      --pointer-x: 50%;
+      --pointer-y: 50%;
+      --pointer-deg: 110deg;
+      --pointer-d: 0;
+      --color-sens: calc(var(--glow-sens) + 20);
+      
+      /* Dark theme defaults */
+      --card-bg: linear-gradient(8deg, #1a1a1a 75%, color-mix(in srgb, #1a1a1a, white 2.5%) 75.5%);
+      --blend: soft-light;
+      --glow-blend: plus-lighter;
+      --glow-color: 40deg 80% 80%;
+      --glow-boost: 0%;
+      --fg: #ffffff;
+      --bg-page: #1a1c20;
+    }
+
+    body.light-mode {
+      --card-bg: linear-gradient(8deg, color-mix(in srgb, #f2f0f7, #000000 2.5%) 75%, #f2f0f7 75.5%);
+      --blend: darken;
+      --glow-blend: luminosity;
+      --glow-color: 280deg 90% 95%;
+      --glow-boost: 15%;
+      --fg: #000000;
+      --bg-page: #e0e0e0;
+    }
+
+    body {
+      background-color: var(--bg-page);
+      color: var(--fg);
+      font-family: 'Outfit', sans-serif;
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+      transition: background-color 0.5s ease, color 0.5s ease;
+    }
+
+    .font-space { font-family: 'Space Grotesk', sans-serif; }
+    .font-manrope { font-family: 'Manrope', sans-serif; }
+
+    /* HUD Header / Navigation Glass Cards */
+    .hud-card {
+      background: rgba(18, 12, 16, 0.75);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(20px);
+      border-radius: 20px;
+      box-shadow: 0 15px 35px -10px rgba(0, 0, 0, 0.6);
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    body.light-mode .hud-card {
+      background: rgba(255, 255, 255, 0.85);
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.15);
+      color: #1a1a1a;
+    }
+    .hud-card:hover {
+      border-color: rgba(239, 35, 60, 0.6);
+    }
+
+    /* THE CORE GLOWING EDGE CARD STYLES */
+    .glowing-edge-card {
+      position: relative;
+      width: 100%;
+      max-width: 600px;
+      height: 580px;
+      max-height: 80vh;
+      display: flex;
+      flex-direction: column;
+      border-radius: 1.768em;
+      transition: colors 0.3s;
+      cursor: crosshair;
+    }
+
+    .glowing-card-mesh-border {
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      z-index: 0;
+      border: 1px solid transparent;
+      background:
+        linear-gradient(var(--card-bg) 0 100%) padding-box,
+        linear-gradient(rgb(255 255 255 / 0%) 0% 100%) border-box,
+        radial-gradient(at 80% 55%, hsla(268,100%,76%,1) 0px, transparent 50%) border-box,
+        radial-gradient(at 69% 34%, hsla(349,100%,74%,1) 0px, transparent 50%) border-box,
+        radial-gradient(at 8% 6%, hsla(136,100%,78%,1) 0px, transparent 50%) border-box,
+        radial-gradient(at 41% 38%, hsla(192,100%,64%,1) 0px, transparent 50%) border-box,
+        radial-gradient(at 86% 85%, hsla(186,100%,74%,1) 0px, transparent 50%) border-box,
+        radial-gradient(at 82% 18%, hsla(52,100%,65%,1) 0px, transparent 50%) border-box,
+        radial-gradient(at 51% 4%, hsla(12,100%,72%,1) 0px, transparent 50%) border-box,
+        linear-gradient(#c299ff 0 100%) border-box;
+      opacity: calc((var(--pointer-d) - var(--color-sens)) / (100 - var(--color-sens)));
+      mask-image: conic-gradient(from var(--pointer-deg) at center, black 25%, transparent 40%, transparent 60%, black 75%);
+      -webkit-mask-image: conic-gradient(from var(--pointer-deg) at center, black 25%, transparent 40%, transparent 60%, black 75%);
+      transition: opacity 0.25s ease-out;
+    }
+
+    .glowing-card-mesh-bg {
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      z-index: 0;
+      border: 1px solid transparent;
+      background:
+        radial-gradient(at 80% 55%, hsla(268,100%,76%,1) 0px, transparent 50%) padding-box,
+        radial-gradient(at 69% 34%, hsla(349,100%,74%,1) 0px, transparent 50%) padding-box,
+        radial-gradient(at 8% 6%, hsla(136,100%,78%,1) 0px, transparent 50%) padding-box,
+        radial-gradient(at 41% 38%, hsla(192,100%,64%,1) 0px, transparent 50%) padding-box,
+        radial-gradient(at 86% 85%, hsla(186,100%,74%,1) 0px, transparent 50%) padding-box,
+        radial-gradient(at 82% 18%, hsla(52,100%,65%,1) 0px, transparent 50%) padding-box,
+        radial-gradient(at 51% 4%, hsla(12,100%,72%,1) 0px, transparent 50%) padding-box,
+        linear-gradient(#c299ff 0 100%) padding-box;
+      mask-image:
+        linear-gradient(to bottom, black, black),
+        radial-gradient(ellipse at 50% 50%, black 40%, transparent 65%),
+        radial-gradient(ellipse at 66% 66%, black 5%, transparent 40%),
+        radial-gradient(ellipse at 33% 33%, black 5%, transparent 40%),
+        radial-gradient(ellipse at 66% 33%, black 5%, transparent 40%),
+        radial-gradient(ellipse at 33% 66%, black 5%, transparent 40%),
+        conic-gradient(from var(--pointer-deg) at center, transparent 5%, black 15%, black 85%, transparent 95%);
+      -webkit-mask-image:
+        linear-gradient(to bottom, black, black),
+        radial-gradient(ellipse at 50% 50%, black 40%, transparent 65%),
+        radial-gradient(ellipse at 66% 66%, black 5%, transparent 40%),
+        radial-gradient(ellipse at 33% 33%, black 5%, transparent 40%),
+        radial-gradient(ellipse at 66% 33%, black 5%, transparent 40%),
+        radial-gradient(ellipse at 33% 66%, black 5%, transparent 40%),
+        conic-gradient(from var(--pointer-deg) at center, transparent 5%, black 15%, black 85%, transparent 95%);
+      mask-composite: subtract, add, add, add, add, add, add;
+      -webkit-mask-composite: source-out, source-over, source-over, source-over, source-over, source-over, source-over;
+      opacity: calc((var(--pointer-d) - var(--color-sens)) / (100 - var(--color-sens)));
+      mix-blend-mode: var(--blend);
+      transition: opacity 0.25s ease-out;
+    }
+
+    .glowing-card-glow {
+      position: absolute;
+      inset: -40px;
+      pointer-events: none;
+      z-index: 1;
+      mask-image: conic-gradient(from var(--pointer-deg) at center, black 2.5%, transparent 10%, transparent 90%, black 97.5%);
+      -webkit-mask-image: conic-gradient(from var(--pointer-deg) at center, black 2.5%, transparent 10%, transparent 90%, black 97.5%);
+      opacity: calc((var(--pointer-d) - var(--glow-sens)) / (100 - var(--glow-sens)));
+      mix-blend-mode: var(--glow-blend);
+      transition: opacity 0.25s ease-out;
+      border-radius: inherit;
+    }
+
+    .glowing-card-glow::before {
+      content: "";
+      position: absolute;
+      inset: 40px;
+      border-radius: inherit;
+      box-shadow: 
+        inset 0 0 0 1px hsl(var(--glow-color) / 100%),
+        inset 0 0 1px 0 hsl(var(--glow-color) / calc(var(--glow-boost) + 60%)),
+        inset 0 0 3px 0 hsl(var(--glow-color) / calc(var(--glow-boost) + 50%)),
+        inset 0 0 6px 0 hsl(var(--glow-color) / calc(var(--glow-boost) + 40%)),
+        inset 0 0 15px 0 hsl(var(--glow-color) / calc(var(--glow-boost) + 30%)),
+        inset 0 0 25px 2px hsl(var(--glow-color) / calc(var(--glow-boost) + 20%)),
+        inset 0 0 50px 2px hsl(var(--glow-color) / calc(var(--glow-boost) + 10%)),
+        0 0 1px 0 hsl(var(--glow-color) / calc(var(--glow-boost) + 60%)),
+        0 0 3px 0 hsl(var(--glow-color) / calc(var(--glow-boost) + 50%)),
+        0 0 6px 0 hsl(var(--glow-color) / calc(var(--glow-boost) + 40%)),
+        0 0 15px 0 hsl(var(--glow-color) / calc(var(--glow-boost) + 30%)),
+        0 0 25px 2px hsl(var(--glow-color) / calc(var(--glow-boost) + 20%)),
+        0 0 50px 2px hsl(var(--glow-color) / calc(var(--glow-boost) + 10%));
+    }
+
+    .glowing-edge-card:not(:hover):not(.animating) .glowing-card-mesh-border,
+    .glowing-edge-card:not(:hover):not(.animating) .glowing-card-mesh-bg,
+    .glowing-edge-card:not(:hover):not(.animating) .glowing-card-glow {
+      opacity: 0 !important;
+      transition: opacity 0.75s ease-in-out;
+    }
+
+    /* Content Mask & Fade Animations */
+    .content-mask {
+      mask-image: linear-gradient(to top, transparent 5px, black 2em);
+      -webkit-mask-image: linear-gradient(to top, transparent 5px, black 2em);
+    }
+    @keyframes fadeContent {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-fade-in {
+      animation: fadeContent 1.2s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+
+    /* Custom scrollbar inside card */
+    .card-scroll::-webkit-scrollbar { width: 4px; }
+    .card-scroll::-webkit-scrollbar-track { background: transparent; }
+    .card-scroll::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.15); border-radius: 4px; }
+    body.light-mode .card-scroll::-webkit-scrollbar-thumb { background: rgba(0, 0, 0, 0.15); }
+
+    /* Interactive range slider styling */
+    input[type="range"] {
+      -webkit-appearance: none;
+      width: 100%;
+      height: 4px;
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 2px;
+      outline: none;
+    }
+    body.light-mode input[type="range"] {
+      background: rgba(0, 0, 0, 0.15);
+    }
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: #ef233c;
+      cursor: pointer;
+      box-shadow: 0 0 10px rgba(239, 35, 60, 0.8);
+      transition: transform 0.15s ease;
+    }
+    input[type="range"]::-webkit-slider-thumb:hover {
+      transform: scale(1.25);
+    }
+  </style>
+</head>
+<body class="min-h-screen w-full flex flex-col justify-between p-4 sm:p-6 md:p-10">
+
+  <!-- Top Navigation Header -->
+  <header class="w-full max-w-6xl mx-auto flex items-center justify-between z-20 mb-6">
+    <div class="flex items-center space-x-3">
+      <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 via-purple-600 to-pink-500 flex items-center justify-center text-white font-bold shadow-[0_0_20px_rgba(99,102,241,0.5)]">
+        <iconify-icon icon="lucide:layers" class="text-xl animate-pulse"></iconify-icon>
+      </div>
+      <div>
+        <span class="font-space text-lg font-extrabold tracking-tight block leading-none">CLEANROOM <span class="text-indigo-400 dark:text-indigo-400">GLOW CARD</span></span>
+        <span class="text-[10px] uppercase tracking-widest text-gray-400 block mt-0.5 font-medium">Mesh Gradient & Conic Mask Pointer Tracking</span>
+      </div>
+    </div>
+
+    <!-- Navigation Links & Theme Controls -->
+    <div class="flex items-center gap-2 sm:gap-3 flex-wrap justify-end">
+      <!-- Replay Intro Button -->
+      <button onclick="playIntroAnimation()" class="hud-card px-3.5 py-2 rounded-xl text-xs font-bold uppercase tracking-wider hover:border-indigo-500 transition-all flex items-center gap-1.5 text-indigo-400 hover:text-indigo-300">
+        <iconify-icon icon="lucide:rotate-ccw" class="text-sm"></iconify-icon>
+        <span class="hidden sm:inline">Replay Intro</span>
+      </button>
+
+      <!-- Theme Switcher -->
+      <div class="hud-card p-1 rounded-full flex gap-1 items-center">
+        <button onclick="setTheme('light')" id="btn-light" class="p-1.5 rounded-full transition-all duration-300 text-gray-400 hover:text-gray-200" title="Light Mode">
+          <iconify-icon icon="lucide:sun" class="text-base block"></iconify-icon>
+        </button>
+        <button onclick="setTheme('dark')" id="btn-dark" class="p-1.5 rounded-full transition-all duration-300 bg-indigo-600 text-white shadow-lg scale-105" title="Dark Mode">
+          <iconify-icon icon="lucide:moon" class="text-base block"></iconify-icon>
+        </button>
+      </div>
+
+      <!-- Links to other component nodes -->
+      <a href="aurora_character.html" class="hud-card px-3.5 py-2 rounded-xl text-xs font-bold uppercase tracking-wider hover:bg-purple-600 hover:text-white transition-all hidden md:flex items-center gap-1.5 text-gray-300">
+        <iconify-icon icon="lucide:smile" class="text-sm"></iconify-icon>
+        <span>Aurora</span>
+      </a>
+      <a href="spotlight_mask.html" class="hud-card px-3.5 py-2 rounded-xl text-xs font-bold uppercase tracking-wider hover:bg-[#ef233c] hover:text-white transition-all hidden lg:flex items-center gap-1.5 text-gray-300">
+        <iconify-icon icon="lucide:aperture" class="text-sm"></iconify-icon>
+        <span>Spotlight</span>
+      </a>
+      <a href="generate_button.html" class="hud-card px-3.5 py-2 rounded-xl text-xs font-bold uppercase tracking-wider hover:bg-pink-600 hover:text-white transition-all hidden xl:flex items-center gap-1.5 text-gray-300">
+        <iconify-icon icon="lucide:sparkles" class="text-sm"></iconify-icon>
+        <span>CTA Button</span>
+      </a>
+    </div>
+  </header>
+
+  <!-- Main Showcase Container -->
+  <main class="flex-1 flex flex-col items-center justify-center w-full max-w-5xl mx-auto my-6 z-10 gap-8">
+    
+    <!-- THE GLOWING EDGE CARD -->
+    <div class="glowing-edge-card shadow-2xl group" id="card" onmousemove="handlePointerMove(event)" ontouchmove="handleTouchMove(event)">
+      <!-- Background Layers -->
+      <div class="glowing-card-mesh-border"></div>
+      <div class="glowing-card-mesh-bg"></div>
+      <div class="glowing-card-glow"></div>
+
+      <!-- Inner Content Container -->
+      <div class="relative z-10 w-full h-full overflow-hidden bg-[var(--card-bg)] bg-no-repeat rounded-[inherit] border border-white/20 dark:border-white/10 flex flex-col p-6 sm:p-10 transition-colors duration-500">
+        
+        <header class="flex justify-between items-center mb-6">
+          <iconify-icon id="sun-indicator" icon="lucide:sun" class="text-2xl transition-opacity duration-300 opacity-25 text-yellow-500"></iconify-icon>
+          <div class="flex items-center gap-2">
+            <span class="px-2.5 py-0.5 rounded-full text-[10px] font-space font-bold uppercase tracking-widest bg-indigo-500/10 border border-indigo-500/30 text-indigo-400">
+              Interactive Mesh
+            </span>
+            <h2 class="text-xl font-space font-extrabold tracking-wide">Colored, Glowing Edges</h2>
+          </div>
+          <iconify-icon id="moon-indicator" icon="lucide:moon" class="text-2xl transition-opacity duration-300 opacity-100 text-indigo-400"></iconify-icon>
+        </header>
+
+        <div class="flex-1 overflow-y-auto space-y-6 text-left content-mask pr-2 card-scroll">
+          <p class="text-lg font-light leading-relaxed opacity-0 animate-fade-in [animation-delay:0.3s] text-[color:mix(in_srgb,var(--fg),transparent_35%)]">
+            This is <em class="font-medium not-italic text-[var(--fg)]">somewhat different</em> to the usual colored, glowing cards you may have seen before!
+          </p>
+          
+          <p class="font-light leading-relaxed opacity-0 animate-fade-in [animation-delay:0.55s] text-[color:mix(in_srgb,var(--fg),transparent_35%)]">
+            Building off previous concepts, this card creates a subtle colored border with glowing edges that react to your mouse position.
+          </p>
+
+          <p class="font-light leading-relaxed opacity-0 animate-fade-in [animation-delay:0.8s] text-[color:mix(in_srgb,var(--fg),transparent_35%)]">
+            It uses <strong class="font-semibold text-[var(--fg)]">a mesh gradient background</strong>, which is masked with radial gradients to create the edge colors. Then it's <em class="font-medium not-italic text-[var(--fg)]">masked again with a conic-gradient that follows the direction of the pointer</em>.
+          </p>
+          
+          <p class="font-light leading-relaxed opacity-0 animate-fade-in [animation-delay:1.05s] text-[color:mix(in_srgb,var(--fg),transparent_35%)]">
+            The glow increases in opacity as the pointer gets closer to the edge, creating a natural magnetic feel with multi-ring luminosity shadows.
+          </p>
+
+          <div class="p-4 rounded-xl bg-white/5 border border-white/10 opacity-0 animate-fade-in [animation-delay:1.3s] space-y-2">
+            <div class="flex items-center justify-between text-xs font-mono text-indigo-400">
+              <span>LIVE POINTER TELEMETRY</span>
+              <span id="edge-distance-badge" class="px-2 py-0.5 rounded bg-indigo-500/20 text-white font-bold">d: 0.0%</span>
+            </div>
+            <div class="grid grid-cols-3 gap-2 text-[11px] font-mono text-gray-400">
+              <div>Angle: <span id="telemetry-angle" class="text-white font-bold">110°</span></div>
+              <div>X: <span id="telemetry-x" class="text-white font-bold">50%</span></div>
+              <div>Y: <span id="telemetry-y" class="text-white font-bold">50%</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-8 pt-6 border-t border-white/15 dark:border-white/10 flex justify-between items-center">
+          <div class="flex items-center gap-2 text-xs font-mono opacity-60">
+            <iconify-icon icon="lucide:mouse-pointer" class="text-sm"></iconify-icon>
+            <span>Hover near border to amplify glow</span>
+          </div>
+          <div class="flex items-center gap-5">
+            <a href="https://github.com" target="_blank" class="opacity-60 hover:opacity-100 hover:scale-110 transition-all text-lg">
+              <iconify-icon icon="lucide:github"></iconify-icon>
+            </a>
+            <a href="https://twitter.com" target="_blank" class="opacity-60 hover:opacity-100 hover:scale-110 transition-all text-lg">
+              <iconify-icon icon="lucide:twitter"></iconify-icon>
+            </a>
+            <a href="#" onclick="playIntroAnimation(); return false;" title="Trigger Entrance Sequence" class="opacity-60 hover:opacity-100 hover:scale-110 transition-all text-lg">
+              <iconify-icon icon="lucide:sparkles"></iconify-icon>
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- HUD Interactive Control Bar -->
+    <div class="hud-card w-full max-w-2xl p-4 sm:p-5 rounded-2xl flex flex-col sm:flex-row items-center justify-between gap-6">
+      <div class="flex items-center gap-3 w-full sm:w-auto">
+        <div class="w-8 h-8 rounded-lg bg-red-500/20 border border-red-500/40 flex items-center justify-center text-[#ef233c] shrink-0 font-bold">
+          <iconify-icon icon="lucide:sliders" class="text-base"></iconify-icon>
+        </div>
+        <div>
+          <div class="font-space font-bold text-xs uppercase tracking-wider">Sensitivity Control</div>
+          <div class="text-[10px] text-gray-400">Adjust radial glow trigger threshold</div>
+        </div>
+      </div>
+
+      <!-- Sliders -->
+      <div class="flex items-center gap-4 w-full sm:w-64">
+        <span class="text-[10px] font-mono text-gray-400 shrink-0">Sens: <span id="sens-val" class="text-[#ef233c] font-bold">30</span></span>
+        <input type="range" id="sens-slider" min="5" max="60" value="30" oninput="updateSensitivity(this.value)">
+      </div>
+
+      <!-- Quick Preset Buttons -->
+      <div class="flex gap-2 shrink-0">
+        <button onclick="updateSensitivity(15)" class="px-2.5 py-1 rounded-lg text-[11px] font-bold bg-white/5 hover:bg-white/10 border border-white/10 transition-colors">Subtle</button>
+        <button onclick="updateSensitivity(30)" class="px-2.5 py-1 rounded-lg text-[11px] font-bold bg-[#ef233c] text-white transition-colors shadow-md">Magnetic</button>
+        <button onclick="updateSensitivity(50)" class="px-2.5 py-1 rounded-lg text-[11px] font-bold bg-white/5 hover:bg-white/10 border border-white/10 transition-colors">Intense</button>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Footer Navigation Node Bar -->
+  <footer class="w-full max-w-6xl mx-auto py-6 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs z-20">
+    <div class="flex items-center gap-2 opacity-70">
+      <iconify-icon icon="lucide:external-link" class="text-sm"></iconify-icon>
+      <span class="font-medium">Interact with the card or adjust sliders to test live mesh gradient masks</span>
+    </div>
+
+    <!-- Component Node Navigation Switcher -->
+    <div class="flex items-center gap-3 flex-wrap justify-center">
+      <span class="font-mono text-[11px] text-gray-500 uppercase tracking-wider">All Superdesign Nodes:</span>
+      <a href="aurora_character.html" class="hover:text-purple-400 transition-colors font-semibold">01. Aurora</a>
+      <span class="text-gray-600">•</span>
+      <a href="generate_button.html" class="hover:text-[#ef233c] transition-colors font-semibold">02. CTA Swap</a>
+      <span class="text-gray-600">•</span>
+      <a href="spotlight_mask.html" class="hover:text-red-400 transition-colors font-semibold">03. Spotlight</a>
+      <span class="text-gray-600">•</span>
+      <a href="loading_animation.html" class="hover:text-cyan-400 transition-colors font-semibold">04. Loader</a>
+      <span class="text-gray-600">•</span>
+      <a href="hyperspeed_showcase.html" class="hover:text-yellow-400 transition-colors font-semibold">05. 3D Warp</a>
+      <span class="text-gray-600">•</span>
+      <span class="text-indigo-400 font-bold border-b-2 border-indigo-500 pb-0.5">06. Glowing Card</span>
+    </div>
+  </footer>
+
+  <script>
+    const card = document.getElementById('card');
+    const root = document.documentElement;
+    let isAnimating = false;
+
+    // Helper functions
+    const round = (val, precision = 2) => parseFloat(val.toFixed(precision));
+    const clamp = (val, min = 0, max = 100) => Math.min(Math.max(val, min), max);
+
+    const centerOfElement = (rect) => [rect.width / 2, rect.height / 2];
+
+    const getPointerPosition = (rect, clientX, clientY) => {
+      const x = clientX - rect.left;
+      const y = clientY - rect.top;
+      const px = clamp((100 / rect.width) * x);
+      const py = clamp((100 / rect.height) * y);
+      return { pixels: [x, y], percent: [px, py] };
+    };
+
+    const angleFromPointer = (dx, dy) => {
+      let angleRadians = 0;
+      let angleDegrees = 0;
+      if (dx !== 0 || dy !== 0) {
+        angleRadians = Math.atan2(dy, dx);
+        angleDegrees = angleRadians * (180 / Math.PI) + 90;
+        if (angleDegrees < 0) angleDegrees += 360;
+      }
+      return angleDegrees;
+    };
+
+    const closenessToEdge = (rect, x, y) => {
+      const [cx, cy] = centerOfElement(rect);
+      const dx = x - cx;
+      const dy = y - cy;
+      let k_x = Infinity;
+      let k_y = Infinity;
+      if (dx !== 0) k_x = cx / Math.abs(dx);
+      if (dy !== 0) k_y = cy / Math.abs(dy);
+      return clamp((1 / Math.min(k_x, k_y)), 0, 1);
+    };
+
+    function processPointer(clientX, clientY) {
+      if (!card) return;
+      const rect = card.getBoundingClientRect();
+      const pos = getPointerPosition(rect, clientX, clientY);
+      const [px, py] = pos.pixels;
+      const [perx, pery] = pos.percent;
+
+      const [cx, cy] = centerOfElement(rect);
+      const dx = px - cx;
+      const dy = py - cy;
+
+      const edge = closenessToEdge(rect, px, py);
+      const angle = angleFromPointer(dx, dy);
+      const edgeDistancePercent = round(edge * 100);
+
+      card.style.setProperty('--pointer-x', `${round(perx)}%`);
+      card.style.setProperty('--pointer-y', `${round(pery)}%`);
+      card.style.setProperty('--pointer-deg', `${round(angle)}deg`);
+      card.style.setProperty('--pointer-d', `${edgeDistancePercent}`);
+
+      // Update telemetry display inside card
+      document.getElementById('telemetry-angle').textContent = `${round(angle, 0)}°`;
+      document.getElementById('telemetry-x').textContent = `${round(perx, 0)}%`;
+      document.getElementById('telemetry-y').textContent = `${round(pery, 0)}%`;
+      document.getElementById('edge-distance-badge').textContent = `d: ${edgeDistancePercent}%`;
+
+      if (isAnimating) {
+        isAnimating = false;
+        card.classList.remove('animating');
+      }
+    }
+
+    function handlePointerMove(e) {
+      processPointer(e.clientX, e.clientY);
+    }
+
+    function handleTouchMove(e) {
+      if (e.touches && e.touches.length > 0) {
+        processPointer(e.touches[0].clientX, e.touches[0].clientY);
+      }
+    }
+
+    // Intro Animation Sequence
+    function playIntroAnimation() {
+      if (!card) return;
+      isAnimating = true;
+      card.classList.add('animating');
+
+      const angleStart = 110;
+      const angleEnd = 465;
+      card.style.setProperty('--pointer-deg', `${angleStart}deg`);
+
+      const startTime = performance.now();
+
+      function animate(now) {
+        if (!card || !card.classList.contains('animating')) return;
+        const elapsed = now - startTime;
+
+        // Phase 1: Distance increase (fade in glow) [500ms - 1000ms]
+        if (elapsed > 500 && elapsed < 1000) {
+          const t = (elapsed - 500) / 500;
+          const ease = 1 - Math.pow(1 - t, 3); // easeOutCubic
+          card.style.setProperty('--pointer-d', `${ease * 100}`);
+          document.getElementById('edge-distance-badge').textContent = `d: ${round(ease * 100, 0)}%`;
+        }
+
+        // Phase 2: Rotation part 1 [500ms - 2000ms] -> 50%
+        if (elapsed > 500 && elapsed < 2000) {
+          const t = (elapsed - 500) / 1500;
+          const ease = t * t * t; // easeInCubic
+          const d = (angleEnd - angleStart) * (ease * 0.5) + angleStart;
+          card.style.setProperty('--pointer-deg', `${d}deg`);
+          document.getElementById('telemetry-angle').textContent = `${round(d % 360, 0)}°`;
+        }
+
+        // Phase 3: Rotation part 2 [2000ms - 4250ms] -> 100%
+        if (elapsed >= 2000 && elapsed < 4250) {
+          const t = (elapsed - 2000) / 2250;
+          const ease = 1 - Math.pow(1 - t, 3); // easeOutCubic
+          const d = (angleEnd - angleStart) * (0.5 + ease * 0.5) + angleStart;
+          card.style.setProperty('--pointer-deg', `${d}deg`);
+          document.getElementById('telemetry-angle').textContent = `${round(d % 360, 0)}°`;
+        }
+
+        // Phase 4: Distance decrease [3000ms - 4500ms]
+        if (elapsed > 3000 && elapsed < 4500) {
+          const t = (elapsed - 3000) / 1500;
+          const ease = t * t * t; // easeInCubic
+          const dist = (1 - ease) * 100;
+          card.style.setProperty('--pointer-d', `${dist}`);
+          document.getElementById('edge-distance-badge').textContent = `d: ${round(dist, 0)}%`;
+        }
+
+        if (elapsed < 4500) {
+          requestAnimationFrame(animate);
+        } else {
+          isAnimating = false;
+          card.classList.remove('animating');
+        }
+      }
+
+      requestAnimationFrame(animate);
+    }
+
+    // Theme Switcher Logic
+    function setTheme(mode) {
+      if (mode === 'light') {
+        document.body.classList.add('light-mode');
+        document.getElementById('btn-light').className = "p-1.5 rounded-full transition-all duration-300 bg-yellow-400 text-white shadow-lg scale-105";
+        document.getElementById('btn-dark').className = "p-1.5 rounded-full transition-all duration-300 text-gray-500 hover:text-gray-700";
+        document.getElementById('sun-indicator').classList.replace('opacity-25', 'opacity-100');
+        document.getElementById('moon-indicator').classList.replace('opacity-100', 'opacity-25');
+      } else {
+        document.body.classList.remove('light-mode');
+        document.getElementById('btn-light').className = "p-1.5 rounded-full transition-all duration-300 text-gray-400 hover:text-gray-200";
+        document.getElementById('btn-dark').className = "p-1.5 rounded-full transition-all duration-300 bg-indigo-600 text-white shadow-lg scale-105";
+        document.getElementById('sun-indicator').classList.replace('opacity-100', 'opacity-25');
+        document.getElementById('moon-indicator').classList.replace('opacity-25', 'opacity-100');
+      }
+    }
+
+    // Sensitivity Slider
+    function updateSensitivity(val) {
+      document.getElementById('sens-val').textContent = val;
+      document.getElementById('sens-slider').value = val;
+      root.style.setProperty('--glow-sens', val);
+      root.style.setProperty('--color-sens', `calc(${val} + 20)`);
+    }
+
+    // Auto trigger intro animation on load
+    window.addEventListener('DOMContentLoaded', () => {
+      setTimeout(() => {
+        playIntroAnimation();
+      }, 600);
+    });
+  </script>
+</body>
+</html>
