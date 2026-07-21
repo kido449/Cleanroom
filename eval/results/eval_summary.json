@@ -1,0 +1,19 @@
+{
+  "total_tickets_processed": 55,
+  "success_count": 55,
+  "flagged_for_review_count": 0,
+  "error_count": 0,
+  "schema_valid_success_rate_percent": 100.0,
+  "meets_90_percent_requirement": true,
+  "success_by_attempt": {
+    "attempt_1": 49,
+    "attempt_2": 6,
+    "attempt_3": 0
+  },
+  "flagged_tickets_list": [],
+  "error_categories_seen": {
+    "wrong data type / structure nesting": 6
+  },
+  "total_run_time_seconds": 6.28,
+  "estimated_api_calls_made": 61
+}

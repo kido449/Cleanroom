@@ -18,69 +18,311 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Custom CSS for modern glassmorphism, badges, and typography
+# Custom CSS for Red Noir style (inspired by reference implementation)
 st.markdown("""
 <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Manrope:wght@400;600;700;800&display=swap');
+
+    :root {
+        --accent-red: #ef233c;
+        --accent-red-glow: rgba(239, 35, 60, 0.5);
+    }
+
+    /* Global typography and dark background */
+    html, body, [class*="css"], .stApp {
+        font-family: 'Inter', sans-serif !important;
+        background: linear-gradient(180deg, #1a0505 0%, #080202 35%, #000000 100%) !important;
+        color: #f8fafc !important;
+    }
+
+    h1, h2, h3, h4, h5, h6, .header-title {
+        font-family: 'Manrope', sans-serif !important;
+        letter-spacing: -0.025em !important;
+    }
+
+    /* Selection highlight */
+    ::selection {
+        background: #ef233c !important;
+        color: white !important;
+    }
+
     /* Main container styling */
     .block-container {
-        padding-top: 2rem;
-        padding-bottom: 3rem;
+        padding-top: 2rem !important;
+        padding-bottom: 4rem !important;
+        max-width: 1250px !important;
     }
-    
-    /* Header card */
+
+    /* Sidebar styling */
+    section[data-testid="stSidebar"] {
+        background: #060101 !important;
+        border-right: 1px solid rgba(239, 35, 60, 0.15) !important;
+    }
+
+    /* Red Noir Header Card */
     .header-card {
-        background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
-        border: 1px solid #334155;
-        border-radius: 12px;
-        padding: 1.5rem 2rem;
-        margin-bottom: 2rem;
-        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+        position: relative;
+        background: linear-gradient(135deg, rgba(26, 5, 5, 0.85) 0%, rgba(10, 10, 12, 0.95) 100%);
+        border: 1px solid rgba(239, 35, 60, 0.3);
+        border-radius: 20px;
+        padding: 2.2rem 2.5rem;
+        margin-bottom: 2.5rem;
+        box-shadow: 0 10px 40px -10px rgba(239, 35, 60, 0.25), inset 0 1px 1px rgba(255, 255, 255, 0.1);
+        overflow: hidden;
     }
+
+    .header-card::after {
+        content: '';
+        position: absolute;
+        top: -50%;
+        right: -10%;
+        width: 350px;
+        height: 350px;
+        background: radial-gradient(circle, rgba(239, 35, 60, 0.15) 0%, transparent 70%);
+        pointer-events: none;
+        border-radius: 50%;
+        filter: blur(40px);
+    }
+
+    .header-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 6px 14px;
+        border-radius: 9999px;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        margin-bottom: 1.2rem;
+        backdrop-filter: blur(8px);
+    }
+
+    .pulse-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background-color: #ef233c;
+        box-shadow: 0 0 8px #ef233c;
+        display: inline-block;
+        animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+        0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(239, 35, 60, 0.7); }
+        70% { transform: scale(1); box-shadow: 0 0 0 8px rgba(239, 35, 60, 0); }
+        100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(239, 35, 60, 0); }
+    }
+
+    .pill-text {
+        font-size: 0.75rem;
+        font-weight: 600;
+        color: #fca5a5;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        font-family: 'Manrope', sans-serif;
+    }
+
     .header-title {
-        font-size: 2rem;
-        font-weight: 700;
-        color: #f8fafc;
-        margin: 0 0 0.5rem 0;
+        font-size: 2.5rem;
+        font-weight: 800;
+        color: #ffffff;
+        margin: 0 0 0.8rem 0;
+        line-height: 1.15;
     }
+
+    .text-red {
+        color: #ef233c;
+        text-shadow: 0 0 20px rgba(239, 35, 60, 0.4);
+    }
+
     .header-subtitle {
-        font-size: 1.05rem;
-        color: #94a3b8;
-        margin: 0;
+        font-size: 1.08rem;
+        color: #a1a1aa;
+        line-height: 1.6;
+        max-width: 900px;
+        font-weight: 300;
     }
-    
+
+    .header-subtitle code {
+        background: rgba(239, 35, 60, 0.15);
+        color: #ff808b;
+        padding: 2px 8px;
+        border-radius: 6px;
+        border: 1px solid rgba(239, 35, 60, 0.3);
+        font-size: 0.9em;
+    }
+
+    /* Tabs styling */
+    .stTabs [data-baseweb="tab-list"] {
+        background-color: rgba(255, 255, 255, 0.03) !important;
+        border-radius: 9999px !important;
+        padding: 6px !important;
+        border: 1px solid rgba(255, 255, 255, 0.08) !important;
+        gap: 8px !important;
+    }
+
+    .stTabs [data-baseweb="tab"] {
+        border-radius: 9999px !important;
+        color: #a1a1aa !important;
+        padding: 10px 24px !important;
+        font-family: 'Manrope', sans-serif !important;
+        font-weight: 600 !important;
+        font-size: 0.95rem !important;
+        transition: all 0.2s ease !important;
+    }
+
+    .stTabs [aria-selected="true"] {
+        background: linear-gradient(135deg, rgba(239, 35, 60, 0.2) 0%, rgba(239, 35, 60, 0.05) 100%) !important;
+        color: #ffffff !important;
+        border: 1px solid #ef233c !important;
+        box-shadow: 0 0 20px rgba(239, 35, 60, 0.3) !important;
+    }
+
+    .stTabs [data-baseweb="tab-highlight"] {
+        display: none !important;
+    }
+
+    /* Buttons & Shiny CTA */
+    div.stButton > button[kind="primaryButton"], div.stButton > button:first-child {
+        background: linear-gradient(135deg, #ef233c 0%, #b81428 100%) !important;
+        color: #ffffff !important;
+        border: 1px solid rgba(255, 255, 255, 0.2) !important;
+        border-radius: 9999px !important;
+        padding: 0.75rem 2rem !important;
+        font-family: 'Manrope', sans-serif !important;
+        font-weight: 700 !important;
+        font-size: 1rem !important;
+        text-transform: uppercase !important;
+        letter-spacing: 0.05em !important;
+        box-shadow: 0 0 25px rgba(239, 35, 60, 0.4) !important;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    }
+
+    div.stButton > button[kind="primaryButton"]:hover, div.stButton > button:first-child:hover {
+        box-shadow: 0 0 35px rgba(239, 35, 60, 0.8) !important;
+        transform: translateY(-2px) !important;
+        border-color: rgba(255, 255, 255, 0.4) !important;
+    }
+
+    div.stButton > button[kind="secondaryButton"] {
+        background: rgba(255, 255, 255, 0.04) !important;
+        border: 1px solid rgba(255, 255, 255, 0.1) !important;
+        color: #f8fafc !important;
+        border-radius: 9999px !important;
+        font-family: 'Manrope', sans-serif !important;
+        font-weight: 600 !important;
+        transition: all 0.2s ease !important;
+    }
+
+    div.stButton > button[kind="secondaryButton"]:hover {
+        border-color: #ef233c !important;
+        color: #ef233c !important;
+        background: rgba(239, 35, 60, 0.1) !important;
+        box-shadow: 0 0 15px rgba(239, 35, 60, 0.2) !important;
+    }
+
     /* Status Badges */
     .badge-success {
-        display: inline-block;
-        padding: 0.5rem 1.2rem;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 0.6rem 1.4rem;
         border-radius: 9999px;
-        background-color: rgba(16, 185, 129, 0.15);
-        color: #10b981;
-        border: 1px solid #10b981;
+        background: rgba(16, 185, 129, 0.1);
+        color: #34d399;
+        border: 1px solid rgba(16, 185, 129, 0.4);
+        box-shadow: 0 0 20px rgba(16, 185, 129, 0.2);
         font-weight: 700;
-        font-size: 1.1rem;
-        margin-bottom: 1rem;
+        font-size: 0.95rem;
+        font-family: 'Manrope', sans-serif;
+        margin-bottom: 1.2rem;
     }
     .badge-flagged {
-        display: inline-block;
-        padding: 0.5rem 1.2rem;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 0.6rem 1.4rem;
         border-radius: 9999px;
-        background-color: rgba(239, 68, 68, 0.15);
-        color: #ef4444;
-        border: 1px solid #ef4444;
+        background: rgba(239, 35, 60, 0.15);
+        color: #ff6b7a;
+        border: 1px solid #ef233c;
+        box-shadow: 0 0 25px rgba(239, 35, 60, 0.4);
         font-weight: 700;
-        font-size: 1.1rem;
-        margin-bottom: 1rem;
+        font-size: 0.95rem;
+        font-family: 'Manrope', sans-serif;
+        margin-bottom: 1.2rem;
     }
     .badge-error {
-        display: inline-block;
-        padding: 0.5rem 1.2rem;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 0.6rem 1.4rem;
         border-radius: 9999px;
-        background-color: rgba(245, 158, 11, 0.15);
-        color: #f59e0b;
-        border: 1px solid #f59e0b;
+        background: rgba(245, 158, 11, 0.1);
+        color: #fbbf24;
+        border: 1px solid rgba(245, 158, 11, 0.4);
+        box-shadow: 0 0 20px rgba(245, 158, 11, 0.2);
         font-weight: 700;
-        font-size: 1.1rem;
-        margin-bottom: 1rem;
+        font-size: 0.95rem;
+        font-family: 'Manrope', sans-serif;
+        margin-bottom: 1.2rem;
+    }
+
+    /* Metric Cards (Bento Style) */
+    div[data-testid="stMetric"] {
+        background: linear-gradient(180deg, rgba(24, 24, 27, 0.6) 0%, rgba(9, 9, 11, 0.8) 100%) !important;
+        border: 1px solid rgba(255, 255, 255, 0.08) !important;
+        border-radius: 14px !important;
+        padding: 1.2rem 1.4rem !important;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4) !important;
+        transition: all 0.3s ease !important;
+    }
+
+    div[data-testid="stMetric"]:hover {
+        border-color: rgba(239, 35, 60, 0.4) !important;
+        box-shadow: 0 0 25px rgba(239, 35, 60, 0.15) !important;
+        transform: translateY(-2px) !important;
+    }
+
+    div[data-testid="stMetricValue"] {
+        font-family: 'Manrope', sans-serif !important;
+        font-weight: 800 !important;
+        color: #ffffff !important;
+    }
+
+    div[data-testid="stMetricLabel"] {
+        color: #a1a1aa !important;
+        font-size: 0.8rem !important;
+        text-transform: uppercase !important;
+        letter-spacing: 0.06em !important;
+        font-weight: 600 !important;
+    }
+
+    /* Expanders & Cards */
+    div[data-testid="stExpander"] {
+        background: rgba(15, 15, 18, 0.7) !important;
+        border: 1px solid rgba(255, 255, 255, 0.08) !important;
+        border-radius: 14px !important;
+        overflow: hidden !important;
+        transition: border-color 0.2s ease !important;
+    }
+
+    div[data-testid="stExpander"]:hover {
+        border-color: rgba(239, 35, 60, 0.3) !important;
+    }
+
+    /* Input boxes & Select boxes */
+    div[data-baseweb="select"] > div, textarea, input {
+        background-color: rgba(255, 255, 255, 0.03) !important;
+        border: 1px solid rgba(255, 255, 255, 0.1) !important;
+        border-radius: 10px !important;
+        color: #ffffff !important;
+        font-family: 'Inter', sans-serif !important;
+        transition: all 0.2s ease !important;
+    }
+
+    div[data-baseweb="select"] > div:focus-within, textarea:focus, input:focus {
+        border-color: #ef233c !important;
+        box-shadow: 0 0 15px rgba(239, 35, 60, 0.3) !important;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -116,8 +358,12 @@ def get_ticket_files() -> List[str]:
 # SIDEBAR: Observability & Pipeline Stats
 # ============================================
 with st.sidebar:
-    st.image("https://img.icons8.com/fluency/96/artificial-intelligence.png", width=64)
-    st.title("📊 Pipeline Stats")
+    st.markdown("""
+    <div style="display: flex; items-center; gap: 10px; margin-bottom: 1rem;">
+        <div style="width: 18px; height: 18px; background: #ef233c; border-radius: 3px; transform: rotate(45deg); flex-shrink: 0; box-shadow: 0 0 10px rgba(239, 35, 60, 0.6);"></div>
+        <span style="font-size: 1.35rem; font-weight: 800; font-family: 'Manrope', sans-serif; letter-spacing: -0.02em; color: white;">Superdesign <span style="color: #ef233c;">Stats</span></span>
+    </div>
+    """, unsafe_allow_html=True)
     st.markdown("Global metrics pulled from `eval/results/eval_summary.json`.")
     
     summary = load_eval_summary()
@@ -160,9 +406,13 @@ with st.sidebar:
 # ============================================
 st.markdown("""
 <div class="header-card">
-    <div class="header-title">🤖 Cleanroom Extraction & Self-Repair Demo</div>
+    <div class="header-pill">
+        <span class="pulse-dot"></span>
+        <span class="pill-text">Design Intelligence • Self-Repair Engine Live</span>
+    </div>
+    <div class="header-title">Cleanroom <span class="text-red">Structured Extraction</span></div>
     <div class="header-subtitle">
-        Transform messy, noisy customer support tickets into strictly validated Pydantic models (<code>ExtractedDocument</code>) with an automated LLM feedback and repair loop using Groq (<code>llama-3.3-70b-versatile</code>).
+        Transform noisy, unstructured support tickets into strictly validated Pydantic models (<code>ExtractedDocument</code>) with an automated LLM feedback & repair loop powered by Groq (<code>llama-3.3-70b-versatile</code>).
     </div>
 </div>
 """, unsafe_allow_html=True)

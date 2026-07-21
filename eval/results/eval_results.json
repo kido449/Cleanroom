@@ -1587,5 +1587,63 @@
         "tags": []
       }
     }
+  },
+  {
+    "filename": "ticket_054.txt",
+    "status": "success",
+    "attempts": 1,
+    "errors_encountered": [],
+    "last_errors": [],
+    "extracted_data": {
+      "ticket_id": null,
+      "customer": {
+        "name": "Unknown",
+        "email": null,
+        "account_tier": "pro"
+      },
+      "issue": {
+        "category": "billing",
+        "summary": "Add 3 more Pro licenses",
+        "priority": null
+      },
+      "resolution": {
+        "status": "open",
+        "resolution_notes": null,
+        "assigned_agent": null
+      },
+      "metadata": {
+        "created_at": null,
+        "tags": []
+      }
+    }
+  },
+  {
+    "filename": "ticket_055.txt",
+    "status": "success",
+    "attempts": 1,
+    "errors_encountered": [],
+    "last_errors": [],
+    "extracted_data": {
+      "ticket_id": null,
+      "customer": {
+        "name": "Unknown",
+        "email": null,
+        "account_tier": null
+      },
+      "issue": {
+        "category": "technical",
+        "summary": "Mobile app crashes on iPhone 15 Pro iOS 17.5 after v4.2.1 update",
+        "priority": null
+      },
+      "resolution": {
+        "status": "open",
+        "resolution_notes": null,
+        "assigned_agent": null
+      },
+      "metadata": {
+        "created_at": null,
+        "tags": []
+      }
+    }
   }
 ]
