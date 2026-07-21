@@ -435,10 +435,14 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 st.components.v1.html("""
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script>
-function runTyping() {
+function initHeaderEffects() {
     const parentDoc = window.parent.document;
+    const parentWin = window.parent;
     if (!parentDoc) return;
+
+    // 1. TYPING ANIMATION ON HEADER TITLE
     const titleEl = parentDoc.querySelector('.header-title');
     if (titleEl && !titleEl.dataset.typed) {
         titleEl.dataset.typed = "true";
@@ -471,10 +475,117 @@ function runTyping() {
         }
         typeChar();
     }
+
+    // 2. THREE.JS HYPERSPEED WEBGL BACKGROUND INSIDE HEADER CARD
+    const headerCard = parentDoc.querySelector('.header-card');
+    if (headerCard && !headerCard.dataset.hyperspeedMounted && typeof THREE !== 'undefined') {
+        headerCard.dataset.hyperspeedMounted = "true";
+        
+        // Ensure inner elements sit above canvas
+        Array.from(headerCard.children).forEach(child => {
+            child.style.position = 'relative';
+            child.style.zIndex = '10';
+        });
+
+        const canvas = parentDoc.createElement('canvas');
+        canvas.id = 'hyperspeed-header-canvas';
+        canvas.style.cssText = 'position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; pointer-events: auto; opacity: 0.75; mix-blend-mode: screen; border-radius: 20px;';
+        headerCard.appendChild(canvas);
+
+        const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+        renderer.setPixelRatio(Math.min(parentWin.devicePixelRatio || 1, 2));
+        
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(90, headerCard.clientWidth / headerCard.clientHeight, 0.1, 1000);
+        camera.position.z = 10;
+        camera.position.y = 5;
+
+        function resize() {
+            if (!headerCard) return;
+            const w = headerCard.clientWidth;
+            const h = headerCard.clientHeight;
+            renderer.setSize(w, h);
+            camera.aspect = w / h;
+            camera.updateProjectionMatrix();
+        }
+        parentWin.addEventListener('resize', resize);
+        resize();
+
+        const count = 1600;
+        const geometry = new THREE.BufferGeometry();
+        const positions = new Float32Array(count * 3 * 2);
+        const lineColors = new Float32Array(count * 3 * 2);
+        const leftColors = [0xef233c, 0xd856bf, 0xc247ac];
+        const rightColors = [0x03b3c3, 0x0e5ea5, 0xffffff];
+
+        for (let i = 0; i < count; i++) {
+            const z = Math.random() * 300;
+            const r = 8 + Math.random() * 18;
+            const theta = Math.random() * Math.PI * 2;
+            const x = Math.cos(theta) * r;
+            const y = Math.sin(theta) * r;
+
+            const idx = i * 6;
+            positions[idx] = x; positions[idx+1] = y; positions[idx+2] = -z;
+            positions[idx+3] = x; positions[idx+4] = y; positions[idx+5] = -(z + 10 + Math.random() * 40);
+
+            const colorSet = i % 2 === 0 ? leftColors : rightColors;
+            const chosen = new THREE.Color(colorSet[Math.floor(Math.random() * colorSet.length)]);
+            lineColors[idx] = chosen.r; lineColors[idx+1] = chosen.g; lineColors[idx+2] = chosen.b;
+            lineColors[idx+3] = chosen.r; lineColors[idx+4] = chosen.g; lineColors[idx+5] = chosen.b;
+        }
+
+        geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+        geometry.setAttribute('color', new THREE.BufferAttribute(lineColors, 3));
+
+        const material = new THREE.LineBasicMaterial({
+            vertexColors: true,
+            transparent: true,
+            opacity: 0.85,
+            blending: THREE.AdditiveBlending
+        });
+
+        const lines = new THREE.LineSegments(geometry, material);
+        scene.add(lines);
+
+        let speed = 1, targetSpeed = 1, fov = 90, targetFov = 90;
+        function animate(time) {
+            requestAnimationFrame(animate);
+            speed += (targetSpeed - speed) * 0.05;
+            fov += (targetFov - fov) * 0.05;
+            camera.fov = fov;
+            camera.updateProjectionMatrix();
+
+            const pos = geometry.attributes.position.array;
+            for (let i = 0; i < count; i++) {
+                const idx = i * 6;
+                pos[idx + 2] += speed * 4;
+                pos[idx + 5] += speed * 4;
+                if (pos[idx + 2] > 30) {
+                    const newZ = 300;
+                    const length = 10 + Math.random() * 40;
+                    pos[idx + 2] = -newZ;
+                    pos[idx + 5] = -(newZ + length);
+                }
+                const offset = Math.sin(time * 0.0015 + pos[idx + 2] * 0.015) * 2;
+                pos[idx] += offset * 0.01;
+                pos[idx + 3] += offset * 0.01;
+            }
+            geometry.attributes.position.needsUpdate = true;
+            renderer.render(scene, camera);
+        }
+        animate(0);
+
+        headerCard.addEventListener('mousedown', () => { targetSpeed = 3.5; targetFov = 145; });
+        headerCard.addEventListener('mouseup', () => { targetSpeed = 1; targetFov = 90; });
+        headerCard.addEventListener('touchstart', () => { targetSpeed = 3.5; targetFov = 145; });
+        headerCard.addEventListener('touchend', () => { targetSpeed = 1; targetFov = 90; });
+    }
 }
-runTyping();
-setTimeout(runTyping, 300);
-setTimeout(runTyping, 800);
+
+initHeaderEffects();
+setTimeout(initHeaderEffects, 500);
+setTimeout(initHeaderEffects, 1200);
 </script>
 """, height=0)
 
