@@ -1,0 +1,1 @@
+Is there a way to export invoice history as a single ZIP file instead of downloading 24 individual PDFs one by one?

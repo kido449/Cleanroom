@@ -1,0 +1,1 @@
+Our compliance audit requires us to enable HIPAA audit logs. Where in the Enterprise security console can we download the 1-year retention logs? Contact: ciso@healthtech.org

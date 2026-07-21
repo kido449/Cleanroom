@@ -1,0 +1,1 @@
+The mobile app crashes immediately upon opening after installing yesterday's v4.2.1 update on iPhone 15 Pro iOS 17.5. Retried reinstalling twice without success.

@@ -1,0 +1,1 @@
+We get '504 Gateway Timeout' on the batch upload tool whenever CSV files exceed 15MB. The documentation says the limit is 50MB. We have daily data pipelines waiting on this.

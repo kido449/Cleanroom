@@ -1,0 +1,1 @@
+got error code ERR_SSL_PROTOCOL_ERROR when visiting custom domain app.client.com after setting up CNAME record according to docs

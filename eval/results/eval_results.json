@@ -1,0 +1,1591 @@
+[
+  {
+    "filename": "ticket_001.txt",
+    "status": "success",
+    "attempts": 1,
+    "errors_encountered": [],
+    "last_errors": [],
+    "extracted_data": {
+      "ticket_id": null,
+      "customer": {
+        "name": "John",
+        "email": null,
+        "account_tier": null
+      },
+      "issue": {
+        "category": "technical",
+        "summary": "cannot access my dashboard since morning",
+        "priority": null
+      },
+      "resolution": {
+        "status": "open",
+        "resolution_notes": null,
+        "assigned_agent": null
+      },
+      "metadata": {
+        "created_at": null,
+        "tags": []
+      }
+    }
+  },
+  {
+    "filename": "ticket_002.txt",
+    "status": "success",
+    "attempts": 2,
+    "errors_encountered": [
+      [
+        "customer -> name: Input should be a valid string"
+      ]
+    ],
+    "last_errors": [],
+    "extracted_data": {
+      "ticket_id": null,
+      "customer": {
+        "name": "Unknown Customer",
+        "email": null,
+        "account_tier": null
+      },
+      "issue": {
+        "category": "billing",
+        "summary": "Charged twice on credit card ending in 4321 for May subscription. Please refund immediately.",
+        "priority": null
+      },
+      "resolution": {
+        "status": "open",
+        "resolution_notes": null,
+        "assigned_agent": null
+      },
+      "metadata": {
+        "created_at": null,
+        "tags": []
+      }
+    }
+  },
+  {
+    "filename": "ticket_003.txt",
+    "status": "success",
+    "attempts": 1,
+    "errors_encountered": [],
+    "last_errors": [],
+    "extracted_data": {
+      "ticket_id": null,
+      "customer": {
+        "name": "Loyal Customer",
+        "email": null,
+        "account_tier": null
+      },
+      "issue": {
+        "category": "technical",
+        "summary": "PDF export from monthly analytics report gives 500 server error",
+        "priority": null
+      },
+      "resolution": {
+        "status": "open",
+        "resolution_notes": null,
+        "assigned_agent": null
+      },
+      "metadata": {
+        "created_at": null,
+        "tags": []
+      }
+    }
+  },
+  {
+    "filename": "ticket_004.txt",
+    "status": "success",
+    "attempts": 1,
+    "errors_encountered": [],
+    "last_errors": [],
+    "extracted_data": {
+      "ticket_id": null,
+      "customer": {
+        "name": "alex",
+        "email": "alex@example.com",
+        "account_tier": "pro"
+      },
+      "issue": {
+        "category": "technical",
+        "summary": "Password reset link sent to my inbox is expired every time I click it.",
+        "priority": null
+      },
+      "resolution": {
+        "status": "open",
+        "resolution_notes": null,
+        "assigned_agent": null
+      },
+      "metadata": {
+        "created_at": null,
+        "tags": []
+      }
+    }
+  },
+  {
+    "filename": "ticket_005.txt",
+    "status": "success",
+    "attempts": 1,
+    "errors_encountered": [],
+    "last_errors": [],
+    "extracted_data": {
+      "ticket_id": null,
+      "customer": {
+        "name": "Unknown",
+        "email": null,
+        "account_tier": null
+      },
+      "issue": {
+        "category": "other",
+        "summary": "Feature request: dark mode for mobile iOS application",
+        "priority": null
+      },
+      "resolution": {
+        "status": "open",
+        "resolution_notes": null,
+        "assigned_agent": null
+      },
+      "metadata": {
+        "created_at": null,
+        "tags": [
+          "feature request",
+          "dark mode",
+          "iOS"
+        ]
+      }
+    }
+  },
+  {
+    "filename": "ticket_006.txt",
+    "status": "success",
+    "attempts": 1,
+    "errors_encountered": [],
+    "last_errors": [],
+    "extracted_data": {
+      "ticket_id": null,
+      "customer": {
+        "name": "Unknown",
+        "email": null,
+        "account_tier": "enterprise"
+      },
+      "issue": {
+        "category": "billing",
+        "summary": "API keys stopped working after plan upgrade",
+        "priority": null
+      },
+      "resolution": {
+        "status": "open",
+        "resolution_notes": null,
+        "assigned_agent": null
+      },
+      "metadata": {
+        "created_at": null,
+        "tags": []
+      }
+    }
+  },
+  {
+    "filename": "ticket_007.txt",
+    "status": "success",
+    "attempts": 1,
+    "errors_encountered": [],
+    "last_errors": [],
+    "extracted_data": {
+      "ticket_id": null,
+      "customer": {
+        "name": "Corp",
+        "email": "accounting@corp.com",
+        "account_tier": null
+      },
+      "issue": {
+        "category": "billing",
+        "summary": "Add company VAT number to last month's receipt",
+        "priority": null
+      },
+      "resolution": {
+        "status": "open",
+        "resolution_notes": null,
+        "assigned_agent": null
+      },
+      "metadata": {
+        "created_at": null,
+        "tags": []
+      }
+    }
+  },
+  {
+    "filename": "ticket_008.txt",
+    "status": "success",
+    "attempts": 1,
+    "errors_encountered": [],
+    "last_errors": [],
+    "extracted_data": {
+      "ticket_id": null,
+      "customer": {
+        "name": "David Kim",
+        "email": "david@acme.org",
+        "account_tier": "enterprise"
+      },
+      "issue": {
+        "category": "account",
+        "summary": "maximum users reached error on Enterprise plan",
+        "priority": null
+      },
+      "resolution": {
+        "status": "open",
+        "resolution_notes": null,
+        "assigned_agent": null
+      },
+      "metadata": {
+        "created_at": null,
+        "tags": []
+      }
+    }
+  },
+  {
+    "filename": "ticket_009.txt",
+    "status": "success",
+    "attempts": 1,
+    "errors_encountered": [],
+    "last_errors": [],
+    "extracted_data": {
+      "ticket_id": null,
+      "customer": {
+        "name": "Unknown",
+        "email": null,
+        "account_tier": null
+      },
+      "issue": {
+        "category": "account",
+        "summary": "Update profile picture",
+        "priority": null
+      },
+      "resolution": {
+        "status": "open",
+        "resolution_notes": null,
+        "assigned_agent": null
+      },
+      "metadata": {
+        "created_at": null,
+        "tags": [
+          "profile",
+          "picture"
+        ]
+      }
+    }
+  },
+  {
+    "filename": "ticket_010.txt",
+    "status": "success",
+    "attempts": 1,
+    "errors_encountered": [],
+    "last_errors": [],
+    "extracted_data": {
+      "ticket_id": null,
+      "customer": {
+        "name": "European clients",
+        "email": null,
+        "account_tier": null
+      },
+      "issue": {
+        "category": "technical",
+        "summary": "Server response time is over 8000ms on the /v2/query endpoint",
+        "priority": "urgent"
+      },
+      "resolution": {
+        "status": "open",
+        "resolution_notes": null,
+        "assigned_agent": null
+      },
+      "metadata": {
+        "created_at": null,
+        "tags": []
+      }
+    }
+  },
+  {
+    "filename": "ticket_011.txt",
+    "status": "success",
+    "attempts": 1,
+    "errors_encountered": [],
+    "last_errors": [],
+    "extracted_data": {
+      "ticket_id": null,
+      "customer": {
+        "name": "Unknown",
+        "email": null,
+        "account_tier": null
+      },
+      "issue": {
+        "category": "other",
+        "summary": "Discount inquiry for non-profit educational organizations",
+        "priority": null
+      },
+      "resolution": {
+        "status": "open",
+        "resolution_notes": null,
+        "assigned_agent": null
+      },
+      "metadata": {
+        "created_at": null,
+        "tags": [
+          "discount",
+          "non-profit",
+          "educational"
+        ]
+      }
+    }
+  },
+  {
+    "filename": "ticket_012.txt",
+    "status": "success",
+    "attempts": 1,
+    "errors_encountered": [],
+    "last_errors": [],
+    "extracted_data": {
+      "ticket_id": null,
+      "customer": {
+        "name": "Unknown",
+        "email": null,
+        "account_tier": "free"
+      },
+      "issue": {
+        "category": "billing",
+        "summary": "Payment gateway issue with Visa card",
+        "priority": "high"
+      },
+      "resolution": {
+        "status": "open",
+        "resolution_notes": null,
+        "assigned_agent": null
+      },
+      "metadata": {
+        "created_at": null,
+        "tags": [
+          "payment",
+          "visa",
+          "upgrade"
+        ]
+      }
+    }
+  },
+  {
+    "filename": "ticket_013.txt",
+    "status": "success",
+    "attempts": 1,
+    "errors_encountered": [],
+    "last_errors": [],
+    "extracted_data": {
+      "ticket_id": null,
+      "customer": {
+        "name": "Rahul",
+        "email": "rahul.s@domain.in",
+        "account_tier": null
+      },
+      "issue": {
+        "category": "billing",
+        "summary": "Account lock ho gaya hai and cannot reset password",
+        "priority": "urgent"
+      },
+      "resolution": {
+        "status": "open",
+        "resolution_notes": null,
+        "assigned_agent": null
+      },
+      "metadata": {
+        "created_at": null,
+        "tags": []
+      }
+    }
+  },
+  {
+    "filename": "ticket_014.txt",
+    "status": "success",
+    "attempts": 1,
+    "errors_encountered": [],
+    "last_errors": [],
+    "extracted_data": {
+      "ticket_id": null,
+      "customer": {
+        "name": "Unknown",
+        "email": null,
+        "account_tier": null
+      },
+      "issue": {
+        "category": "account",
+        "summary": "Can't log in to account after changing password",
+        "priority": "high"
+      },
+      "resolution": {
+        "status": "open",
+        "resolution_notes": null,
+        "assigned_agent": null
+      },
+      "metadata": {
+        "created_at": null,
+        "tags": [
+          "login issue",
+          "password issue"
+        ]
+      }
+    }
+  },
+  {
+    "filename": "ticket_015.txt",
+    "status": "success",
+    "attempts": 1,
+    "errors_encountered": [],
+    "last_errors": [],
+    "extracted_data": {
+      "ticket_id": null,
+      "customer": {
+        "name": "Unknown",
+        "email": null,
+        "account_tier": null
+      },
+      "issue": {
+        "category": "billing",
+        "summary": "Incorrect invoice amount after applying promo code",
+        "priority": "high"
+      },
+      "resolution": {
+        "status": "open",
+        "resolution_notes": null,
+        "assigned_agent": null
+      },
+      "metadata": {
+        "created_at": null,
+        "tags": [
+          "billing",
+          "promo code"
+        ]
+      }
+    }
+  },
+  {
+    "filename": "ticket_016.txt",
+    "status": "success",
+    "attempts": 1,
+    "errors_encountered": [],
+    "last_errors": [],
+    "extracted_data": {
+      "ticket_id": null,
+      "customer": {
+        "name": "Mark",
+        "email": "mark@test.com",
+        "account_tier": null
+      },
+      "issue": {
+        "category": "technical",
+        "summary": "CSV export not working",
+        "priority": null
+      },
+      "resolution": {
+        "status": "open",
+        "resolution_notes": null,
+        "assigned_agent": null
+      },
+      "metadata": {
+        "created_at": null,
+        "tags": []
+      }
+    }
+  },
+  {
+    "filename": "ticket_017.txt",
+    "status": "success",
+    "attempts": 2,
+    "errors_encountered": [
+      [
+        "customer -> name: Input should be a valid string"
+      ]
+    ],
+    "last_errors": [],
+    "extracted_data": {
+      "ticket_id": null,
+      "customer": {
+        "name": "Unknown",
+        "email": null,
+        "account_tier": null
+      },
+      "issue": {
+        "category": "technical",
+        "summary": "Cannot connect webhook to Slack channel, keeps getting 403 forbidden error after token refresh",
+        "priority": "medium"
+      },
+      "resolution": {
+        "status": "open",
+        "resolution_notes": null,
+        "assigned_agent": null
+      },
+      "metadata": {
+        "created_at": null,
+        "tags": []
+      }
+    }
+  },
+  {
+    "filename": "ticket_018.txt",
+    "status": "success",
+    "attempts": 1,
+    "errors_encountered": [],
+    "last_errors": [],
+    "extracted_data": {
+      "ticket_id": null,
+      "customer": {
+        "name": "Unknown",
+        "email": null,
+        "account_tier": null
+      },
+      "issue": {
+        "category": "technical",
+        "summary": "Website broken on Android tablet, screen overlaps buttons, cannot click submit ticket form or settings page",
+        "priority": null
+      },
+      "resolution": {
+        "status": "open",
+        "resolution_notes": null,
+        "assigned_agent": null
+      },
+      "metadata": {
+        "created_at": null,
+        "tags": []
+      }
+    }
+  },
+  {
+    "filename": "ticket_019.txt",
+    "status": "success",
+    "attempts": 1,
+    "errors_encountered": [],
+    "last_errors": [],
+    "extracted_data": {
+      "ticket_id": null,
+      "customer": {
+        "name": "null",
+        "email": null,
+        "account_tier": "pro"
+      },
+      "issue": {
+        "category": "billing",
+        "summary": "blled twice this month for pro tier $49 + $49 check my account ID 88910 immediately",
+        "priority": null
+      },
+      "resolution": {
+        "status": "open",
+        "resolution_notes": null,
+        "assigned_agent": null
+      },
+      "metadata": {
+        "created_at": null,
+        "tags": []
+      }
+    }
+  },
+  {
+    "filename": "ticket_020.txt",
+    "status": "success",
+    "attempts": 1,
+    "errors_encountered": [],
+    "last_errors": [],
+    "extracted_data": {
+      "ticket_id": null,
+      "customer": {
+        "name": "Unknown",
+        "email": null,
+        "account_tier": null
+      },
+      "issue": {
+        "category": "account",
+        "summary": "Delete account permanently and data wipe",
+        "priority": null
+      },
+      "resolution": {
+        "status": "open",
+        "resolution_notes": null,
+        "assigned_agent": null
+      },
+      "metadata": {
+        "created_at": null,
+        "tags": []
+      }
+    }
+  },
+  {
+    "filename": "ticket_021.txt",
+    "status": "success",
+    "attempts": 1,
+    "errors_encountered": [],
+    "last_errors": [],
+    "extracted_data": {
+      "ticket_id": null,
+      "customer": {
+        "name": "Unknown",
+        "email": null,
+        "account_tier": null
+      },
+      "issue": {
+        "category": "technical",
+        "summary": "got error code ERR_SSL_PROTOCOL_ERROR when visiting custom domain app.client.com after setting up CNAME record according to docs",
+        "priority": null
+      },
+      "resolution": {
+        "status": "open",
+        "resolution_notes": null,
+        "assigned_agent": null
+      },
+      "metadata": {
+        "created_at": null,
+        "tags": []
+      }
+    }
+  },
+  {
+    "filename": "ticket_022.txt",
+    "status": "success",
+    "attempts": 1,
+    "errors_encountered": [],
+    "last_errors": [],
+    "extracted_data": {
+      "ticket_id": null,
+      "customer": {
+        "name": "Sarah",
+        "email": "old@yahoo.com",
+        "account_tier": null
+      },
+      "issue": {
+        "category": "account",
+        "summary": "change email address from old@yahoo.com to new@gmail.com",
+        "priority": null
+      },
+      "resolution": {
+        "status": "open",
+        "resolution_notes": null,
+        "assigned_agent": null
+      },
+      "metadata": {
+        "created_at": null,
+        "tags": []
+      }
+    }
+  },
+  {
+    "filename": "ticket_023.txt",
+    "status": "success",
+    "attempts": 1,
+    "errors_encountered": [],
+    "last_errors": [],
+    "extracted_data": {
+      "ticket_id": null,
+      "customer": {
+        "name": "Unknown",
+        "email": null,
+        "account_tier": "pro"
+      },
+      "issue": {
+        "category": "billing",
+        "summary": "Account locked out due to billing error",
+        "priority": "high"
+      },
+      "resolution": {
+        "status": "open",
+        "resolution_notes": null,
+        "assigned_agent": null
+      },
+      "metadata": {
+        "created_at": null,
+        "tags": []
+      }
+    }
+  },
+  {
+    "filename": "ticket_024.txt",
+    "status": "success",
+    "attempts": 2,
+    "errors_encountered": [
+      [
+        "customer -> name: Input should be a valid string"
+      ]
+    ],
+    "last_errors": [],
+    "extracted_data": {
+      "ticket_id": null,
+      "customer": {
+        "name": "Unknown Customer",
+        "email": null,
+        "account_tier": "enterprise"
+      },
+      "issue": {
+        "category": "billing",
+        "summary": "Incorrect billing for 50 extra seats",
+        "priority": "urgent"
+      },
+      "resolution": {
+        "status": "open",
+        "resolution_notes": null,
+        "assigned_agent": null
+      },
+      "metadata": {
+        "created_at": null,
+        "tags": []
+      }
+    }
+  },
+  {
+    "filename": "ticket_025.txt",
+    "status": "success",
+    "attempts": 1,
+    "errors_encountered": [],
+    "last_errors": [],
+    "extracted_data": {
+      "ticket_id": null,
+      "customer": {
+        "name": "Unknown",
+        "email": null,
+        "account_tier": "pro"
+      },
+      "issue": {
+        "category": "billing",
+        "summary": "SSO access lost after downgrading subscription plan and open balance credit not applied",
+        "priority": "high"
+      },
+      "resolution": {
+        "status": "open",
+        "resolution_notes": null,
+        "assigned_agent": null
+      },
+      "metadata": {
+        "created_at": null,
+        "tags": []
+      }
+    }
+  },
+  {
+    "filename": "ticket_026.txt",
+    "status": "success",
+    "attempts": 1,
+    "errors_encountered": [],
+    "last_errors": [],
+    "extracted_data": {
+      "ticket_id": null,
+      "customer": {
+        "name": "Unknown",
+        "email": null,
+        "account_tier": null
+      },
+      "issue": {
+        "category": "technical",
+        "summary": "Layout redesign and filter bug in reporting tab",
+        "priority": "high"
+      },
+      "resolution": {
+        "status": "open",
+        "resolution_notes": null,
+        "assigned_agent": null
+      },
+      "metadata": {
+        "created_at": null,
+        "tags": []
+      }
+    }
+  },
+  {
+    "filename": "ticket_027.txt",
+    "status": "success",
+    "attempts": 1,
+    "errors_encountered": [],
+    "last_errors": [],
+    "extracted_data": {
+      "ticket_id": null,
+      "customer": {
+        "name": "Unknown",
+        "email": null,
+        "account_tier": "free"
+      },
+      "issue": {
+        "category": "billing",
+        "summary": "Payment failed with 'Insufficient Funds' but charge went through",
+        "priority": "high"
+      },
+      "resolution": {
+        "status": "open",
+        "resolution_notes": null,
+        "assigned_agent": null
+      },
+      "metadata": {
+        "created_at": null,
+        "tags": []
+      }
+    }
+  },
+  {
+    "filename": "ticket_028.txt",
+    "status": "success",
+    "attempts": 1,
+    "errors_encountered": [],
+    "last_errors": [],
+    "extracted_data": {
+      "ticket_id": null,
+      "customer": {
+        "name": "Robert Taylor",
+        "email": "rtaylor@logistics.net",
+        "account_tier": null
+      },
+      "issue": {
+        "category": "technical",
+        "summary": "Two-factor authentication issue with Google Authenticator app",
+        "priority": "urgent"
+      },
+      "resolution": {
+        "status": "open",
+        "resolution_notes": null,
+        "assigned_agent": null
+      },
+      "metadata": {
+        "created_at": null,
+        "tags": []
+      }
+    }
+  },
+  {
+    "filename": "ticket_029.txt",
+    "status": "success",
+    "attempts": 2,
+    "errors_encountered": [
+      [
+        "customer -> name: Input should be a valid string"
+      ]
+    ],
+    "last_errors": [],
+    "extracted_data": {
+      "ticket_id": null,
+      "customer": {
+        "name": "Company",
+        "email": null,
+        "account_tier": null
+      },
+      "issue": {
+        "category": "billing",
+        "summary": "Account will be downgraded in 3 days due to payment failure",
+        "priority": null
+      },
+      "resolution": {
+        "status": "open",
+        "resolution_notes": null,
+        "assigned_agent": null
+      },
+      "metadata": {
+        "created_at": null,
+        "tags": []
+      }
+    }
+  },
+  {
+    "filename": "ticket_030.txt",
+    "status": "success",
+    "attempts": 1,
+    "errors_encountered": [],
+    "last_errors": [],
+    "extracted_data": {
+      "ticket_id": null,
+      "customer": {
+        "name": "Kenji",
+        "email": null,
+        "account_tier": null
+      },
+      "issue": {
+        "category": "technical",
+        "summary": "Clarify daily cron export timezone",
+        "priority": null
+      },
+      "resolution": {
+        "status": "open",
+        "resolution_notes": null,
+        "assigned_agent": null
+      },
+      "metadata": {
+        "created_at": null,
+        "tags": []
+      }
+    }
+  },
+  {
+    "filename": "ticket_031.txt",
+    "status": "success",
+    "attempts": 1,
+    "errors_encountered": [],
+    "last_errors": [],
+    "extracted_data": {
+      "ticket_id": null,
+      "customer": {
+        "name": "Lisa",
+        "email": null,
+        "account_tier": "pro"
+      },
+      "issue": {
+        "category": "technical",
+        "summary": "View Only checkbox is grayed out in User Management",
+        "priority": null
+      },
+      "resolution": {
+        "status": "open",
+        "resolution_notes": null,
+        "assigned_agent": null
+      },
+      "metadata": {
+        "created_at": null,
+        "tags": []
+      }
+    }
+  },
+  {
+    "filename": "ticket_032.txt",
+    "status": "success",
+    "attempts": 1,
+    "errors_encountered": [],
+    "last_errors": [],
+    "extracted_data": {
+      "ticket_id": null,
+      "customer": {
+        "name": "Accounting Department",
+        "email": "finance-old@company.com",
+        "account_tier": null
+      },
+      "issue": {
+        "category": "billing",
+        "summary": "Update billing contact email",
+        "priority": null
+      },
+      "resolution": {
+        "status": "open",
+        "resolution_notes": null,
+        "assigned_agent": null
+      },
+      "metadata": {
+        "created_at": null,
+        "tags": []
+      }
+    }
+  },
+  {
+    "filename": "ticket_033.txt",
+    "status": "success",
+    "attempts": 1,
+    "errors_encountered": [],
+    "last_errors": [],
+    "extracted_data": {
+      "ticket_id": null,
+      "customer": {
+        "name": "Enterprise Customer",
+        "email": null,
+        "account_tier": "enterprise"
+      },
+      "issue": {
+        "category": "technical",
+        "summary": "API rate limit exceeded error (HTTP 429)",
+        "priority": "high"
+      },
+      "resolution": {
+        "status": "open",
+        "resolution_notes": null,
+        "assigned_agent": null
+      },
+      "metadata": {
+        "created_at": null,
+        "tags": []
+      }
+    }
+  },
+  {
+    "filename": "ticket_034.txt",
+    "status": "success",
+    "attempts": 1,
+    "errors_encountered": [],
+    "last_errors": [],
+    "extracted_data": {
+      "ticket_id": null,
+      "customer": {
+        "name": "System Admin",
+        "email": "admin@globalfinance.com",
+        "account_tier": "enterprise"
+      },
+      "issue": {
+        "category": "technical",
+        "summary": "Database sync lag",
+        "priority": "urgent"
+      },
+      "resolution": {
+        "status": "open",
+        "resolution_notes": null,
+        "assigned_agent": null
+      },
+      "metadata": {
+        "created_at": "2026-07-16T11:42:00",
+        "tags": []
+      }
+    }
+  },
+  {
+    "filename": "ticket_035.txt",
+    "status": "success",
+    "attempts": 1,
+    "errors_encountered": [],
+    "last_errors": [],
+    "extracted_data": {
+      "ticket_id": "8812",
+      "customer": {
+        "name": "User",
+        "email": null,
+        "account_tier": "free"
+      },
+      "issue": {
+        "category": "technical",
+        "summary": "Invite link is broken for collaborator",
+        "priority": null
+      },
+      "resolution": {
+        "status": "open",
+        "resolution_notes": null,
+        "assigned_agent": null
+      },
+      "metadata": {
+        "created_at": null,
+        "tags": []
+      }
+    }
+  },
+  {
+    "filename": "ticket_036.txt",
+    "status": "success",
+    "attempts": 1,
+    "errors_encountered": [],
+    "last_errors": [],
+    "extracted_data": {
+      "ticket_id": null,
+      "customer": {
+        "name": "Enterprise Customer",
+        "email": null,
+        "account_tier": "enterprise"
+      },
+      "issue": {
+        "category": "technical",
+        "summary": "Downtime during scheduled maintenance",
+        "priority": "high"
+      },
+      "resolution": {
+        "status": "open",
+        "resolution_notes": null,
+        "assigned_agent": null
+      },
+      "metadata": {
+        "created_at": null,
+        "tags": [
+          "downtime",
+          "maintenance",
+          "disruption"
+        ]
+      }
+    }
+  },
+  {
+    "filename": "ticket_037.txt",
+    "status": "success",
+    "attempts": 1,
+    "errors_encountered": [],
+    "last_errors": [],
+    "extracted_data": {
+      "ticket_id": null,
+      "customer": {
+        "name": "student",
+        "email": null,
+        "account_tier": "free"
+      },
+      "issue": {
+        "category": "billing",
+        "summary": "auto charge and refund request",
+        "priority": null
+      },
+      "resolution": {
+        "status": "open",
+        "resolution_notes": null,
+        "assigned_agent": null
+      },
+      "metadata": {
+        "created_at": null,
+        "tags": []
+      }
+    }
+  },
+  {
+    "filename": "ticket_038.txt",
+    "status": "success",
+    "attempts": 1,
+    "errors_encountered": [],
+    "last_errors": [],
+    "extracted_data": {
+      "ticket_id": null,
+      "customer": {
+        "name": "Unknown",
+        "email": null,
+        "account_tier": null
+      },
+      "issue": {
+        "category": "technical",
+        "summary": "Login issues with new user onboarding link",
+        "priority": null
+      },
+      "resolution": {
+        "status": "open",
+        "resolution_notes": null,
+        "assigned_agent": null
+      },
+      "metadata": {
+        "created_at": null,
+        "tags": []
+      }
+    }
+  },
+  {
+    "filename": "ticket_039.txt",
+    "status": "success",
+    "attempts": 1,
+    "errors_encountered": [],
+    "last_errors": [],
+    "extracted_data": {
+      "ticket_id": null,
+      "customer": {
+        "name": "HealthTech",
+        "email": "ciso@healthtech.org",
+        "account_tier": "enterprise"
+      },
+      "issue": {
+        "category": "technical",
+        "summary": "Enable HIPAA audit logs and download 1-year retention logs",
+        "priority": "medium"
+      },
+      "resolution": {
+        "status": "open",
+        "resolution_notes": null,
+        "assigned_agent": null
+      },
+      "metadata": {
+        "created_at": null,
+        "tags": []
+      }
+    }
+  },
+  {
+    "filename": "ticket_040.txt",
+    "status": "success",
+    "attempts": 1,
+    "errors_encountered": [],
+    "last_errors": [],
+    "extracted_data": {
+      "ticket_id": null,
+      "customer": {
+        "name": "Unknown",
+        "email": null,
+        "account_tier": null
+      },
+      "issue": {
+        "category": "technical",
+        "summary": "System error code 0x80040154 when initializing SDK on Windows Server 2022. Occurs only on 64-bit builds.",
+        "priority": "high"
+      },
+      "resolution": {
+        "status": "open",
+        "resolution_notes": null,
+        "assigned_agent": null
+      },
+      "metadata": {
+        "created_at": null,
+        "tags": []
+      }
+    }
+  },
+  {
+    "filename": "ticket_041.txt",
+    "status": "success",
+    "attempts": 1,
+    "errors_encountered": [],
+    "last_errors": [],
+    "extracted_data": {
+      "ticket_id": "4419",
+      "customer": {
+        "name": "Unknown",
+        "email": null,
+        "account_tier": null
+      },
+      "issue": {
+        "category": "technical",
+        "summary": "Custom domain SSL certificate update",
+        "priority": null
+      },
+      "resolution": {
+        "status": "open",
+        "resolution_notes": null,
+        "assigned_agent": null
+      },
+      "metadata": {
+        "created_at": null,
+        "tags": []
+      }
+    }
+  },
+  {
+    "filename": "ticket_042.txt",
+    "status": "success",
+    "attempts": 2,
+    "errors_encountered": [
+      [
+        "customer -> name: Input should be a valid string"
+      ]
+    ],
+    "last_errors": [],
+    "extracted_data": {
+      "ticket_id": null,
+      "customer": {
+        "name": "Unknown Customer",
+        "email": null,
+        "account_tier": null
+      },
+      "issue": {
+        "category": "billing",
+        "summary": "Our invoice #INV-9921 shows sales tax charged for New York, but our organization is tax-exempt under 501(c)(3).",
+        "priority": null
+      },
+      "resolution": {
+        "status": "open",
+        "resolution_notes": null,
+        "assigned_agent": null
+      },
+      "metadata": {
+        "created_at": null,
+        "tags": []
+      }
+    }
+  },
+  {
+    "filename": "ticket_043.txt",
+    "status": "success",
+    "attempts": 1,
+    "errors_encountered": [],
+    "last_errors": [],
+    "extracted_data": {
+      "ticket_id": null,
+      "customer": {
+        "name": "John Smith",
+        "email": "jsmith@client.com",
+        "account_tier": null
+      },
+      "issue": {
+        "category": "technical",
+        "summary": "Unable to view shared dashboard folder",
+        "priority": null
+      },
+      "resolution": {
+        "status": "open",
+        "resolution_notes": null,
+        "assigned_agent": null
+      },
+      "metadata": {
+        "created_at": null,
+        "tags": []
+      }
+    }
+  },
+  {
+    "filename": "ticket_044.txt",
+    "status": "success",
+    "attempts": 1,
+    "errors_encountered": [],
+    "last_errors": [],
+    "extracted_data": {
+      "ticket_id": null,
+      "customer": {
+        "name": "Unknown",
+        "email": null,
+        "account_tier": null
+      },
+      "issue": {
+        "category": "billing",
+        "summary": "Export invoice history as a single ZIP file",
+        "priority": null
+      },
+      "resolution": {
+        "status": "open",
+        "resolution_notes": null,
+        "assigned_agent": null
+      },
+      "metadata": {
+        "created_at": null,
+        "tags": []
+      }
+    }
+  },
+  {
+    "filename": "ticket_045.txt",
+    "status": "success",
+    "attempts": 1,
+    "errors_encountered": [],
+    "last_errors": [],
+    "extracted_data": {
+      "ticket_id": null,
+      "customer": {
+        "name": "Unknown",
+        "email": null,
+        "account_tier": null
+      },
+      "issue": {
+        "category": "technical",
+        "summary": "BROKEN APP!! FIX IT RIGHT NOW OR WE LEAVE!!",
+        "priority": null
+      },
+      "resolution": {
+        "status": "open",
+        "resolution_notes": null,
+        "assigned_agent": null
+      },
+      "metadata": {
+        "created_at": null,
+        "tags": []
+      }
+    }
+  },
+  {
+    "filename": "ticket_046.txt",
+    "status": "success",
+    "attempts": 1,
+    "errors_encountered": [],
+    "last_errors": [],
+    "extracted_data": {
+      "ticket_id": null,
+      "customer": {
+        "name": "Elena",
+        "email": null,
+        "account_tier": null
+      },
+      "issue": {
+        "category": "technical",
+        "summary": "Confirmation dialog prompts twice when navigating away from page with 'Auto-Save' off",
+        "priority": null
+      },
+      "resolution": {
+        "status": "open",
+        "resolution_notes": null,
+        "assigned_agent": null
+      },
+      "metadata": {
+        "created_at": null,
+        "tags": []
+      }
+    }
+  },
+  {
+    "filename": "ticket_047.txt",
+    "status": "success",
+    "attempts": 1,
+    "errors_encountered": [],
+    "last_errors": [],
+    "extracted_data": {
+      "ticket_id": null,
+      "customer": {
+        "name": "Corp-Global",
+        "email": "admin@corp-global.com",
+        "account_tier": "enterprise"
+      },
+      "issue": {
+        "category": "account",
+        "summary": "Account suspended without warning for terms violation",
+        "priority": "high"
+      },
+      "resolution": {
+        "status": "open",
+        "resolution_notes": null,
+        "assigned_agent": null
+      },
+      "metadata": {
+        "created_at": null,
+        "tags": []
+      }
+    }
+  },
+  {
+    "filename": "ticket_048.txt",
+    "status": "success",
+    "attempts": 1,
+    "errors_encountered": [],
+    "last_errors": [],
+    "extracted_data": {
+      "ticket_id": null,
+      "customer": {
+        "name": "mike brown",
+        "email": "mike.brown@gmail.com",
+        "account_tier": "pro"
+      },
+      "issue": {
+        "category": "billing",
+        "summary": "cancel pro subscription",
+        "priority": null
+      },
+      "resolution": {
+        "status": "open",
+        "resolution_notes": null,
+        "assigned_agent": null
+      },
+      "metadata": {
+        "created_at": null,
+        "tags": []
+      }
+    }
+  },
+  {
+    "filename": "ticket_049.txt",
+    "status": "success",
+    "attempts": 1,
+    "errors_encountered": [],
+    "last_errors": [],
+    "extracted_data": {
+      "ticket_id": null,
+      "customer": {
+        "name": "Unknown",
+        "email": null,
+        "account_tier": null
+      },
+      "issue": {
+        "category": "technical",
+        "summary": "504 Gateway Timeout on batch upload tool for CSV files over 15MB",
+        "priority": "high"
+      },
+      "resolution": {
+        "status": "open",
+        "resolution_notes": null,
+        "assigned_agent": null
+      },
+      "metadata": {
+        "created_at": null,
+        "tags": []
+      }
+    }
+  },
+  {
+    "filename": "ticket_050.txt",
+    "status": "success",
+    "attempts": 1,
+    "errors_encountered": [],
+    "last_errors": [],
+    "extracted_data": {
+      "ticket_id": null,
+      "customer": {
+        "name": "Unknown",
+        "email": null,
+        "account_tier": null
+      },
+      "issue": {
+        "category": "technical",
+        "summary": "Change primary domain name from old-brand.com to new-brand.com",
+        "priority": null
+      },
+      "resolution": {
+        "status": "open",
+        "resolution_notes": null,
+        "assigned_agent": null
+      },
+      "metadata": {
+        "created_at": null,
+        "tags": []
+      }
+    }
+  },
+  {
+    "filename": "ticket_051.txt",
+    "status": "success",
+    "attempts": 1,
+    "errors_encountered": [],
+    "last_errors": [],
+    "extracted_data": {
+      "ticket_id": null,
+      "customer": {
+        "name": "unknown",
+        "email": "urgent@user.com",
+        "account_tier": null
+      },
+      "issue": {
+        "category": "account",
+        "summary": "account hacked and projects deleted",
+        "priority": "urgent"
+      },
+      "resolution": {
+        "status": "open",
+        "resolution_notes": null,
+        "assigned_agent": null
+      },
+      "metadata": {
+        "created_at": null,
+        "tags": [
+          "hacking",
+          "account deletion"
+        ]
+      }
+    }
+  },
+  {
+    "filename": "ticket_052.txt",
+    "status": "success",
+    "attempts": 1,
+    "errors_encountered": [],
+    "last_errors": [],
+    "extracted_data": {
+      "ticket_id": null,
+      "customer": {
+        "name": "Unknown",
+        "email": null,
+        "account_tier": null
+      },
+      "issue": {
+        "category": "billing",
+        "summary": "Webhooks for subscription cancellation events",
+        "priority": null
+      },
+      "resolution": {
+        "status": "open",
+        "resolution_notes": null,
+        "assigned_agent": null
+      },
+      "metadata": {
+        "created_at": null,
+        "tags": []
+      }
+    }
+  },
+  {
+    "filename": "ticket_053.txt",
+    "status": "success",
+    "attempts": 2,
+    "errors_encountered": [
+      [
+        "customer -> name: Input should be a valid string"
+      ]
+    ],
+    "last_errors": [],
+    "extracted_data": {
+      "ticket_id": null,
+      "customer": {
+        "name": "Unknown",
+        "email": null,
+        "account_tier": null
+      },
+      "issue": {
+        "category": "billing",
+        "summary": "Card declined during auto-renewal due to fraud alert",
+        "priority": null
+      },
+      "resolution": {
+        "status": "open",
+        "resolution_notes": null,
+        "assigned_agent": null
+      },
+      "metadata": {
+        "created_at": null,
+        "tags": []
+      }
+    }
+  }
+]

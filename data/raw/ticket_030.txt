@@ -1,0 +1,1 @@
+Whenever someone gets a chance, no rush at all, could you clarify what timezone the daily cron export runs in? We are trying to align it with our local JST schedule. Thanks, Kenji

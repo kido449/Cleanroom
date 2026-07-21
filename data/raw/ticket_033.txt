@@ -1,0 +1,1 @@
+API rate limit exceeded error (HTTP 429) occurs even when we are sending less than 10 requests per second. Our Enterprise SLA guarantees 100 req/sec. Please investigate our API quota limits right away.

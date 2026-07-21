@@ -1,0 +1,1 @@
+Do you offer webhooks for subscription cancellation events? We want to sync billing status with our internal CRM.

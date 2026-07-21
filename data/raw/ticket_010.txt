@@ -1,0 +1,1 @@
+Server response time is over 8000ms on the /v2/query endpoint since 14:00 UTC today. We are seeing timeouts across all our European clients. Priority: URGENT. Contact: devops@techgrid.io

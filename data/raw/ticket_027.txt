@@ -1,0 +1,1 @@
+We attempted to change our account tier from Free to Pro during checkout, but the payment failed with 'Insufficient Funds' even though our bank confirmed the charge went through. Now my account shows 'Free Tier' but my bank statement shows -$99 deducted. Please check if our account is Pro or Free and fix the discrepancy.

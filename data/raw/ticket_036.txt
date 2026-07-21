@@ -1,0 +1,1 @@
+As an Enterprise customer paying over $50k annually, we expect better communication regarding scheduled maintenance windows. Yesterday's 20-minute downtime caused significant disruption to our call center operations. We require a formal incident post-mortem (RCA document) by end of week.

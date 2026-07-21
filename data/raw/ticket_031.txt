@@ -1,0 +1,1 @@
+Hi, my name is Lisa and I manage operations for a design agency. We recently onboarded 15 freelance contractors for a summer campaign and needed to give them restricted view-only access. However, when I go to User Management -> Roles, the 'View Only' checkbox is grayed out. Is this because we are on the Pro tier instead of Enterprise, or is it a permission bug?

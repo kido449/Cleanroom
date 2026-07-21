@@ -1,0 +1,1 @@
+System error code 0x80040154 when initializing SDK on Windows Server 2022. Occurs only on 64-bit builds. Priority: High.

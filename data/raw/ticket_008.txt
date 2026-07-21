@@ -1,0 +1,1 @@
+Hello support team, when I try to add a new seat for a teammate it says 'maximum users reached' but we are on the Enterprise unlimited plan. Please check our account status. - David Kim (david@acme.org)

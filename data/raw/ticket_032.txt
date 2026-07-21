@@ -1,0 +1,1 @@
+Our accounting department needs to update the billing contact email from finance-old@company.com to billing-new@company.com before the next cycle on the 1st.

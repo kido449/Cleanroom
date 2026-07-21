@@ -1,0 +1,7 @@
+---------- Forwarded message ---------
+From: System Admin <admin@globalfinance.com>
+Date: Thu, Jul 16, 2026 at 11:42 AM
+Subject: Fwd: CRITICAL: Database sync lag
+To: Support <support@vendor.com>
+
+We are experiencing a 45-minute replication lag on the primary data pipeline. This breaches our Enterprise Tier 1 SLA. Immediate escalation to tier 3 engineering is requested.

@@ -1,0 +1,5 @@
+Chat Transcript #8812
+[14:02] User: hi there
+[14:03] User: i am on the free plan and trying to invite my friend to collaborate
+[14:04] User: but when they click the invite email link it says 'Workspace not found'
+[14:05] User: can u check why the invite is broken?

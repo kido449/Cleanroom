@@ -1,0 +1,1 @@
+hi our team noticed that when you toggle 'Auto-Save' off, navigating away from the page still prompts the confirmation dialog twice in a row. Minor annoyance but would be great to fix in the next release. - Elena

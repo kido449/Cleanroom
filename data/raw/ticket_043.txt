@@ -1,0 +1,1 @@
+User 'jsmith@client.com' is unable to view the shared dashboard folder despite being assigned the Editor role by admin.

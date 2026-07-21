@@ -1,0 +1,1 @@
+Can you change our primary domain name from old-brand.com to new-brand.com? We rebranded last week and want our workspace URLs to reflect the new name.
