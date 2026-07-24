@@ -109,9 +109,8 @@ def extract_with_repair(
     Self-correcting extraction loop that calls an extractor, validates via ExtractedDocument,
     and re-prompts with explicit validation error feedback up to `max_retries` attempts.
     """
-    from dotenv import load_dotenv, find_dotenv
-    load_dotenv(project_root / ".env", override=True)
-    load_dotenv(find_dotenv(), override=True)
+    # Config module handles .env loading at import time
+    pass
 
     if extractor is None:
         from src.extractor import GroqExtractor

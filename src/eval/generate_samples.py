@@ -1,9 +1,7 @@
-import os
 import json
 import re
 import sys
 from pathlib import Path
-from dotenv import load_dotenv
 import anthropic
 
 # Ensure project root is in sys.path
@@ -11,8 +9,7 @@ project_root = Path(__file__).resolve().parent.parent.parent
 if str(project_root) not in sys.path:
     sys.path.insert(0, str(project_root))
 
-# Load only .env file explicitly with override=True
-load_dotenv(project_root / ".env", override=True)
+from src.config import Config
 
 
 def extract_json_from_text(text: str) -> list:
@@ -107,8 +104,8 @@ def generate_all_samples():
     raw_dir = project_root / "data" / "raw"
     raw_dir.mkdir(parents=True, exist_ok=True)
 
-    api_key = os.environ.get("ANTHROPIC_API_KEY")
-    model = os.environ.get("ANTHROPIC_MODEL", "claude-3-5-sonnet-20241022")
+    api_key = Config.ANTHROPIC_API_KEY
+    model = Config.ANTHROPIC_MODEL
 
     use_fallback = False
     client = None

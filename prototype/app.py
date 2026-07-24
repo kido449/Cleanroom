@@ -1,19 +1,18 @@
 # Initial prototype - superseded by src/ pipeline, kept for reference.
-import os
 import json
+import sys
 from pathlib import Path
-from dotenv import load_dotenv
 from groq import Groq
 
-# Load .env credentials from structured-extract or current repo root
-env_path = Path(__file__).parent.parent / "structured-extract" / ".env"
-if not env_path.exists():
-    env_path = Path(__file__).parent.parent / ".env"
-load_dotenv(env_path)
+# Ensure project root is in sys.path for Config import
+project_root = Path(__file__).resolve().parent.parent
+if str(project_root) not in sys.path:
+    sys.path.insert(0, str(project_root))
 
+from src.config import Config
 
-client = Groq(api_key=os.getenv("GROQ_API_KEY"))
-GROQ_MODEL = os.getenv("GROQ_MODEL", "llama-3.3-70b-versatile")
+client = Groq(api_key=Config.GROQ_API_KEY)
+GROQ_MODEL = Config.GROQ_MODEL
 
 def call_groq_json(prompt):
     response = client.chat.completions.create(

@@ -66,3 +66,11 @@
 {"timestamp": "2026-07-22T13:04:50.519171+00:00", "status": "success", "attempts": 1, "latency_ms": 0.57, "error_count": 0, "model": "unknown_model", "queue_id": null}
 {"timestamp": "2026-07-22T13:04:50.531592+00:00", "status": "success", "attempts": 2, "latency_ms": 4.9, "error_count": 1, "model": "unknown_model", "queue_id": null}
 {"timestamp": "2026-07-22T13:04:50.547550+00:00", "status": "flagged_for_review", "attempts": 3, "latency_ms": 10.46, "error_count": 3, "model": "unknown_model", "queue_id": "Q-5D8CB05A"}
+{"timestamp": "2026-07-22T13:25:03.201550+00:00", "status": "success", "attempts": 1, "latency_ms": 838.01, "error_count": 0, "model": "llama-3.3-70b-versatile", "queue_id": null}
+{"timestamp": "2026-07-22T13:25:22.760849+00:00", "status": "success", "attempts": 2, "latency_ms": 19552.81, "error_count": 1, "model": "llama-3.3-70b-versatile", "queue_id": null}
+{"timestamp": "2026-07-22T13:29:01.278857+00:00", "status": "success", "attempts": 1, "latency_ms": 958.67, "error_count": 0, "model": "llama-3.3-70b-versatile", "queue_id": null}
+{"timestamp": "2026-07-24T15:27:24.375115+00:00", "status": "success", "attempts": 1, "latency_ms": 1132.05, "error_count": 0, "model": "llama-3.3-70b-versatile", "queue_id": null}
+{"timestamp": "2026-07-24T15:27:44.540933+00:00", "status": "success", "attempts": 2, "latency_ms": 20134.95, "error_count": 1, "model": "llama-3.3-70b-versatile", "queue_id": null}
+{"timestamp": "2026-07-24T15:27:44.663043+00:00", "status": "success", "attempts": 1, "latency_ms": 2.13, "error_count": 0, "model": "unknown_model", "queue_id": null}
+{"timestamp": "2026-07-24T15:27:44.729845+00:00", "status": "success", "attempts": 2, "latency_ms": 48.35, "error_count": 1, "model": "unknown_model", "queue_id": null}
+{"timestamp": "2026-07-24T15:27:44.834688+00:00", "status": "flagged_for_review", "attempts": 3, "latency_ms": 86.83, "error_count": 3, "model": "unknown_model", "queue_id": "Q-7CE768EA"}

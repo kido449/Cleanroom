@@ -10,9 +10,7 @@ project_root = Path(__file__).resolve().parent.parent
 if str(project_root) not in sys.path:
     sys.path.insert(0, str(project_root))
 
-from dotenv import load_dotenv, find_dotenv
-load_dotenv(project_root / ".env", override=True)
-load_dotenv(find_dotenv(), override=True)
+from src.config import Config  # noqa: F401 — triggers .env load
 
 # Set page configuration before any other Streamlit call
 st.set_page_config(
@@ -345,9 +343,6 @@ st.markdown("""
 # Lazy import of extraction pipeline to prevent slowdown on page load
 @st.cache_resource
 def get_extractor():
-    from dotenv import load_dotenv, find_dotenv
-    load_dotenv(project_root / ".env", override=True)
-    load_dotenv(find_dotenv(), override=True)
     from src.extractor import GroqExtractor
     return GroqExtractor()
 

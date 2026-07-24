@@ -1,9 +1,7 @@
-import os
 import json
 import sys
 from pathlib import Path
 from typing import Dict, Any, Optional
-from dotenv import load_dotenv
 from tenacity import retry, stop_after_attempt, wait_exponential
 from tenacity.wait import wait_base
 from tenacity import RetryCallState
@@ -17,8 +15,7 @@ project_root = Path(__file__).resolve().parent.parent
 if str(project_root) not in sys.path:
     sys.path.insert(0, str(project_root))
 
-# Load .env file explicitly
-load_dotenv(project_root / ".env", override=True)
+from src.config import Config
 from data.schema.schema import ExtractedDocument
 
 
@@ -94,15 +91,11 @@ class GroqExtractor:
 
     def __init__(self, api_key: Optional[str] = None, model_name: Optional[str] = None):
         from groq import Groq
-        if not api_key and not os.getenv("GROQ_API_KEY"):
-            from dotenv import load_dotenv, find_dotenv
-            load_dotenv(project_root / ".env", override=True)
-            load_dotenv(find_dotenv(), override=True)
-        api_key = api_key or os.getenv("GROQ_API_KEY")
+        api_key = api_key or Config.GROQ_API_KEY
         if not api_key:
             raise ValueError("GROQ_API_KEY is required but not found in environment or arguments.")
         self.client = Groq(api_key=api_key, timeout=45.0)
-        self.model_name = model_name or os.getenv("GROQ_MODEL", "llama-3.3-70b-versatile")
+        self.model_name = model_name or Config.GROQ_MODEL
         self.schema_class = ExtractedDocument
 
     @retry(
