@@ -20,7 +20,7 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Custom CSS for Red Noir style (inspired by reference implementation)
+# Custom CSS styling for dark theme
 st.markdown("""
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Manrope:wght@400;600;700;800&display=swap');
@@ -412,16 +412,7 @@ with st.sidebar:
     else:
         st.info("ℹ️ No summary report found yet. Run `python src/eval/run_eval.py` to generate evaluation metrics.")
 
-    st.divider()
-    st.subheader("🌌 Design Intelligence UI Showcases")
-    st.markdown("""
-    Experience our custom Red Noir high-speed visual animations in your browser:
-    - **[Letter-By-Letter Text Swap CTA](file:///c:/Users/Niraj%20Damai/OneDrive%20-%20Garden%20City%20University/Desktop/Cleanroom/structured-extract/demo/generate_button.html)** (Interactive Tailwind CTA with star icon & staggered letter swap between Generate and Generating)
-    - **[Minimalist Aurora Notion Character](file:///c:/Users/Niraj%20Damai/OneDrive%20-%20Garden%20City%20University/Desktop/Cleanroom/structured-extract/demo/aurora_character.html)** (Floating aurora sphere with geometric white vector facial lines & interactive expressions)
-    - **[Lens Flare Spotlight Mask Reveal](file:///c:/Users/Niraj%20Damai/OneDrive%20-%20Garden%20City%20University/Desktop/Cleanroom/structured-extract/demo/spotlight_mask.html)** (Scroll-driven circular clip-path reveal expanding from 0% to 150%)
-    - **[3D WebGL Hyperspeed Warp](file:///c:/Users/Niraj%20Damai/OneDrive%20-%20Garden%20City%20University/Desktop/Cleanroom/structured-extract/demo/hyperspeed_showcase.html)** (Three.js 60fps warp tunnel with 6 distortion presets & press-and-hold warp)
-    - **[2D Character Speeder Showcase](file:///c:/Users/Niraj%20Damai/OneDrive%20-%20Garden%20City%20University/Desktop/Cleanroom/structured-extract/demo/loading_animation.html)** (Character loader with dynamic longfazers & theme toggle)
-    """)
+
 
 # ============================================
 # MAIN PAGE HEADER & TABS
