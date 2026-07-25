@@ -393,7 +393,7 @@ with st.sidebar:
             
         st.metric(
             "Meets >90% SLA Requirement",
-            "✅ YES" if meets_sla else "❌ NO",
+            "YES" if meets_sla else "NO",
             delta=f"{rate - 90.0:+.1f}% vs target"
         )
         
@@ -408,9 +408,9 @@ with st.sidebar:
         
         flagged = summary.get("flagged_for_review_count", 0)
         if flagged > 0:
-            st.error(f"⚠️ Flagged Tickets: {flagged}")
+            st.error(f"Flagged Tickets: {flagged}")
     else:
-        st.info("ℹ️ No summary report found yet. Run `python src/eval/run_eval.py` to generate evaluation metrics.")
+        st.info("No summary report found yet. Run `python src/eval/run_eval.py` to generate evaluation metrics.")
 
 
 
@@ -479,7 +479,7 @@ setTimeout(initHeaderEffects, 1200);
 </script>
 """, height=0)
 
-tab_live, tab_hitl = st.tabs(["🚀 Live Extraction & Self-Repair", "🧑‍💻 HITL Review Queue Dashboard"])
+tab_live, tab_hitl = st.tabs(["Live Extraction & Self-Repair", "HITL Review Queue Dashboard"])
 
 
 # ============================================
@@ -493,7 +493,7 @@ with tab_live:
 
     with col_config:
         selected_option = st.selectbox(
-            "📂 Load Benchmark Example",
+            "Load Benchmark Example",
             options=dropdown_options,
             index=0,
             help="Choose one of the 55 benchmark tickets from data/raw/ or choose Custom Input."
@@ -509,27 +509,27 @@ with tab_live:
 
     with col_input:
         raw_text = st.text_area(
-            "📝 Support Ticket Raw Text",
+            "Support Ticket Raw Text",
             value=default_text,
             height=180,
             placeholder="Paste noisy email, live chat transcript, or crash report here..."
         )
 
     st.write("")
-    extract_btn = st.button("🚀 Run Extraction & Self-Repair Pipeline", type="primary", use_container_width=True)
+    extract_btn = st.button("Run Extraction & Self-Repair Pipeline", type="primary", use_container_width=True)
 
     if extract_btn:
         if not raw_text.strip():
-            st.warning("⚠️ Please provide some input text before running extraction.")
+            st.warning("Please provide some input text before running extraction.")
         else:
             from src.extraction.pipeline import extract_with_repair
             
-            with st.spinner("🤖 Invoking Groq API (llama-3.3-70b-versatile) & running Pydantic validation checks..."):
+            with st.spinner("Invoking Groq API (llama-3.3-70b-versatile) & running Pydantic validation checks..."):
                 try:
                     extractor = get_extractor()
                     result = extract_with_repair(raw_text, max_retries=max_retries_ui, extractor=extractor)
                 except Exception as e:
-                    st.error(f"❌ Unhandled System/API Exception during extraction: {e}")
+                    st.error(f"Unhandled System/API Exception during extraction: {e}")
                     st.stop()
                     
             status = result.get("status", "unknown")
@@ -542,11 +542,11 @@ with tab_live:
             
             # Status Badge & Metrics Row
             if status == "success":
-                st.markdown('<div class="badge-success">✅ STATUS: SUCCESS (SCHEMA VALID)</div>', unsafe_allow_html=True)
+                st.markdown('<div class="badge-success">STATUS: SUCCESS (SCHEMA VALID)</div>', unsafe_allow_html=True)
             elif status == "flagged_for_review":
-                st.markdown('<div class="badge-flagged">⚠️ STATUS: FLAGGED FOR HUMAN REVIEW</div>', unsafe_allow_html=True)
+                st.markdown('<div class="badge-flagged">STATUS: FLAGGED FOR HUMAN REVIEW</div>', unsafe_allow_html=True)
             else:
-                st.markdown(f'<div class="badge-error">❌ STATUS: {status.upper()}</div>', unsafe_allow_html=True)
+                st.markdown(f'<div class="badge-error">STATUS: {status.upper()}</div>', unsafe_allow_html=True)
                 
             m1, m2, m3 = st.columns(3)
             with m1:
@@ -558,24 +558,24 @@ with tab_live:
                 
             # Self-Correction History Expander
             if errors_encountered:
-                with st.expander("🛠️ Self-Correction History (Errors Caught & Repaired by Pipeline)", expanded=True):
+                with st.expander("Self-Correction History (Errors Caught & Repaired by Pipeline)", expanded=True):
                     st.markdown("The pipeline detected Pydantic validation errors during earlier attempts and fed exact error feedback to Groq (`llama-3.3-70b-versatile`) to self-correct:")
                     for idx, err_list in enumerate(errors_encountered, 1):
                         st.markdown(f"**Attempt {idx} Validation Failures Encountered:**")
                         for err in err_list:
-                            st.markdown(f"- `❌ {err}`")
+                            st.markdown(f"- `{err}`")
                         if idx < attempts or status == "success":
                             st.markdown("`-> Sent CORRECTION prompt with exact locator feedback to re-extract.`")
                         st.divider()
                         
             # Flagged Details
             if status == "flagged_for_review" and last_errors:
-                st.error(f"❌ Ticket remained invalid after maximum self-repair retries and has been added to the HITL Review Queue (Queue ID: `{result.get('queue_id', 'N/A')}`). Unresolved errors:")
+                st.error(f"Ticket remained invalid after maximum self-repair retries and has been added to the HITL Review Queue (Queue ID: `{result.get('queue_id', 'N/A')}`). Unresolved errors:")
                 for err in last_errors:
                     st.markdown(f"- `{err}`")
                     
             # Final JSON Output
-            st.subheader("📋 Extracted Structured Document JSON")
+            st.subheader("Extracted Structured Document JSON")
             if extracted_json:
                 st.json(extracted_json)
             else:
@@ -588,14 +588,14 @@ with tab_live:
 with tab_hitl:
     from src.hitl.queue import get_pending_reviews, resolve_review, dismiss_review
     
-    st.header("🧑‍💻 Human-In-The-Loop (HITL) Review Queue")
+    st.header("Human-In-The-Loop (HITL) Review Queue")
     st.markdown("Inspect and resolve extractions that failed automated schema validation after `max_retries` attempts.")
     
     pending_items = get_pending_reviews()
     if not pending_items:
-        st.success("🎉 No items currently pending review! All processed extractions conform 100% to the Pydantic schema.")
+        st.success("No items currently pending review! All processed extractions conform 100% to the Pydantic schema.")
     else:
-        st.warning(f"⚠️ There are `{len(pending_items)}` item(s) awaiting human inspection and resolution.")
+        st.warning(f"There are `{len(pending_items)}` item(s) awaiting human inspection and resolution.")
         
         for idx, item in enumerate(pending_items, 1):
             qid = item.get("queue_id", f"item-{idx}")
@@ -606,18 +606,18 @@ with tab_hitl:
             last_errs = item.get("last_errors", [])
             last_j = item.get("last_attempt_json", {})
             
-            with st.expander(f"🔴 [{qid}] Ticket: {tid} (Failed after {attempts_taken} attempts | Created: {created_at})", expanded=(idx==1)):
-                st.markdown("**❌ Unresolved Schema Validation Errors:**")
+            with st.expander(f"[{qid}] Ticket: {tid} (Failed after {attempts_taken} attempts | Created: {created_at})", expanded=(idx==1)):
+                st.markdown("**Unresolved Schema Validation Errors:**")
                 for e in last_errs:
                     st.markdown(f"- `{e}`")
                     
                 col_raw, col_json = st.columns(2)
                 with col_raw:
-                    st.subheader("📝 Original Raw Text")
+                    st.subheader("Original Raw Text")
                     st.text_area("Raw input text", value=raw_t, height=250, key=f"raw_{qid}", disabled=True)
                     
                 with col_json:
-                    st.subheader("🛠️ Editable JSON Correction")
+                    st.subheader("Editable JSON Correction")
                     json_str_init = json.dumps(last_j, indent=2, ensure_ascii=False) if isinstance(last_j, (dict, list)) else "{}"
                     edited_json_str = st.text_area(
                         "Edit JSON to satisfy ExtractedDocument schema:",
@@ -630,7 +630,7 @@ with tab_hitl:
                 
                 b_col1, b_col2, b_col3 = st.columns([2, 1, 3])
                 with b_col1:
-                    if st.button("✅ Verify & Resolve Ticket", key=f"resolve_{qid}", type="primary", use_container_width=True):
+                    if st.button("Verify & Resolve Ticket", key=f"resolve_{qid}", type="primary", use_container_width=True):
                         try:
                             parsed_corrected = json.loads(edited_json_str)
                             success, val_errors = resolve_review(qid, parsed_corrected, reviewer_notes=notes)
@@ -643,7 +643,7 @@ with tab_hitl:
                             st.error(f"Invalid JSON syntax: {je}")
                             
                 with b_col2:
-                    if st.button("🗑️ Dismiss", key=f"dismiss_{qid}", use_container_width=True):
+                    if st.button("Dismiss", key=f"dismiss_{qid}", use_container_width=True):
                         dismiss_review(qid, reason=notes or "Dismissed by operator")
                         st.success("Review item dismissed.")
                         st.rerun()
