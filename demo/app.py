@@ -373,7 +373,7 @@ with st.sidebar:
     st.markdown("""
     <div style="display: flex; items-center; gap: 10px; margin-bottom: 1rem;">
         <div style="width: 18px; height: 18px; background: #ef233c; border-radius: 3px; transform: rotate(45deg); flex-shrink: 0; box-shadow: 0 0 10px rgba(239, 35, 60, 0.6);"></div>
-        <span style="font-size: 1.35rem; font-weight: 800; font-family: 'Manrope', sans-serif; letter-spacing: -0.02em; color: white;">Superdesign <span style="color: #ef233c;">Stats</span></span>
+        <span style="font-size: 1.35rem; font-weight: 800; font-family: 'Manrope', sans-serif; letter-spacing: -0.02em; color: white;">Pipeline <span style="color: #ef233c;">Stats</span></span>
     </div>
     """, unsafe_allow_html=True)
     st.markdown("Global metrics pulled from `eval/results/eval_summary.json`.")
